@@ -1,17 +1,17 @@
 import json
 import requests
 
-def getData(url, payload):
+# Helper functions to get data from the open5e API
+def getApiData(url, payload={}):
     response = requests.get(url, payload)
     return response.json()
 
-def getClasses():
-    url = "https://api.open5e.com/v1/classes/"
-    classData = []
+def getData(url, payload={}):
+    totalData = []
     while True:
         try:
-            data = getData(url, {})
-            classData += data['results']
+            data = getApiData(url)
+            totalData += data['results']
 
             # if there's more than one page of results, get data from next page
             if data['next']:
@@ -21,14 +21,26 @@ def getClasses():
         except Exception as e:
             print(f"Error getting class data: {e}")
             break
-    return classData
+    return totalData
 
-# TODO: create a DataGetter class that runs all get* functions once
-# and caches the results instead of constantly making the same requests
+# DataGetter is imported by routes.py to get DnD data.
+# It caches this data to avoid making extra API calls.
+class DataGetter:
+    """Gets and stores data from the open5e api"""
+    def __init__(self):
+        self.classData = None
 
+    def getClasses(self):
+        if not self.classData:
+            url = "https://api.open5e.com/v1/classes/"
+            self.classData = getData(url)
+        return self.classData
+
+
+# Test DataGetter class
 if __name__ == "__main__":
-    # test getClasses function
-    classData = getClasses()
+    dataGetter = DataGetter()
+    classData = dataGetter.getClasses()
     for dndClass in classData:
         print(f"Class: {dndClass['name']}")
         subclasses = ', '.join([subclass['name'] for subclass in dndClass['archetypes']])
