@@ -1,30 +1,57 @@
 <script setup>
+import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 </script>
-
+ <!--     <nav>
+        <RouterLink to="/">Home</RouterLink>
+      </nav>-->
+<!-- RouterView-->
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <h1>Characters and Creators</h1>
+<div class="section">asdf</div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  :root{
+  --fg: rgb(255, 50, 70);
+  --fg-text: rgb(255, 255, 255);
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+* {
+  font-family: arial;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+html, body{
+  background-color: white;
 }
+
+header{
+
+}
+
+nav{
+  display: flex;
+  flex-direction: row;
+  position: sticky;
+}
+
+h1{
+  text-align: center;
+}
+
+nav > a{
+  background-color: var(--fg);
+  color: var(--fg-text);
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+span.title{
+  flex-grow: 1;
+  text-align: center;
+  font-size: 2em;
+}
+
+
+
 </style>

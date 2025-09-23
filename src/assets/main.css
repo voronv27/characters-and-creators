@@ -1,4 +1,6 @@
-:root{
+@import './base.css';
+
+  :root{
   --fg: rgb(255, 50, 70);
   --fg-text: rgb(255, 255, 255);
 }
@@ -20,7 +22,7 @@ nav{
 }
 
 h1{
-  text-align: center; 
+  text-align: center;
 }
 
 nav > a{
@@ -37,4 +39,5 @@ span.title{
   text-align: center;
   font-size: 2em;
 }
+
 
