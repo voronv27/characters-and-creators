@@ -13,7 +13,7 @@ def landing():
 @app.route('/classnames')
 def getClassNames():
     classData = dataGetter.getClasses()
-    return [dndClass['name'] for dndClass in classData]
+    return list(classData.keys())
 
 # Returns { race: race info }
 @app.route('/races')
@@ -31,5 +31,11 @@ def preferredStats():
     classname = request.args.get('class', default = None)
     return dataGetter.preferredStats(classname)
 
+# Given class name, background, and race as parameters, return proficiencies
+@app.route('/proficiencies')
+def getProficiencies():
+    # TODO: update to get background and race when that is implemented
+    classname = request.args.get('class', default = None)
+    return dataGetter.getProficiencies(classname, None, None)
 
 # TODO: add more routes for other DnD info
