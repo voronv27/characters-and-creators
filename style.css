@@ -2,7 +2,9 @@
   --bg: white;
   --fg: black;
   --active: rgb(255, 20, 70);
+  --active-2: rgb(255, 20, 100);
   --active-text: white;
+
 }
 
 *{
