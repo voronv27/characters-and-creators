@@ -1,0 +1,48 @@
+:root{
+  --bg: white;
+  --fg: black;
+  --active: rgb(255, 20, 70);
+  --active-2: rgb(255, 20, 100);
+  --active-text: white;
+
+}
+
+*{
+  font-family: arial;
+}
+
+html, body{
+  margin: 0;
+  background-color: var(--bg);
+}
+
+nav{
+  display: flex;
+  position: sticky;
+}
+span.section-title{
+
+  flex-grow: 1;
+  font-size: 2em;
+  text-align: center;
+}
+
+nav a{
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--active);
+  color: var(--active-text);
+  user-select: none;
+}
+
+.section{
+  margin: 0 20px;
+}
+
+.fl{
+  display: flex;
+}
+
+.fl-g{
+  flex-grow: 1;
+}
