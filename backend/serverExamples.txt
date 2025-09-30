@@ -1,0 +1,170 @@
+Routes are added on to the "https://voronv.pythonanywhere.com" URL (or localhost:5000 if running server locally)
+So for example, the "/" route would have the full URL of "https://voronv.pythonanywhere.com/"
+
+ROUTE "/":
+returns: "Hello world!"
+
+----------------------------------------------------------------------------------------------------------------
+
+ROUTE "general-info":
+returns:
+{ 
+	"classes": {
+		"class name" : class_data
+	},
+	"races": {
+		"race name": race_data
+	},
+	"backgrounds": {
+		"background name" : background_data
+	}
+}
+
+class_data format:
+NOTE: this does not contain all information, but highlights the most helpful areas for the site
+{
+	"name": "class name",
+	"desc": "text description of the class",
+	"hit_dice": "hit dice string",
+	"hp_at_1st_level": "desc of hp at first level",
+	"hp_at_higher_levels": "desc of hp at higher levels",
+	"spellcasting_ability": "spellcasting ability, if any",
+	"subtypes_name": "what subtypes are refererred to as for this class",
+	"archetypes": [
+		{
+			"name": "name of subclass",
+			"desc": "desc of subclass"
+		}
+	]
+}
+
+race_data format:
+{
+	"name": "race name",
+	"desc": "text description of the race",
+	"asi": [
+		{
+			"attributes": [
+				"attribute name (ex: Intelligence)"
+			],
+			"value": integer to increase attribute by
+		}
+	]
+	"age": "age desc",
+	"alignment": "alignment desc",
+	"size": "size desc",
+	"size_raw": "one word to describe size using DnD sizes (ex: Medium, Small, Large)",
+	"speed" : {
+		"type of movement (ex: walk)": int # of feet
+	},
+	"languages": "languages desc",
+	"vision": "vision desc",
+	"traits": "traits desc",
+	"subraces": [
+		this may be empty depending on the race, but if not empty, elements are of the form:
+		{
+			"name": "subrace name",
+			"desc": "subrace desc",
+			"asi": [
+				{
+					"attributes": [
+						"attribute name (ex: Intelligence)"
+					],
+					"value": integer to increase attribute by
+				}
+			],
+			"traits": "traits desc"
+		}
+	]
+}
+
+background_data format:
+{
+	"name": "name of background",
+	"desc": "background description",
+	"benefits": [
+		{
+			"name": "name of benefit",
+			"desc": "benefit desc",
+			"type": "benefit type (ex: ability_score, language, equipment, skill_proficiency)"
+		}
+	],
+}
+
+----------------------------------------------------------------------------------------------------------------
+
+ROUTE "/preferred-stats?class=classname"
+returns: ["stat1", "stat2"] (any stats to prioritize giving high scores, in order of priority)
+ex: "/preferred-stats?class=bard" returns [ "cha", "dex" ]
+
+----------------------------------------------------------------------------------------------------------------
+
+ROUTE "/proficiences?class=Classname"
+this is a WORK IN PROGRESS that currently only returns proficiencies per class--later on this route will take parameters for race and background as well
+
+returns:
+{
+	"background": proficiences from background,
+	"class": proficiencies from class,
+	"race": proficiences from race
+}
+
+proficiences from class format:
+{
+	"armors": ["armor name"],
+	"savingThrows": ["ability name (ex: Charisma)"],
+	"skills": {
+		"count": int number that can be selected,
+		"options": ["skill name"]
+	},
+	"tools": ["tool name"],
+	"weapons": ["weapon name"]
+}
+
+ex: "/proficiencies?class=Bard" currently returns
+{
+  "background": null,
+  "class": {
+    "armors": [
+      "Light armor"
+    ],
+    "savingThrows": [
+      "Dexterity",
+      "Charisma"
+    ],
+    "skills": {
+      "count": 3,
+      "options": [
+        "Athletics",
+        "Acrobatics",
+        "Sleight of Hand",
+        "Stealth",
+        "Arcana",
+        "History",
+        "Investigation",
+        "Nature",
+        "Religion",
+        "Animal Handling",
+        "Insight",
+        "Medicine",
+        "Perception",
+        "Survival",
+        "Deception",
+        "Intimidation",
+        "Performance",
+        "Persuasion"
+      ]
+    },
+    "tools": [
+      "Three musical instruments of your choice"
+    ],
+    "weapons": [
+      "Simple weapons",
+      "hand crossbows",
+      "longswords",
+      "rapiers",
+      "shortswords"
+    ]
+  },
+  "race": null
+}

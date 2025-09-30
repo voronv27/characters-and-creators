@@ -1,7 +1,14 @@
+"""
+File for the Flask server which gets information from the open5e API along with local data
+and returns it in an easy-to-use form for the frontend. For the structure of the returned
+json, you can reference 'serverExamples.txt'
+"""
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from DataGetter import DataGetter
 
 app = Flask(__name__)
+cors = CORS(app) # allow CORS for all domains on all routes
 dataGetter = DataGetter()
 
 # This serves just to test that the flask server is running
@@ -9,21 +16,20 @@ dataGetter = DataGetter()
 def landing():
     return "Hello world!"
 
-# Get class names
-@app.route('/classnames')
-def getClassNames():
-    classData = dataGetter.getClasses()
-    return list(classData.keys())
+# This returns all general info that the character sheet creator will need
+@app.route('/general-info')
+def getGeneralInfo():
+    data = dict()
+    # Classes as { class name: class info }
+    data["classes"] = dataGetter.getClasses()
 
-# Returns { race: race info }
-@app.route('/races')
-def getRaces():
-    return dataGetter.getRaces()
+    # Data in the form of { race: race info }
+    data["races"] = dataGetter.getRaces()
 
-# Returns { background: background info }
-@app.route('/backgrounds')
-def getBackgrounds():
-    return dataGetter.getBackgrounds()
+    # { background: background info }
+    data["backgrounds"] = dataGetter.getBackgrounds()
+
+    return data
 
 # Given class name as a parameter, return the stats that should be highest
 @app.route('/preferred-stats')
