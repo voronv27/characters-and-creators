@@ -42,6 +42,7 @@ def preferredStats():
 def getProficiencies():
     # TODO: update to get background and race when that is implemented
     classname = request.args.get('class', default = None)
-    return dataGetter.getProficiencies(classname, None, None)
+    race = request.args.get('race', default = None)
+    return dataGetter.getProficiencies(classname, race, None)
 
 # TODO: add more routes for other DnD info

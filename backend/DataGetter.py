@@ -1,6 +1,6 @@
 import json
 import requests
-import random
+#import random
 
 # Local data
 # List priority stats per DnD class
@@ -101,6 +101,40 @@ def getSkills(skillDesc):
 
     return {"count": number[countWord], "options": options}
 
+# The open5e API lists race proficiencies as a string which we'd like to parse
+def parseTraits(traitsDesc):
+    proficiencies = {
+        "skills": [],
+        "other": [],
+    }
+    traitsProficiencies = [ trait for trait in traitsDesc.split('.') if "proficiency" in trait ]
+    for prof in traitsProficiencies:
+        if "skill" in prof:
+            skillList = []
+            if "choice" in prof:
+                # x skill[s] of your choice
+                count = [number[n] for n in number if n in prof][0]
+                choiceSkills = [s for s in skills if s in prof]
+                if not choiceSkills:
+                    # if skills not specified, assume any skills
+                    choiceSkills = list(skills.keys())
+                skillList.append(
+                    {
+                        "choice": {
+                            "count": count,
+                            "options": choiceSkills
+                        }
+                    }
+                )
+            else:
+                skillList = [s for s in skills if s in prof]
+            proficiencies["skills"] += skillList
+        elif "proficiency with" in prof:
+            otherProfs = prof.split('proficiency with ')[1]
+            proficiencies["other"] = otherProfs
+    print(proficiencies)
+    return proficiencies
+
 # DataGetter is imported by routes.py to get DnD data.
 # It caches this data to avoid making extra API calls.
 class DataGetter:
@@ -109,6 +143,7 @@ class DataGetter:
         self.classData = None
         self.races = None
         self.backgrounds = None
+        #TODO: consider caching proficiencies?
 
     def getClasses(self):
         if not self.classData:
@@ -136,13 +171,14 @@ class DataGetter:
             return preferredStats[classname]
         return preferredStats["default"]
 
-    def getClassProficiencies(self, classname):
+    def getClassProficiencies(self, classname, subclass=None):
         proficiencies = {
             "weapons": None,
             "armors": None,
             "tools": None,
             "skills": None,
             "savingThrows": None,
+            "subclass": None,
         }
         if not self.classData:
             self.getClasses()
@@ -153,7 +189,23 @@ class DataGetter:
         proficiencies["tools"] = classData["prof_tools"].split(", ")
         proficiencies["savingThrows"] = classData["prof_saving_throws"].split(", ")
         proficiencies["skills"] = getSkills(classData["prof_skills"])
+        if subclass:
+            subclassData = [s for s in classData["archetypes"] if s["name"] == subclass][0]
+            subclassTraits = subclassData["desc"].split("\n")
+
+            # we want to avoid flagging statements like "8 + proficiency bonus",
+            # which doesn't actually refer to proficiencies
+            profConditions = ["proficiency in", "proficiency with", "proficiency."]
+            subclassProfs = [p for p in subclassTraits if any(c in p for c in profConditions)]
+            proficiencies["subclass"] = subclassProfs
         return proficiencies
+
+    def getRaceProficiencies(self, race, subrace=None):
+        if not self.races:
+            self.getRaces()
+        raceData = self.races[race]
+        # TODO: get subrace proficiencies
+        return parseTraits(raceData["traits"])
 
     def getProficiencies(self, classname, race, background):
         proficiencies = {
@@ -170,7 +222,7 @@ class DataGetter:
         proficiencies["class"] = self.getClassProficiencies(classname)
 
         # get race proficiencies
-        # TODO
+        proficiencies["race"] = self.getRaceProficiencies(race)
 
         # get background proficiencies
         # TODO
@@ -183,21 +235,26 @@ if __name__ == "__main__":
     classData = dataGetter.getClasses()
     for dndClassName in classData:
         dndClass = classData[dndClassName]
-        print(f"Class: {dndClassName}")
-        subclasses = ', '.join([subclass['name'] for subclass in dndClass['archetypes']])
-        print(f"{dndClass['subtypes_name']}: {subclasses}\n")
+        print(f"{dndClassName} preferred stats are: {list(dataGetter.preferredStats(dndClassName.lower()))}")
+        print()
+        subclasses = [subclass['name'] for subclass in dndClass['archetypes']]
+        if subclasses:
+            print(f"{dndClass['subtypes_name']}: {', '.join(subclasses)}\n")
+            for subclass in subclasses:
+                print(f"Class + subclass ({subclass}) proficiencies are {dataGetter.getClassProficiencies(dndClassName, subclass)}")
+                print()
+        else:
+            print(f"{dndClassName} class proficiencies are {dataGetter.getClassProficiencies(dndClassName)}")
+            print()
 
     races = dataGetter.getRaces()
-    print("Races:", list(races.keys()))
-    print()
+    for race in races:
+        print(race)
+        dataGetter.getRaceProficiencies(race)
+        print()
 
     backgrounds = dataGetter.getBackgrounds()
     print("Backgrounds:", list(backgrounds.keys()))
     print()
 
-    sampleClass = random.choice(list(classData.keys()))
-    print(f"{sampleClass} preferred stats are: {list(dataGetter.preferredStats(sampleClass.lower()))}")
-    print()
-    print(f"{sampleClass} class proficiencies are {dataGetter.getClassProficiencies(sampleClass)}")
-
-
+    # TODO: asi for race, subrace, class, subclass, background(?)
