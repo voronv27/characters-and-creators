@@ -20,8 +20,8 @@ nav{
   display: flex;
   position: sticky;
 }
-span.section-title{
 
+#section-title{
   flex-grow: 1;
   font-size: 2em;
   text-align: center;
@@ -37,6 +37,11 @@ nav a{
 
 .section{
   margin: 0 20px;
+  display: none;
+}
+
+.section.selected{
+  display: block;
 }
 
 .fl{
