@@ -99,8 +99,9 @@ ex: "/preferred-stats?class=bard" returns [ "cha", "dex" ]
 
 ----------------------------------------------------------------------------------------------------------------
 
-ROUTE "/proficiences?class=Classname"
-this is a WORK IN PROGRESS that currently only returns proficiencies per class--later on this route will take parameters for race and background as well
+ROUTE "/proficiences?class=Classname&subclass=Subclassname&race=Racename&subrace=Subracename"
+NOTE: parameters are optional, if there is no subrace or subclass that parameter can just be omitted.
+this is a WORK IN PROGRESS that will eventually add proficiencies for backgrounds but currently only does races and classes
 
 returns:
 {
@@ -119,9 +120,10 @@ proficiences from class format:
 	},
 	"tools": ["tool name"],
 	"weapons": ["weapon name"]
+	"subclass": ["list of subclass proficiencies string"]
 }
 
-ex: "/proficiencies?class=Bard" currently returns
+ex: "/proficiencies?class=Bard&subclass=College of Lore" returns
 {
   "background": null,
   "class": {
@@ -155,6 +157,9 @@ ex: "/proficiencies?class=Bard" currently returns
         "Persuasion"
       ]
     },
+    "subclass": [
+      "When you join the College of Lore at 3rd level, you gain proficiency with three skills of your choice."
+    ],
     "tools": [
       "Three musical instruments of your choice"
     ],
@@ -167,4 +172,46 @@ ex: "/proficiencies?class=Bard" currently returns
     ]
   },
   "race": null
+}
+
+proficiencies from race format:
+{
+	"skills": [
+		{
+			"choice": {
+				"count": int number of choices
+				"options": ["skill name"]
+			},
+			"skill name"
+		}
+	],
+	"other": ["string description of other proficiency"],
+	"subclass": {
+		"skills": [
+			{
+				"choice": {
+					"count": int number of choices
+					"options": ["skill name"]
+				},
+				"skill name"
+			}
+		],
+		"other": ["string description of other proficiency"],
+	}
+}
+
+ex: "/proficiencies?race=Elf&subrace=High Elf" returns
+{
+  "background": null,
+  "class": null,
+  "race": {
+    "other": [],
+    "skills": [
+      "Perception"
+    ],
+    "subrace": {
+      "other": "the longsword, shortsword, shortbow, and longbow",
+      "skills": []
+    }
+  }
 }

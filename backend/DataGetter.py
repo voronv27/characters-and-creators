@@ -132,7 +132,6 @@ def parseTraits(traitsDesc):
         elif "proficiency with" in prof:
             otherProfs = prof.split('proficiency with ')[1]
             proficiencies["other"] = otherProfs
-    print(proficiencies)
     return proficiencies
 
 # DataGetter is imported by routes.py to get DnD data.
@@ -196,7 +195,7 @@ class DataGetter:
             # we want to avoid flagging statements like "8 + proficiency bonus",
             # which doesn't actually refer to proficiencies
             profConditions = ["proficiency in", "proficiency with", "proficiency."]
-            subclassProfs = [p for p in subclassTraits if any(c in p for c in profConditions)]
+            subclassProfs = [p.strip() for p in subclassTraits if any(c in p for c in profConditions)]
             proficiencies["subclass"] = subclassProfs
         return proficiencies
 
@@ -204,10 +203,15 @@ class DataGetter:
         if not self.races:
             self.getRaces()
         raceData = self.races[race]
-        # TODO: get subrace proficiencies
-        return parseTraits(raceData["traits"])
+        raceProfs = parseTraits(raceData["traits"])
 
-    def getProficiencies(self, classname, race, background):
+        if subrace:
+            subraceData = next(s for s in raceData["subraces"] if s["name"] == subrace)
+            subraceProfs = parseTraits(subraceData["traits"])
+            raceProfs['subrace'] = subraceProfs
+        return raceProfs
+
+    def getProficiencies(self, classname, race, background, subclass=None, subrace=None):
         proficiencies = {
             "class": None,
             "race": None,
@@ -219,10 +223,12 @@ class DataGetter:
             self.getBackgrounds()
 
         # get class proficiencies
-        proficiencies["class"] = self.getClassProficiencies(classname)
+        if classname:
+            proficiencies["class"] = self.getClassProficiencies(classname, subclass)
 
         # get race proficiencies
-        proficiencies["race"] = self.getRaceProficiencies(race)
+        if race:
+            proficiencies["race"] = self.getRaceProficiencies(race, subrace)
 
         # get background proficiencies
         # TODO
@@ -250,8 +256,16 @@ if __name__ == "__main__":
     races = dataGetter.getRaces()
     for race in races:
         print(race)
-        dataGetter.getRaceProficiencies(race)
-        print()
+        subraces = [s["name"] for s in races[race]["subraces"]]
+        if subraces:
+            print(f"Subraces: {', '.join(subraces)}")
+            print()
+            for subrace in subraces:
+                print(f"Race & subrace ({subrace}) proficiencies: {dataGetter.getRaceProficiencies(race, subrace)}")
+                print()
+        else:
+            print("Race proficiencies:", dataGetter.getRaceProficiencies(race))
+            print()
 
     backgrounds = dataGetter.getBackgrounds()
     print("Backgrounds:", list(backgrounds.keys()))
