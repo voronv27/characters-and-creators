@@ -134,6 +134,50 @@ def parseTraits(traitsDesc):
             proficiencies["other"] = otherProfs
     return proficiencies
 
+def getBackgroundSkills(skillDesc):
+    skillList = []
+    if "either" in skillDesc:
+        # format: x, y, and either a, b, or c
+        splitDesc = skillDesc.split('either')
+        givenSkills = splitDesc[0]
+        skillList += [s for s in skills if s in givenSkills]
+
+        choiceSkills = splitDesc[1]
+        skillList.append(
+            {
+                "choice": {
+                    "count": 1,
+                    "options": [s for s in skills if s in choiceSkills]
+                }
+            }
+        )
+    elif "choice" in skillDesc:
+        # format: "y of your choice"
+        # or "x, and any y skill(s) of your choice"
+        # or "y of your choice among x, z"
+        splitDesc = skillDesc.split('choice')
+        givenSkills = splitDesc[0]
+        skillList += [s for s in skills if s in givenSkills]
+
+        count = next(n for n in number if n in skillDesc.lower())
+        optionDesc = splitDesc[1]
+        options = [s for s in skills if s in optionDesc]
+        if not options:
+            options = list(skills.keys())
+        skillList.append(
+            {
+                "choice": {
+                    "count": count,
+                    "options": options,
+                }
+            }
+        )
+    else:
+        # format: x, y, z
+        skillList += [s for s in skills if s in skillDesc]
+
+    return skillList
+
 # DataGetter is imported by routes.py to get DnD data.
 # It caches this data to avoid making extra API calls.
 class DataGetter:
@@ -211,17 +255,28 @@ class DataGetter:
             raceProfs['subrace'] = subraceProfs
         return raceProfs
 
+    def getBackgroundProficiencies(self, background):
+        proficiencies = {
+            "skills": [],
+            "tools": [],
+        }
+        if not self.backgrounds:
+            self.getBackgrounds()
+        backgroundData = self.backgrounds[background]["benefits"]
+        for benefit in backgroundData:
+            if benefit["type"] == "skill_proficiency":
+                proficiencies["skills"] = getBackgroundSkills(benefit["desc"])
+            elif benefit["type"] == "tool_proficiency":
+                proficiencies["tools"].append(benefit["desc"])
+        return proficiencies
+
     def getProficiencies(self, classname, race, background, subclass=None, subrace=None):
         proficiencies = {
             "class": None,
             "race": None,
             "background": None,
         }
-        if not self.races:
-            self.getRaces()
-        if not self.backgrounds:
-            self.getBackgrounds()
-
+        
         # get class proficiencies
         if classname:
             proficiencies["class"] = self.getClassProficiencies(classname, subclass)
@@ -231,7 +286,8 @@ class DataGetter:
             proficiencies["race"] = self.getRaceProficiencies(race, subrace)
 
         # get background proficiencies
-        # TODO
+        if background:
+            proficiencies["background"] = self.getBackgroundProficiencies(background)
 
         return proficiencies
 
@@ -270,5 +326,8 @@ if __name__ == "__main__":
     backgrounds = dataGetter.getBackgrounds()
     print("Backgrounds:", list(backgrounds.keys()))
     print()
+    for background in backgrounds:
+        print(f"{background} proficiencies: {dataGetter.getBackgroundProficiencies(background)}")
+        print()
 
     # TODO: asi for race, subrace, class, subclass, background(?)

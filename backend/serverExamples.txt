@@ -215,3 +215,40 @@ ex: "/proficiencies?race=Elf&subrace=High Elf" returns
     }
   }
 }
+
+proficiencies for background format:
+{
+	"skills": [
+		"skill name",
+		{
+			"choice": {
+				"count": int number that can be selected
+				"options": ["skill name"]
+			}
+		}
+	],
+	"tools": ["tools description"]
+}
+
+ex: "/proficiencies?background=Elemental Warden" returns
+{
+  "background": {
+    "skills": [
+      "Nature",
+      {
+        "choice": {
+          "count": "one",
+          "options": [
+            "Arcana",
+            "Survival"
+          ]
+        }
+      }
+    ],
+    "tools": [
+      "Herbalism Kit"
+    ]
+  },
+  "class": null,
+  "race": null
+}
