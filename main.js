@@ -1,8 +1,17 @@
 (function () {
   //Variables
 
+  const comp = {
+    accItem: `
+    <div id="new" class="acc-item" >
+      <div class="title"></div>
+      <div class="content"></div>
+    </div>`
+  }
+
   const URL = "https://voronv.pythonanywhere.com"
   let generalInfo;
+  let genInfo;
 
   let numSections;
   let sectionNum = 0;
@@ -13,7 +22,7 @@
 
     //Section logic
     $("#prev-section").click(function () {
-      sectionNum = sectionNum - 1 < 0 ? sectionNum : sectionNum - 1;
+      sectionNum = sectionNum - 1 < 0 ? numSections - 1 : sectionNum - 1;
       updateSection();
     });
 
@@ -23,13 +32,14 @@
     });
 
     //Update section
-    $(window).on('hashchange', function () {
+    $(window).on("hashchange", function () {
       sectionFromURL();
       updateSection();
     });
 
     //General Section 
-    let genInfo = await generalInfo.then((resp) => resp.json());
+    genInfo = await generalInfo.then((resp) => resp.json());
+    initComps();
     console.log(genInfo);
   });
 
@@ -56,6 +66,31 @@
         "Content-Type": "application/json",
       },
     });
+  }
+
+  function initComps() {
+    //Class Accordion
+    Object.keys(genInfo["classes"]).forEach(key => {
+      $("#class-acc").append(comp.accItem);
+      let acc = initComp();
+      initNewAccItem(acc);
+      console.log(genInfo["classes"][key]);
+      acc.children(".title").text(key);
+      acc.children(".content").text(genInfo["classes"][key]["desc"]);
+    });
+  }
+
+  function initComp() {
+    return $("#new").removeAttr("id");
+  }
+
+
+  function initNewAccItem(acc) {
+    acc.click(function () {
+      $(this).closest(".acc").children().not(this).addClass("hidden");
+      $(this).removeClass("hidden");
+    });
+
   }
 
   function updateSection() {
