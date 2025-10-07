@@ -1,8 +1,9 @@
 :root{
-  --bg: white;
-  --fg: black;
-  --active: rgb(255, 20, 70);
-  --active-2: rgb(255, 20, 100);
+  --bg: rgb(30, 20, 20);
+  --fg: rgb(200, 10, 60);
+  --text: white;
+  --active: rgb(255, 10, 60);
+  --active-dark: rgb(230, 0, 45);
   --active-text: white;
 
 }
@@ -11,14 +12,20 @@
   font-family: arial;
 }
 
+h1, h2, h3, h4, h5, h6{
+  font-weight: normal;
+}
+
 html, body{
   margin: 0;
   background-color: var(--bg);
+  color: var(--text);
 }
 
 nav{
   display: flex;
   position: sticky;
+  margin: 0px 10px;
 }
 
 #section-title{
@@ -29,10 +36,19 @@ nav{
 
 nav a{
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 100px;
   background-color: var(--active);
   color: var(--active-text);
   user-select: none;
+  cursor: pointer;
+  border-bottom: 5px solid var(--active-dark);
+  border-left: 5px solid var(--active-dark);
+  transition: border 0.1s;
+}
+
+nav a:active{
+  border-bottom: 2px solid var(--active-dark);
+  border-left: 2px solid var(--active-dark);
 }
 
 .section{
@@ -42,6 +58,25 @@ nav a{
 
 .section.selected{
   display: block;
+}
+
+.acc{
+  background-color: var(--fg);
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  font-size: 1.25em;
+}
+
+.acc-item{
+  padding: 10px;
+}
+.acc-item:not(:last-child){
+  border-bottom: 1px solid var(--text);
+}
+
+.acc.hidden{
+  display: none;
 }
 
 .fl{
