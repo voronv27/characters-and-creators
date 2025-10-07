@@ -291,6 +291,18 @@ class DataGetter:
 
         return proficiencies
 
+    def getAsi(self, race, subrace=None):
+        if not self.races:
+            self.getRaces()
+        raceData = self.races[race]
+        asiData = {"race": raceData["asi"]}
+        if subrace:
+            subraceData = next(s for s in raceData["subraces"] if s["name"] == subrace)
+            asiData["subrace"] = subraceData["asi"]
+        return asiData
+
+    # TODO: return short description of each class, add to general-info route
+
 # Test DataGetter class
 if __name__ == "__main__":
     dataGetter = DataGetter()
@@ -318,9 +330,11 @@ if __name__ == "__main__":
             print()
             for subrace in subraces:
                 print(f"Race & subrace ({subrace}) proficiencies: {dataGetter.getRaceProficiencies(race, subrace)}")
+                print(f"ASI data {dataGetter.getAsi(race, subrace)}")
                 print()
         else:
             print("Race proficiencies:", dataGetter.getRaceProficiencies(race))
+            print(f"ASI data: {dataGetter.getAsi(race)}")
             print()
 
     backgrounds = dataGetter.getBackgrounds()
@@ -329,5 +343,3 @@ if __name__ == "__main__":
     for background in backgrounds:
         print(f"{background} proficiencies: {dataGetter.getBackgroundProficiencies(background)}")
         print()
-
-    # TODO: asi for race, subrace, class, subclass, background(?)

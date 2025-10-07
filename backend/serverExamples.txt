@@ -101,7 +101,6 @@ ex: "/preferred-stats?class=bard" returns [ "cha", "dex" ]
 
 ROUTE "/proficiences?class=Classname&subclass=Subclassname&race=Racename&subrace=Subracename"
 NOTE: parameters are optional, if there is no subrace or subclass that parameter can just be omitted.
-this is a WORK IN PROGRESS that will eventually add proficiencies for backgrounds but currently only does races and classes
 
 returns:
 {
@@ -251,4 +250,46 @@ ex: "/proficiencies?background=Elemental Warden" returns
   },
   "class": null,
   "race": null
+
+----------------------------------------------------------------------------------------------------------------
+
+ROUTE "/asi?race=Race&subrace=Subrace":
+NOTE: parameters are optional, if there is no subrace that parameter can just be omitted
+
+returns:
+{
+	"race": [
+		{
+			"attributes": ["Attribute"],
+			"value": int value by which to increase the attribute
+		}
+	],
+	"subrace": [
+		{
+			"attributes": ["Attribute"],
+			"value": int value by which to increase the attribute
+		}
+	]
+}
+
+"Attribute" will either be the name of a DnD attribute (ex: "Charisma"), "Any" (pick any attribute), or "Other" (pick any other attribute that's not been listed under this "race"/"subrace" key)
+
+ex: "/asi?race=Elf&subrace=High Elf" returns
+{
+  "race": [
+    {
+      "attributes": [
+        "Dexterity"
+      ],
+      "value": 2
+    }
+  ],
+  "subrace": [
+    {
+      "attributes": [
+        "Intelligence"
+      ],
+      "value": 1
+    }
+  ]
 }

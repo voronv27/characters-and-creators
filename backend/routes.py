@@ -47,4 +47,10 @@ def getProficiencies():
     background = request.args.get('background', default = None)
     return dataGetter.getProficiencies(classname, race, background, subclass, subrace)
 
+@app.route('/asi')
+def getAsi():
+    race = request.args.get('race', default = None)
+    subrace = request.args.get('subrace', default = None)
+    return dataGetter.getAsi(race, subrace)
+
 # TODO: add more routes for other DnD info
