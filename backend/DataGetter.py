@@ -3,22 +3,64 @@ import requests
 #import random
 
 # Local data
-# List priority stats per DnD class
-preferredStats = {
-    "default": [],
-    "artificer": ["int", "con"],
-    "barbarian": ["str", "con"],
-    "bard": ["cha", "dex"],
-    "cleric": ["wis", "con"],
-    "druid": ["wis", "con"],
-    "fighter": ["str", "con"],
-    "monk": ["dex", "wis"],
-    "paladin": ["str", "cha"],
-    "ranger": ["dex", "wis"],
-    "rogue": ["dex", "int"],
-    "sorcerer": ["cha", "con"],
-    "warlock": ["cha", "con"],
-    "wizard": ["int", "con"],
+# Short description of class & priority stats per DnD class
+localClassData = {
+    "default": {
+        "preferredStats": [],
+        "desc": "",
+    },
+    "Artificer": {
+        "preferredStats": ["int", "con"],
+        "desc": "Masters of invention, artificers use ingenuity and magic to unlock extraordinary capabilities in objects",
+    },
+    "Barbarian": {
+        "preferredStats": ["str", "con"],
+        "desc": "Barbarians are mighty warriors who are powered by primal forces of the multiverse that manifest as a Rage"
+        },
+    "Bard": {
+        "preferredStats": ["cha", "dex"],
+        "desc": "Bards are expert at inspiring others, soothing hurts, disheartening foes, and creating illusions"
+        },
+    "Cleric": {
+        "preferredStats": ["wis", "con"],
+        "desc": "Clerics can reach out to the divine magic of the Outer Planes and channel it to bolster people and battle foes"
+        },
+    "Druid": {
+        "preferredStats": ["wis", "con"],
+        "desc": "Druids call on the forces of nature, harnessing magic to heal, transform into animals, and wield elemental destruction"
+        },
+    "Fighter": {
+        "preferredStats": ["str", "con"],
+        "desc": "Fighters all share an unparalleled prowess with weapons and armor, and are well acquainted with death, both meting it out and defying it"
+        },
+    "Monk": {
+        "preferredStats": ["dex", "wis"],
+        "desc": "Monks focus their internal reservoirs of power to create extraordinary, even supernatural, effects"
+        },
+    "Paladin": {
+        "preferredStats": ["str", "cha"],
+        "desc": "Paladins live on the front lines of the cosmic struggle, united by their oaths against the forces of annihilation"
+        },
+    "Ranger": {
+        "preferredStats": ["dex", "wis"],
+        "desc": "Rangers are honed with deadly focus and harness primal powers to protect the world from the ravages of monsters and tyrants"
+        },
+    "Rogue": {
+        "preferredStats": ["dex", "int"],
+        "desc": "Rogues have a knack for finding the solution to just about any problem, prioritizing subtle strikes over brute strength",
+    },
+    "Sorcerer": {
+        "preferredStats": ["cha", "con"],
+        "desc": "Sorcerers harness and channel the raw, roiling power of innate magic that is stamped into their very being",
+    },
+    "Warlock": {
+        "preferredStats": ["cha", "con"],
+        "desc": "Warlocks quest for knowledge that lies hidden in the fabric of the multiverse, piecing together arcane secrets to bolster their own power",
+    },
+    "Wizard": {
+        "preferredStats": ["int", "con"],
+        "desc": "Wizards cast spells of explosive fire, arcing lightning, subtle deception, and spectacular transformations",
+    },
 }
 
 # Mapping of word to number for API parsing purposes
@@ -193,6 +235,9 @@ class DataGetter:
             url = "https://api.open5e.com/v1/classes/"
             classData = getData(url)
             self.classData = {classname["name"]: classname for classname in classData}
+            for classname in self.classData:
+                if classname in localClassData:
+                    self.classData[classname]["short_desc"] = localClassData[classname]["desc"]
         return self.classData
 
     def getRaces(self):
@@ -210,9 +255,9 @@ class DataGetter:
         return self.backgrounds
 
     def preferredStats(self, classname):
-        if classname in preferredStats:
-            return preferredStats[classname]
-        return preferredStats["default"]
+        if classname in localClassData:
+            return localClassData[classname]["preferredStats"]
+        return localClassData["default"]["preferredStats"]
 
     def getClassProficiencies(self, classname, subclass=None):
         proficiencies = {
@@ -309,7 +354,7 @@ if __name__ == "__main__":
     classData = dataGetter.getClasses()
     for dndClassName in classData:
         dndClass = classData[dndClassName]
-        print(f"{dndClassName} preferred stats are: {list(dataGetter.preferredStats(dndClassName.lower()))}")
+        print(f"{dndClassName} preferred stats are: {list(dataGetter.preferredStats(dndClassName))}")
         print()
         subclasses = [subclass['name'] for subclass in dndClass['archetypes']]
         if subclasses:

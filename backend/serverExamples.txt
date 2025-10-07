@@ -24,6 +24,7 @@ class_data format:
 NOTE: this does not contain all information, but highlights the most helpful areas for the site
 {
 	"name": "class name",
+	"short_desc": "short text description of the class",
 	"desc": "text description of the class",
 	"hit_dice": "hit dice string",
 	"hp_at_1st_level": "desc of hp at first level",
@@ -95,7 +96,7 @@ background_data format:
 
 ROUTE "/preferred-stats?class=classname"
 returns: ["stat1", "stat2"] (any stats to prioritize giving high scores, in order of priority)
-ex: "/preferred-stats?class=bard" returns [ "cha", "dex" ]
+ex: "/preferred-stats?class=Bard" returns [ "cha", "dex" ]
 
 ----------------------------------------------------------------------------------------------------------------
 
