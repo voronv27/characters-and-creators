@@ -47,10 +47,18 @@ def getProficiencies():
     background = request.args.get('background', default = None)
     return dataGetter.getProficiencies(classname, race, background, subclass, subrace)
 
+# Given race and subrace, return the ASI (stat increases)
 @app.route('/asi')
 def getAsi():
     race = request.args.get('race', default = None)
     subrace = request.args.get('subrace', default = None)
     return dataGetter.getAsi(race, subrace)
+
+# Given race and background, return the languages the character speaks
+@app.route('/languages')
+def getLanguages():
+    race = request.args.get('race', default = None)
+    background = request.args.get('background', default = None)
+    return dataGetter.getLanguages(race, background)
 
 # TODO: add more routes for other DnD info

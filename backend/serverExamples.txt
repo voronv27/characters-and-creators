@@ -294,3 +294,29 @@ ex: "/asi?race=Elf&subrace=High Elf" returns
     }
   ]
 }
+
+----------------------------------------------------------------------------------------------------------------
+
+ROUTE "/languages?race=Race&background=Background":
+NOTE: parameters are optional
+
+returns:
+{
+	"race": {
+		"main": "main language desc",
+		"extra": "extra language desc"
+	},
+	"background": "background language desc"
+}
+
+the "main language desc" and "background language desc" have the basic information that can be on the character sheet (other than choices the user needs to make)
+The "extra language desc" deals with flavor text that gives context/information but doesn't list any new options from the main desc
+
+ex: "/languages?race=Human&background=Acolyte" returns
+{
+  "background": "Two of your choice",
+  "race": {
+    "extra": " Humans typically learn the languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish military phrases, and so on.",
+    "main": "You can speak, read, and write Common and one extra language of your choice"
+  }
+}

@@ -346,7 +346,30 @@ class DataGetter:
             asiData["subrace"] = subraceData["asi"]
         return asiData
 
-    # TODO: return short description of each class, add to general-info route
+    def getLanguages(self, race, background):
+        languages = {
+            "race": None,
+            "background": None,
+        }
+
+        if race:
+            if not self.races:
+                self.getRaces()
+            raceData = self.races[race]["languages"].replace('*', '')
+            raceLanguages = raceData.replace('_', '').split('.')
+            languages["race"] = {
+                "main": raceLanguages[1].strip(),
+                "extra": '.'.join(raceLanguages[2:])
+            }
+
+        if background:
+            if not self.backgrounds:
+                self.getBackgrounds()
+            backgroundData = self.backgrounds[background]["benefits"]
+            backgroundLanguages = next((b["desc"] for b in backgroundData
+                                       if b["type"] == "language"), None)
+            languages["background"] = backgroundLanguages
+        return languages
 
 # Test DataGetter class
 if __name__ == "__main__":
@@ -381,10 +404,14 @@ if __name__ == "__main__":
             print("Race proficiencies:", dataGetter.getRaceProficiencies(race))
             print(f"ASI data: {dataGetter.getAsi(race)}")
             print()
+        print("Languages:", dataGetter.getLanguages(race, None))
+        print()
 
     backgrounds = dataGetter.getBackgrounds()
     print("Backgrounds:", list(backgrounds.keys()))
     print()
     for background in backgrounds:
         print(f"{background} proficiencies: {dataGetter.getBackgroundProficiencies(background)}")
+        print()
+        print("Languages:", dataGetter.getLanguages(None, background))
         print()
