@@ -371,6 +371,46 @@ class DataGetter:
             languages["background"] = backgroundLanguages
         return languages
 
+    def getClassEquipment(self, classname):
+        equipment = []
+        if not self.classData:
+            self.getClasses()
+
+        # Format: "You start with the following equipment... \n" +
+        # "(*a*) option 1, (*b*) option 2, or (*c*) option 3 \n" OR "c and d \n"
+        equipmentData = self.classData[classname]["equipment"].split('\n')
+        for e in equipmentData[1:]:
+            # For some reason, warlock and wizard have this bullet point formatted
+            # the opposite of every other class, so normalize it
+            equipmentDesc = e.strip().replace('*(a)*', '(*a*)')
+            if not equipmentDesc:
+                continue
+
+            if '(*a*)' in equipmentDesc:
+                # cut out filler to leave the actual options
+                equipmentDesc = equipmentDesc.replace(' or', '').replace(',', '')
+                options = [ o[4:].strip() for o in equipmentDesc.split('(*')[1:] ]
+                if len(options) < 2:
+                    equipment.append(options[0])
+                else:
+                    equipment.append({"choice": options})
+            else:
+                # list of choices not given, so just strip the string and add to equipment
+                equipment.append(equipmentDesc.strip('*').strip())
+        return equipment
+
+    def getEquipment(self, classname, race, background, subrace=None):
+        equipment = {
+            "class": None,
+        }
+
+        if classname:
+            equipment["class"] = self.getClassEquipment(classname)
+
+        return equipment
+
+    # TODO: spellcards (can probably just return API spell data)
+
 # Test DataGetter class
 if __name__ == "__main__":
     dataGetter = DataGetter()
@@ -388,6 +428,8 @@ if __name__ == "__main__":
         else:
             print(f"{dndClassName} class proficiencies are {dataGetter.getClassProficiencies(dndClassName)}")
             print()
+        print("Starting equipment:", dataGetter.getEquipment(dndClassName, None, None))
+        print()
 
     races = dataGetter.getRaces()
     for race in races:
