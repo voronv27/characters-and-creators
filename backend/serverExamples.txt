@@ -24,6 +24,7 @@ class_data format:
 NOTE: this does not contain all information, but highlights the most helpful areas for the site
 {
 	"name": "class name",
+	"short_desc": "short text description of the class",
 	"desc": "text description of the class",
 	"hit_dice": "hit dice string",
 	"hp_at_1st_level": "desc of hp at first level",
@@ -95,13 +96,12 @@ background_data format:
 
 ROUTE "/preferred-stats?class=classname"
 returns: ["stat1", "stat2"] (any stats to prioritize giving high scores, in order of priority)
-ex: "/preferred-stats?class=bard" returns [ "cha", "dex" ]
+ex: "/preferred-stats?class=Bard" returns [ "cha", "dex" ]
 
 ----------------------------------------------------------------------------------------------------------------
 
 ROUTE "/proficiences?class=Classname&subclass=Subclassname&race=Racename&subrace=Subracename"
 NOTE: parameters are optional, if there is no subrace or subclass that parameter can just be omitted.
-this is a WORK IN PROGRESS that will eventually add proficiencies for backgrounds but currently only does races and classes
 
 returns:
 {
@@ -213,5 +213,110 @@ ex: "/proficiencies?race=Elf&subrace=High Elf" returns
       "other": "the longsword, shortsword, shortbow, and longbow",
       "skills": []
     }
+  }
+}
+
+proficiencies for background format:
+{
+	"skills": [
+		"skill name",
+		{
+			"choice": {
+				"count": int number that can be selected
+				"options": ["skill name"]
+			}
+		}
+	],
+	"tools": ["tools description"]
+}
+
+ex: "/proficiencies?background=Elemental Warden" returns
+{
+  "background": {
+    "skills": [
+      "Nature",
+      {
+        "choice": {
+          "count": "one",
+          "options": [
+            "Arcana",
+            "Survival"
+          ]
+        }
+      }
+    ],
+    "tools": [
+      "Herbalism Kit"
+    ]
+  },
+  "class": null,
+  "race": null
+
+----------------------------------------------------------------------------------------------------------------
+
+ROUTE "/asi?race=Race&subrace=Subrace":
+NOTE: parameters are optional, if there is no subrace that parameter can just be omitted
+
+returns:
+{
+	"race": [
+		{
+			"attributes": ["Attribute"],
+			"value": int value by which to increase the attribute
+		}
+	],
+	"subrace": [
+		{
+			"attributes": ["Attribute"],
+			"value": int value by which to increase the attribute
+		}
+	]
+}
+
+"Attribute" will either be the name of a DnD attribute (ex: "Charisma"), "Any" (pick any attribute), or "Other" (pick any other attribute that's not been listed under this "race"/"subrace" key)
+
+ex: "/asi?race=Elf&subrace=High Elf" returns
+{
+  "race": [
+    {
+      "attributes": [
+        "Dexterity"
+      ],
+      "value": 2
+    }
+  ],
+  "subrace": [
+    {
+      "attributes": [
+        "Intelligence"
+      ],
+      "value": 1
+    }
+  ]
+}
+
+----------------------------------------------------------------------------------------------------------------
+
+ROUTE "/languages?race=Race&background=Background":
+NOTE: parameters are optional
+
+returns:
+{
+	"race": {
+		"main": "main language desc",
+		"extra": "extra language desc"
+	},
+	"background": "background language desc"
+}
+
+the "main language desc" and "background language desc" have the basic information that can be on the character sheet (other than choices the user needs to make)
+The "extra language desc" deals with flavor text that gives context/information but doesn't list any new options from the main desc
+
+ex: "/languages?race=Human&background=Acolyte" returns
+{
+  "background": "Two of your choice",
+  "race": {
+    "extra": " Humans typically learn the languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish military phrases, and so on.",
+    "main": "You can speak, read, and write Common and one extra language of your choice"
   }
 }
