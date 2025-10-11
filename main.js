@@ -1,25 +1,71 @@
 (function () {
-  //Variables
 
+  //Constants
+  const P_B = "Parent Before";
+  const P_A = "Parent After";
+  const S_B = "Sibling Before";
+  const S_A = "Sibling After";
+
+  let char = {
+    class: null
+  }
   const comp = {
-    accItem: `
-    <div id="new" class="acc-item" >
-      <div class="title"></div>
-      <div class="content"></div>
-    </div>`
+    accItem: {
+      html: `
+        <div id="new" class="acc-item hidden">
+          <div class="title"></div>
+          <div class="cont"></div>
+        </div>`,
+      func: function (comp) {
+        comp.click(function () {
+          $(this).closest(".acc").children().not(this).addClass("hidden");
+          $(this).toggleClass("hidden");
+        });
+      }
+    },
+    classCont: {
+      html: `
+        <div id="new">
+          <button class="select-class">Select Class</button>
+          <div class="desc"></div>
+      </div>`,
+      func: function (comp) {
+        comp.children(".select-class").click(function () {
+          char.class = $(this).closest(".acc-item").find(".title").first();
+          console.log(char.class)
+        })
+      }
+    }
   }
 
   const URL = "https://voronv.pythonanywhere.com"
+
+  //Variables
   let generalInfo;
   let genInfo;
 
   let numSections;
   let sectionNum = 0;
 
+  let charStates;
+
 
   $(async function () {
     init();
+    eventListeners();
 
+    await initComps();
+  });
+
+  function init() {
+    numSections = $(".section").length;
+
+    sectionFromURL();
+    updateSection();
+    initApiData();
+  }
+
+  function eventListeners() {
     //Section logic
     $("#prev-section").click(function () {
       sectionNum = sectionNum - 1 < 0 ? numSections - 1 : sectionNum - 1;
@@ -36,25 +82,12 @@
       sectionFromURL();
       updateSection();
     });
-
-    //General Section 
-    genInfo = await generalInfo.then((resp) => resp.json());
-    initComps();
-    console.log(genInfo);
-  });
-
-  function init() {
-    numSections = $(".section").length;
-
-    sectionFromURL();
-    updateSection();
-    initApiData();
   }
 
   function sectionFromURL() {
     let currentSection = window.location.hash + "-section";
     if ($(currentSection).hasClass("section")) {
-      sectionNum = $(currentSection).index() - 1;
+      sectionNum = $(currentSection).index();
     }
   }
 
@@ -68,29 +101,45 @@
     });
   }
 
-  function initComps() {
+  async function initComps() {
+    genInfo = await generalInfo.then((resp) => resp.json());
     //Class Accordion
+    $("#class-acc").empty();
     Object.keys(genInfo["classes"]).forEach(key => {
-      $("#class-acc").append(comp.accItem);
-      let acc = initComp();
-      initNewAccItem(acc);
-      console.log(genInfo["classes"][key]);
+      let acc = initComp("accItem", "#class-acc");
       acc.children(".title").text(key);
-      acc.children(".content").text(genInfo["classes"][key]["desc"]);
+      acc.attr("id", "acc-item-" + key)
+      converter = new showdown.Converter();
+      htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
+      let classCont = initComp("classCont", "#acc-item-" + key + " .desc");
+
+      acc.children(".cont").html(htmlOutput);
     });
   }
 
-  function initComp() {
-    return $("#new").removeAttr("id");
+  function initComp(key, existing, rel,) {
+    switch (rel) {
+      case S_B:
+        $(existing).before(comp[key]["html"]);
+        break;
+      case S_A:
+        $(existing).after(comp[key]["html"]);
+        break;
+      case P_B:
+        $(existing).prepend(comp[key]["html"]);
+        break;
+      case P_A:
+      default:
+        $(existing).append(comp[key]["html"]);
+        break;
+    }
+    let added = $("#new").removeAttr("id");
+    comp[key].func(added);
+    return added;
   }
 
 
   function initNewAccItem(acc) {
-    acc.click(function () {
-      $(this).closest(".acc").children().not(this).addClass("hidden");
-      $(this).removeClass("hidden");
-    });
-
   }
 
   function updateSection() {
@@ -98,11 +147,12 @@
     $(".section").eq(sectionNum).addClass("selected");
     $("#section-title").text($(".section.selected").attr("data-title"));
     let sectionId = $(".section.selected").attr("id");
+    console.log("section id: ", sectionId)
     let sectionHash = "#" + sectionId.slice(0, sectionId.length - 8);
     if (window.location.hash != sectionHash) {
+      console.log("window.location.hash: " + window.location.hash + ", section hash " + sectionHash)
       window.location.hash = sectionHash;
     }
-
   }
 
 
