@@ -29,36 +29,35 @@ def getGeneralInfo():
     # { background: background info }
     data["backgrounds"] = dataGetter.getBackgrounds()
 
+    # { spell key: spell info }
+    data["spells"] = dataGetter.getSpells()
+
     return data
 
-# Given class name as a parameter, return the stats that should be highest
-@app.route('/preferred-stats')
-def preferredStats():
-    classname = request.args.get('class', default = None)
-    return dataGetter.preferredStats(classname)
-
-# Given class name, background, and race as parameters, return proficiencies
-@app.route('/proficiencies')
-def getProficiencies():
+@app.route('/specific-info')
+def getSpecificInfo():
+    data = dict()
+    
+    # get url params
     classname = request.args.get('class', default = None)
     subclass = request.args.get('subclass', default = None)
     race = request.args.get('race', default = None)
     subrace = request.args.get('subrace', default = None)
     background = request.args.get('background', default = None)
-    return dataGetter.getProficiencies(classname, race, background, subclass, subrace)
+    
+    # Given class name as a parameter, return the stats that should be highest
+    data["preferred-stats"] = dataGetter.preferredStats(classname)
 
-# Given race and subrace, return the ASI (stat increases)
-@app.route('/asi')
-def getAsi():
-    race = request.args.get('race', default = None)
-    subrace = request.args.get('subrace', default = None)
-    return dataGetter.getAsi(race, subrace)
+    # Given class name, background, and race as parameters, return proficiencies
+    data["proficiencies"] = dataGetter.getProficiencies(classname, race, background, subclass, subrace)
 
-# Given race and background, return the languages the character speaks
-@app.route('/languages')
-def getLanguages():
-    race = request.args.get('race', default = None)
-    background = request.args.get('background', default = None)
-    return dataGetter.getLanguages(race, background)
+    # Given race and subrace, return the ASI (stat increases)
+    data["asi"] = dataGetter.getAsi(race, subrace)
 
-# TODO: add more routes for other DnD info
+    # Given race and background, return the languages the character speaks
+    data["languages"] = dataGetter.getLanguages(race, background)
+
+    # Given class and background, return starting equipment
+    data["equipment"] = dataGetter.getEquipment(classname, background)
+
+    return data

@@ -228,9 +228,15 @@ class DataGetter:
         self.classData = None
         self.races = None
         self.backgrounds = None
+        self.spells = None
+        self.spellList = None
         #TODO: consider caching proficiencies?
 
     def getClasses(self):
+        if not self.spellList:
+            url = "https://api.open5e.com/v1/spelllist/"
+            spellList = getData(url)
+            self.spellList = {sl["name"].title(): set(sl["spells"]) for sl in spellList}
         if not self.classData:
             url = "https://api.open5e.com/v1/classes/"
             classData = getData(url)
@@ -238,6 +244,10 @@ class DataGetter:
             for classname in self.classData:
                 if classname in localClassData:
                     self.classData[classname]["short_desc"] = localClassData[classname]["desc"]
+                if classname in self.spellList:
+                    self.classData[classname]["spells"] = self.getSpellNames(self.spellList[classname])
+                else:
+                    self.classData[classname]["spells"] = None
         return self.classData
 
     def getRaces(self):
@@ -253,6 +263,26 @@ class DataGetter:
             backgrounds = getData(url)
             self.backgrounds = {bg['name']: bg for bg in backgrounds}
         return self.backgrounds
+
+    def getSpells(self):
+        if not self.spells:
+            url = "https://api.open5e.com/v2/spells/"
+            payload = {
+                'document__gamesystem__key__in': '5e-2014'
+            }
+            spells = getData(url, payload)
+            self.spells = {spell['key'].split('_')[-1]: spell for spell in spells}
+        return self.spells
+
+    # Filter out any spells not in our database and replace key with name
+    def getSpellNames(self, spellList):
+        if not self.spells:
+            self.getSpells()
+        nameSpellList = spellList & self.spells.keys()
+
+        # spell name as the keys, lookup key as the value
+        nameSpellList = {self.spells[s]["name"]: s for s in nameSpellList}
+        return nameSpellList
 
     def preferredStats(self, classname):
         if classname in localClassData:
@@ -399,13 +429,25 @@ class DataGetter:
                 equipment.append(equipmentDesc.strip('*').strip())
         return equipment
 
-    def getEquipment(self, classname, race, background, subrace=None):
+    def getBackgroundEquipment(self, background):
+        if not self.backgrounds:
+            self.getBackgrounds()
+
+        backgroundData = self.backgrounds[background]["benefits"]
+        equipment = next((b["desc"].strip('.') for b in backgroundData if b["type"] == "equipment"), None)
+        return equipment
+
+    def getEquipment(self, classname, background):
         equipment = {
             "class": None,
+            "background": None,
         }
 
         if classname:
             equipment["class"] = self.getClassEquipment(classname)
+
+        if background:
+            equipment["background"] = self.getBackgroundEquipment(background)
 
         return equipment
 
@@ -428,7 +470,10 @@ if __name__ == "__main__":
         else:
             print(f"{dndClassName} class proficiencies are {dataGetter.getClassProficiencies(dndClassName)}")
             print()
-        print("Starting equipment:", dataGetter.getEquipment(dndClassName, None, None))
+        print("Starting equipment:", dataGetter.getEquipment(dndClassName, None))
+        print()
+        if dndClass["spells"]:
+            print("Spells:", list(dndClass["spells"]))
         print()
 
     races = dataGetter.getRaces()
@@ -456,4 +501,6 @@ if __name__ == "__main__":
         print(f"{background} proficiencies: {dataGetter.getBackgroundProficiencies(background)}")
         print()
         print("Languages:", dataGetter.getLanguages(None, background))
+        print()
+        print("Starting equipment:", dataGetter.getEquipment(None, background))
         print()

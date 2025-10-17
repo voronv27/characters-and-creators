@@ -17,6 +17,9 @@ returns:
 	},
 	"backgrounds": {
 		"background name" : background_data
+	},
+	"spells": {
+		"spell_key": spell_data
 	}
 }
 
@@ -36,7 +39,8 @@ NOTE: this does not contain all information, but highlights the most helpful are
 			"name": "name of subclass",
 			"desc": "desc of subclass"
 		}
-	]
+	],
+	"spells": {"Spell Name": "spell_key"} (or None if no spells)
 }
 
 race_data format:
@@ -92,18 +96,77 @@ background_data format:
 	],
 }
 
+spell_data format:
+{
+	"document": {
+		"display_name": "Name of D&D book"
+	}
+	"casting_options": [
+		{
+		    "type": slot_level_x", (x > "level")
+		    "damage_roll": "xdy" with int x and y,
+		    "target_count": int # of targets,
+		    "duration": "duration",
+		    "range": decimal range,
+		    "concentration": true/false,
+		    "shape_size": "size of area of effect",
+		    "desc": "desc"
+		    (note: these values can be null, they're only non-null if different than the default)
+		}
+	],
+	"school": {
+		"name": "name of magic school (ex: Illusion)"
+	},
+	"name": "Name",
+	"desc": "spell description",
+	"level": int level of spell,
+	"higher_level": "description for casting spell at a higher level",
+	"target_type": "target type (ex: creature)",
+	"range_text": "x feet",
+	"range": decimal number of feet,
+	"ritual": true/false,
+	"casting_time": "cast time (ex: action)",
+	"reaction_condition": "condition to cast as a reaction",
+	"verbal": true/false,
+	"somatic": true/false,
+	"material": true/false,
+	"material_specified": "material string",
+	"material_cost": cost of material (null if no cost),
+	"material_consumed": true/false,
+	"target_count": int number of targets,
+	"saving_throw_ability": "ability if there is one (ex: wisdom)",
+	"attack_roll": true/false,
+	"damage_roll": "xdy" where x and y are ints,
+	"damage_types": ["dmg type"],
+	"duration": "duration",
+	"shape_type": "shape for area of effect",
+	"shape_size": "size of shape for area of effect",
+	"concentration": true/false
+}
+note: a lot of these values can be null
+
 ----------------------------------------------------------------------------------------------------------------
 
-ROUTE "/preferred-stats?class=classname"
-returns: ["stat1", "stat2"] (any stats to prioritize giving high scores, in order of priority)
-ex: "/preferred-stats?class=Bard" returns [ "cha", "dex" ]
-
-----------------------------------------------------------------------------------------------------------------
-
-ROUTE "/proficiences?class=Classname&subclass=Subclassname&race=Racename&subrace=Subracename"
-NOTE: parameters are optional, if there is no subrace or subclass that parameter can just be omitted.
-
+ROUTE "/specific-info?class=Classname&subclass=Subclassname&race=Racename&subrace=Subracename"
+NOTE: parameters are optional, if there is no subrace or subclass that parameter can just be omitted."
 returns:
+{
+	"preferred-stats": preferred_stats_data,
+	"proficiencies": proficiencies_data,
+  "asi": asi_data,
+  "languages": languages_data,
+  "equipment": equipment_data
+}
+
+----------------------------------------------------------------------------------------------------------------
+
+preferred_stats_data format:
+["stat1", "stat2"] (any stats to prioritize giving high scores, in order of priority)
+ex: "/specific-info?class=Bard"["preferred-stats"] returns [ "cha", "dex" ]
+
+----------------------------------------------------------------------------------------------------------------
+
+proficiencies_data format:
 {
 	"background": proficiences from background,
 	"class": proficiencies from class,
@@ -123,7 +186,7 @@ proficiences from class format:
 	"subclass": ["list of subclass proficiencies string"]
 }
 
-ex: "/proficiencies?class=Bard&subclass=College of Lore" returns
+ex: "/specific-info?class=Bard&subclass=College of Lore"["proficiencies"] returns
 {
   "background": null,
   "class": {
@@ -200,7 +263,7 @@ proficiencies from race format:
 	}
 }
 
-ex: "/proficiencies?race=Elf&subrace=High Elf" returns
+ex: "/specific-info?race=Elf&subrace=High Elf"["proficiencies"] returns
 {
   "background": null,
   "class": null,
@@ -230,7 +293,7 @@ proficiencies for background format:
 	"tools": ["tools description"]
 }
 
-ex: "/proficiencies?background=Elemental Warden" returns
+ex: "/specific-info?background=Elemental Warden"["proficiencies"] returns
 {
   "background": {
     "skills": [
@@ -254,10 +317,7 @@ ex: "/proficiencies?background=Elemental Warden" returns
 
 ----------------------------------------------------------------------------------------------------------------
 
-ROUTE "/asi?race=Race&subrace=Subrace":
-NOTE: parameters are optional, if there is no subrace that parameter can just be omitted
-
-returns:
+asi_data format:
 {
 	"race": [
 		{
@@ -275,7 +335,7 @@ returns:
 
 "Attribute" will either be the name of a DnD attribute (ex: "Charisma"), "Any" (pick any attribute), or "Other" (pick any other attribute that's not been listed under this "race"/"subrace" key)
 
-ex: "/asi?race=Elf&subrace=High Elf" returns
+ex: "/specific-info?race=Elf&subrace=High Elf"["asi"] returns
 {
   "race": [
     {
@@ -297,10 +357,7 @@ ex: "/asi?race=Elf&subrace=High Elf" returns
 
 ----------------------------------------------------------------------------------------------------------------
 
-ROUTE "/languages?race=Race&background=Background":
-NOTE: parameters are optional
-
-returns:
+languages_data format:
 {
 	"race": {
 		"main": "main language desc",
@@ -312,11 +369,57 @@ returns:
 the "main language desc" and "background language desc" have the basic information that can be on the character sheet (other than choices the user needs to make)
 The "extra language desc" deals with flavor text that gives context/information but doesn't list any new options from the main desc
 
-ex: "/languages?race=Human&background=Acolyte" returns
+ex: "/specific-info?race=Human&background=Acolyte"["languages"] returns
 {
   "background": "Two of your choice",
   "race": {
     "extra": " Humans typically learn the languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish military phrases, and so on.",
     "main": "You can speak, read, and write Common and one extra language of your choice"
   }
+}
+
+----------------------------------------------------------------------------------------------------------------
+
+equipment_data format:
+{
+  "class": class_equipment,
+  "background": "string describing background equipment"
+}
+
+class_equipment format:
+[
+	{
+		"choice": [
+			"equipment name",
+			"equipment name"
+		]
+	},
+	"equipment name"
+]
+
+ex: "/specific-info?class=Bard&background=Acolyte"["equipment"] returns
+{
+  "background": "A holy symbol (a gift to you when you entered the priesthood), a prayer book or prayer wheel, 5 sticks of incense, vestments, a set of common clothes, and a pouch containing 15 gp",
+  "class": [
+    {
+      "choice": [
+        "a rapier",
+        "a longsword",
+        "any simple weapon"
+      ]
+    },
+    {
+      "choice": [
+        "a diplomat's pack",
+        "an entertainer's pack"
+      ]
+    },
+    {
+      "choice": [
+        "a lute",
+        "any other musical instrument"
+      ]
+    },
+    "Leather armor and a dagger"
+  ]
 }
