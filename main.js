@@ -123,6 +123,12 @@
       let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
       classCont.find(".desc").html(htmlOutput);
     });
+
+    $("#spellcards-acc").empty();
+    Object.keys(genInfo["spells"]).forEach(key => {
+      let acc = initComp("accItem", "#spellcards-acc");
+      acc.find(".title").text(key);
+    });
   }
 
   function initComp(key, existing, rel,) {
