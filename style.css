@@ -1,21 +1,29 @@
 :root{
-  --bg: rgb(30, 20, 20);
-  --fg: rgb(200, 10, 60);
+  --bg: rgb(22, 20, 20);
+  --fg: rgb(42, 40, 40);
   --text: white;
-  --active: rgb(255, 10, 60);
-  --active-dark: rgb(230, 0, 45);
+  --active: rgb(200, 10, 60);
+  --active-dark: rgb(185, 0, 45);
   --active-text: white;
 
 }
 
 *{
   font-family: arial;
+  transition-timing-function: cubic-beizer(0, 0, 0, 1);
 }
 
 h1, h2, h3, h4, h5, h6{
   font-weight: normal;
 }
 
+[class^="fa"]{
+
+  line-height: 1.25em;
+  height: 1.25em;
+  vertical-align: bottom;
+  display: inline;
+}
 
 body{
   margin: 0;
@@ -31,7 +39,7 @@ nav{
   top: 0px;
   background-color: var(--fg);
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 50px;
 }
 
 #section-title{
@@ -63,28 +71,35 @@ nav a:active, button:active{
   display: none;
 }
 
+
 .section.selected{
   display: block;
 }
 
 .acc{
-  background-color: var(--fg);
-  padding: 10px;
-  border-radius: 10px;
+  /* background-color: var(--fg); */
+  /* padding: 10px; */
+  /* border-radius: 10px; */
   font-size: 1.25em;
 }
 
 .acc-item{
   padding: 10px;
   user-select: none;
+  background: var(--fg);
+  border-radius: 20px;
 }
 
 .acc-item:not(:last-child){
-  border-bottom: 1px solid var(--text);
+  /* border-bottom: 1px solid var(--text); */
+  margin-bottom: 20px;
+  border-left: 5px solid rgb(32, 30, 30);
+  border-bottom: 5px solid rgb(32, 30, 30);
 }
 
 .acc-item .header{
   display: flex;
+  padding: 10px;
 }
 
 .acc-item .title{
@@ -94,6 +109,7 @@ nav a:active, button:active{
 }
 
 .acc-icon {
+  vertical-align: baseline;
   transition: transform 0.25s;
 }
 
@@ -104,12 +120,19 @@ nav a:active, button:active{
 .acc-item .cont{
   max-height: 80vh;
   overflow: scroll;
-  transition: max-height 0.2s ease-out;
+  box-sizing: border-box;
+  padding: 10px;
+  transition: max-height 0.2s , padding 0.2s ;
 }
 
 .acc-item.hidden .cont{
   max-height: 0;
   overflow: hidden;
+  padding: 0;
+}
+
+.acc-item .select-class{
+  margin-top: 10px;
 }
 
 .fl{
