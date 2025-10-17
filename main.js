@@ -13,7 +13,10 @@
     accItem: {
       html: `
         <div id="new" class="acc-item hidden">
+<div class="header">
           <div class="title"></div>
+          <i class="fa-solid fa-chevron-down acc-icon"></i>
+</div>
           <div class="cont"></div>
         </div>`,
       func: function (comp) {
@@ -30,9 +33,11 @@
           <div class="desc"></div>
       </div>`,
       func: function (comp) {
-        comp.children(".select-class").click(function () {
+        comp.children(".select-class").click(function (e) {
+          e.stopPropagation();
           char.class = $(this).closest(".acc-item").find(".title").first();
           console.log(char.class)
+          nextSection();
         })
       }
     }
@@ -65,17 +70,21 @@
     initApiData();
   }
 
+  function nextSection() {
+    sectionNum = sectionNum + 1 >= numSections ? 0 : sectionNum + 1;
+    updateSection();
+  }
+
+  function prevSection() {
+    sectionNum = sectionNum - 1 < 0 ? numSections - 1 : sectionNum - 1;
+    updateSection();
+  }
+
   function eventListeners() {
     //Section logic
-    $("#prev-section").click(function () {
-      sectionNum = sectionNum - 1 < 0 ? numSections - 1 : sectionNum - 1;
-      updateSection();
-    });
+    $("#prev-section").click(prevSection);
 
-    $("#next-section").click(function () {
-      sectionNum = sectionNum + 1 >= numSections ? 0 : sectionNum + 1;
-      updateSection();
-    });
+    $("#next-section").click(nextSection);
 
     //Update section
     $(window).on("hashchange", function () {
@@ -107,13 +116,12 @@
     $("#class-acc").empty();
     Object.keys(genInfo["classes"]).forEach(key => {
       let acc = initComp("accItem", "#class-acc");
-      acc.children(".title").text(key);
+      acc.find(".title").text(key);
       acc.attr("id", "acc-item-" + key)
       converter = new showdown.Converter();
       htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
-      let classCont = initComp("classCont", "#acc-item-" + key + " .desc");
-
-      acc.children(".cont").html(htmlOutput);
+      let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
+      classCont.find(".desc").html(htmlOutput);
     });
   }
 
