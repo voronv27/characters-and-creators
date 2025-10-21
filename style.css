@@ -142,3 +142,15 @@ nav a:active, button:active{
 .fl-g{
   flex-grow: 1;
 }
+
+/* spellcard style */
+.spellcard {
+  padding: 10px;
+  user-select: none;
+  background: var(--fg);
+  border-radius: 20px;
+}
+
+.spellcard .cont{
+  font-size: 0.5em;
+}

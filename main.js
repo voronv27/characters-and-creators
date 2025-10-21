@@ -40,8 +40,18 @@
           nextSection();
         })
       }
+    },
+    spellcard: {
+      html: `
+        <div id="new" class="spellcard">
+          <div class="header">
+            <div class="title"></div>
+          </div>
+          <div class="cont"></div>
+        </div>`,
+      func: null
     }
-  }
+  };
 
   const URL = "https://voronv.pythonanywhere.com"
 
@@ -126,8 +136,12 @@
 
     $("#spellcards-acc").empty();
     Object.keys(genInfo["spells"]).forEach(key => {
-      let acc = initComp("accItem", "#spellcards-acc");
-      acc.find(".title").text(key);
+      let spellcard = initComp("spellcard", "#spellcards-acc");
+      const spellName = genInfo["spells"][key]["name"];
+      spellcard.find(".title").text(spellName);
+
+      const spellDesc = genInfo["spells"][key]["desc"];
+      spellcard.find(".cont").text(spellDesc);
     });
   }
 
@@ -148,7 +162,10 @@
         break;
     }
     let added = $("#new").removeAttr("id");
-    comp[key].func(added);
+    if (comp[key].func) {
+      comp[key].func(added);
+    }
+    console.log(added);
     return added;
   }
 
