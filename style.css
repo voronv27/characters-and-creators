@@ -8,9 +8,17 @@
 
 }
 
+@font-face {
+  font-family: "NotoSerif"; 
+  src: url("assets/fonts/NotoSerif-Regular.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* Improves performance by controlling font loading behavior */
+}
+
 *{
-  font-family: arial;
-  transition-timing-function: cubic-beizer(0, 0, 0, 1);
+  font-family: "NotoSerif", serif;
+  transition-timing-function: cubic-bezier(0, 0, 0, 1);
 }
 
 h1, h2, h3, h4, h5, h6{
