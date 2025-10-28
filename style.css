@@ -1,16 +1,24 @@
 :root{
   --bg: rgb(22, 20, 20);
   --fg: rgb(42, 40, 40);
+  --border: rgb(32, 30, 30);
   --text: white;
   --active: rgb(200, 10, 60);
   --active-dark: rgb(185, 0, 45);
   --active-text: white;
+}
 
+@font-face {
+  font-family: "NotoSerif"; 
+  src: url("assets/fonts/NotoSerif-Regular.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* Improves performance by controlling font loading behavior */
 }
 
 *{
-  font-family: arial;
-  transition-timing-function: cubic-beizer(0, 0, 0, 1);
+  font-family: "NotoSerif", serif;
+  transition-timing-function: cubic-bezier(0, 0, 0, 1);
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -48,7 +56,20 @@ nav{
   text-align: center;
 }
 
-nav a, button{
+nav a{
+  /* cursor: pointer; */
+  /* padding: 10px; */
+  /* font-size: 1.2em; */
+  /* border: 0 !important; */
+  /* box-shadow: 0 0 20px 10px black; */
+  /* border-radius: 100px; */
+}
+
+nav a:hover{
+
+}
+
+button, nav a{
   padding: 10px;
   border-radius: 100px;
   background-color: var(--active);
@@ -61,7 +82,7 @@ nav a, button{
   transition: border 0.1s;
 }
 
-nav a:active, button:active{
+button:active, nav a:active{
   border-bottom: 2px solid var(--active-dark);
   border-left: 2px solid var(--active-dark);
 }
@@ -90,11 +111,10 @@ nav a:active, button:active{
   border-radius: 20px;
 }
 
-.acc-item:not(:last-child){
-  /* border-bottom: 1px solid var(--text); */
+.acc-item{
   margin-bottom: 20px;
-  border-left: 5px solid rgb(32, 30, 30);
-  border-bottom: 5px solid rgb(32, 30, 30);
+  border-left: 5px solid var(--border);
+  border-bottom: 5px solid var(--border);
 }
 
 .acc-item .header{
@@ -161,6 +181,9 @@ nav a:active, button:active{
   line-height: 14.2857px;
 }
 
+.spellcard .cont{
+  font-size: 0.5em;
+}
 .spellcard .front {
   color: rgb(0, 0, 0);
   padding: 10px;
