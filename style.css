@@ -146,161 +146,119 @@ nav a:active, button:active{
 /* spellcard style */
 .spellcard
 {
-	width: 2.5in;
-	min-width: 2.5in;
-	height: 3.5in;
-	background-color: rgb(59, 175, 177);
-	float: left;
-	margin-block-end: 1px;
-	margin-inline-end: 1px;
-	margin-right: 1px;
-	min-inline-size: 240px;
-	min-width: 240px;
-	position: relative;
-	top: 0px;
-	font-size: 10px;
-	line-height: 14.2857px;
+  width: 2.5in;
+  min-width: 2.5in;
+  height: 3.5in;
+  background-color: var(--active);
+  float: left;
+  margin-block-end: 1px;
+  margin-inline-end: 1px;
+  margin-right: 1px;
+  min-inline-size: 240px;
+  min-width: 240px;
+  position: relative;
+  font-size: 10px;
+  line-height: 14.2857px;
 }
 
 .spellcard .front {
-	color: rgb(0, 0, 0);
-	padding-left: 10px;
-	padding-top: 10px;
-	position: absolute;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  position: absolute;
+  box-sizing: border-box;
+  -webkit-box-sizing:border-box;
 }
 
 .spellcard .body {
-	background-color: rgb(255, 255, 255);
-	block-size: 301px;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	border-end-end-radius: 5px;
-	border-end-start-radius: 5px;
-	border-start-end-radius: 5px;
-	border-start-start-radius: 5px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	height: 301px;
-	overflow-block: hidden;
-	overflow-inline: hidden;
-	overflow-x: hidden;
-	overflow-y: hidden;
-	text-align: left;
-	width: 220px;
+  background-color: rgb(255, 255, 255);
+  block-size: 301px;
+  border-radius: 5px;
+  border-end-end-radius: 5px;
+  border-end-start-radius: 5px;
+  border-start-end-radius: 5px;
+  border-start-start-radius: 5px;
+  height: 301px;
+  overflow: hidden;
+  width: 220px;
 }
 
 .spellcard .name {
-	block-size: 30.6667px;
-	border-bottom-color: rgb(59, 175, 177);
-	border-bottom-style: solid;
-	font-size: 14px;
-	height: 30.6667px;
-	inline-size: 220px;
-	line-height: normal;
-	margin-bottom: 0px;
-	margin-top: 0px;
-	min-block-size: 20px;
-	min-height: 20px;
-	padding-block-end: 6px;
-	padding-block-start: 6px;
-	padding-left: 5px;
-	text-align: center;
-	text-transform: uppercase;
+  border-color: var(--active);
+  border-bottom-style: solid;
+  font-size: 14px;
+  line-height: normal;
+  margin: 0px;
+  min-height: 20px;
+  padding: 6px 5px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .spellcard .status {
-	block-size: 27px;
-	border-bottom-color: rgb(59, 175, 177);
-	border-bottom-style: solid;
-	height: 27px;
-	list-style-type: none;
-	margin-bottom: 0px;
-	padding-left: 0px;
-	perspective-origin: 110px 13.5px;
-	text-align: center;
+  border-bottom-color: var(--active);
+  border-bottom-style: solid;
+  list-style: none;
+  padding: 0px;
+  text-align: center;
+  margin: 0px;
+  box-sizing: border-box;
 }
 
 .spellcard .status li {
-	float: left;
-	font-size: 9px;
-	height: 25px;
-	line-height: 9px;
-	padding-bottom: 2px;
-	padding-left: 4px;
-	padding-right: 4px;
-	padding-top: 2px;
-	width: 110px;
+  float: left;
+  font-size: 9px;
+  height: 25px;
+  line-height: 9px;
+  padding: 2px 4px;
+  box-sizing: border-box;
 }
 
 .spellcard .status li em {
-	block-size: 11px;
-	display: block;
-	font-weight: 700;
-	height: 11px;
-	inline-size: 102px;
-	padding-bottom: 2px;
-	text-transform: uppercase;
-	width: 102px;
-	-webkit-text-fill-color: rgb(59, 175, 177);
+  display: block;
+  font-weight: bold;
+  padding-bottom: 2px;
+  text-transform: uppercase;
+  width: 102px;
+  -webkit-text-fill-color: var(--active);
 }
 
 .spellcard .second {
-	block-size: 25px;
-	border-inline-start-style: solid;
-	border-inline-start-width: 2px;
-	border-left-color: rgb(59, 175, 177);
-	border-left-style: solid;
-	border-left-width: 2px;
-	inline-size: 110px;
-	min-block-size: 25px;
-	min-height: 25px;
-	padding-block-end: 2px;
-	vertical-align: top;
+  border-left-color: var(--active);
+  border-left-style: solid;
+  inline-size: 110px;
+  padding-block-end: 2px;
+  vertical-align: top;
 }
 
 .spellcard .need {
-	background-color: rgb(59, 175, 177);
-	block-size: 14px;
-	display: block;
-	font-size: 8px;
-	font-style: italic;
-	font-weight: 400;
-	height: 14px;
-	inline-size: 220px;
-	line-height: 8px;
-	padding-block-end: 4px;
-	padding-block-start: 2px;
-	width: 220px;
-	-webkit-text-fill-color: rgb(255, 255, 255);
+  background-color: var(--active);
+  display: block;
+  font-size: 8px;
+  font-style: italic;
+  font-weight: normal;
+  line-height: 100%;
+  padding: 2px 4px 4px;
+  -webkit-text-fill-color: rgb(255, 255, 255);
 }
 
 .spellcard .text {
-	block-size: 94px;
-	height: 94px;
-	line-height: 9px;
-	margin-block-end: 0px;
-	padding-block-start: 2px;
-	padding-inline-start: 4px;
-	padding-right: 4px;
+  line-height: 9px;
+  padding: 2px 4px;
+  margin: 0px;
 }
 
 .spellcard .class {
-	block-size: 12.8542px;
-	font-size: 9px;
-	font-weight: 400;
-	height: 12.8542px;
-	inline-size: 74.1875px;
-	left: 10px;
-	line-height: 12.8571px;
-	position: absolute;
-	top: 315.146px;
-	-webkit-text-fill-color: rgb(255, 255, 255);
+  font-size: 9px;
+  font-weight: normal;
+  position: absolute;
+  top: 315.146px;
+  -webkit-text-fill-color: rgb(255, 255, 255);
 }
 
 .spellcard .type {
-	font-weight: 400;
-	left: 145px;
-	position: absolute;
-	top: 313.719px;
-	-webkit-text-fill-color: rgb(255, 255, 255);
+  font-weight: normal;
+  left: 145px;
+  position: absolute;
+  top: 313.719px;
+  -webkit-text-fill-color: rgb(255, 255, 255);
 }

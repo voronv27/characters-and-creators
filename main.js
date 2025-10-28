@@ -44,10 +44,25 @@
     spellcard: {
       html: `
         <div id="new" class="spellcard">
-          <div class="header">
-            <div class="title"></div>
+          <div class="front">
+            <div class="body">
+              <h3 class="name"></h3>
+              <ul class="status">
+                <li><em>casting time</em></li>
+                <li class="second"><em>range</em></li>
+                <br clear="all">
+              </ul> 
+              <ul class="status bottom">
+                <li><em>components</em></li>
+                <li class="second"><em>duration</em></li>			
+                <br clear="all">
+              </ul>        
+              <b class="need"></b>
+              <p class="text"></p>
+            </div>
+            <b class="class></b>
+            <b class="type></b>
           </div>
-          <div class="cont"></div>
         </div>`,
       func: null
     }
@@ -138,10 +153,10 @@
     Object.keys(genInfo["spells"]).forEach(key => {
       let spellcard = initComp("spellcard", "#spellcards-acc");
       const spellName = genInfo["spells"][key]["name"];
-      spellcard.find(".title").text(spellName);
+      spellcard.find(".name").text(spellName);
 
       const spellDesc = genInfo["spells"][key]["desc"];
-      spellcard.find(".cont").text(spellDesc);
+      spellcard.find(".text").text(spellDesc);
     });
   }
 
