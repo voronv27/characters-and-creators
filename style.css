@@ -164,8 +164,7 @@ button:active, nav a:active{
 }
 
 /* spellcard style */
-.spellcard
-{
+.spellcard {
   width: 2.5in;
   min-width: 2.5in;
   height: 3.5in;
@@ -181,9 +180,10 @@ button:active, nav a:active{
   line-height: 14.2857px;
 }
 
-.spellcard .cont{
-  font-size: 0.5em;
-}
+.spellcard * {
+  font-family: Verdana, sans-serif;
+}  
+
 .spellcard .front {
   color: rgb(0, 0, 0);
   padding: 10px;
