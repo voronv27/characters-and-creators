@@ -90,6 +90,56 @@
   function init() {
     numSections = $(".section").length;
 
+    const panzoom = Panzoom($("#character-sheet")[0], { contain: 'inside' });
+    // No function bind needed
+    // $("#character-sheet-parent").on('wheel', panzoom.zoomWithWheel);
+
+    $("#character-sheet-parent")[0].addEventListener('wheel', panzoom.zoomWithWheel);
+
+    //   if (!event.shiftKey) return
+    //   panzoom.zoomWithWheel(event)
+    //
+    // });
+    //Character Sheet
+    $("#character-sheet").sortable({
+      handle: ".handle",
+      placeholder: "placeholder",
+      start: function (e, ui) {
+        // let items = $(this).data()['ui-sortable-helper'].items;
+        // items.forEach(function (item) {
+        //   item.height *= panzoom.getScale();
+        //   item.width *= panzoom.getScale();
+        // });
+
+      },
+      sort: function (e, ui) {
+        let changeLeft = ui.position.left - ui.originalPosition.left;
+        // For left position, the problem here is not only the scaling,
+        // but the transform origin. Since the position is dynamic
+        // the left coordinate you get from ui.position is not the one
+        // used by transform origin. You need to adjust so that
+        // it stays "0", this way the transform will replace it properly
+        // let newLeft = ui.originalPosition.left + panzoom.getPan().x / panzoom.getScale() - ui.item.parent().offset().left;
+        let newLeft = (ui.position.left - $("#character-sheet").offset().left) / panzoom.getScale();
+        console.log("x", panzoom.getPan().x);
+        console.log("y", panzoom.getPan().y);
+        console.log("scale", panzoom.getScale());
+        // For top, it's simpler. Since origin is top, 
+        // no need to adjust the offset. Simply undo the correction
+        // on the position that transform is doing so that
+        // it stays with the mouse position
+        let newTop = (ui.position.top - $("#character-sheet").offset().top) / panzoom.getScale();
+
+        ui.helper.css({
+          left: newLeft,
+          top: newTop,
+        });
+      }
+    });
+    // $("#character-sheet .comp").on("sort", function (event, ui) {
+    //
+    // });
+
     sectionFromURL();
     updateSection();
     initApiData();
