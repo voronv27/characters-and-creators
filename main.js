@@ -48,20 +48,20 @@
             <div class="body">
               <h3 class="name"></h3>
               <ul class="status">
-                <li><em>casting time</em></li>
-                <li class="second"><em>range</em></li>
+                <li><em>casting time</em><div class="casting"></div></li>
+                <li class="second"><em>range</em><div class="range"></div></li>
                 <br clear="all">
               </ul> 
               <ul class="status bottom">
-                <li><em>components</em></li>
-                <li class="second"><em>duration</em></li>			
+                <li><em>components</em><div class="components"></div></li>
+                <li class="second"><em>duration</em><div class="duration"></div></li>			
                 <br clear="all">
               </ul>        
               <b class="need"></b>
               <p class="text"></p>
             </div>
-            <b class="class></b>
-            <b class="type></b>
+            <b class="class"></b>
+            <b class="type"></b>
           </div>
         </div>`,
       func: null
@@ -202,11 +202,61 @@
     $("#spellcards-acc").empty();
     Object.keys(genInfo["spells"]).forEach(key => {
       let spellcard = initComp("spellcard", "#spellcards-acc");
-      const spellName = genInfo["spells"][key]["name"];
+
+      // TODO: move to function
+      const spellInfo = genInfo["spells"][key];
+      
+      var spellName = spellInfo["name"];
+      if (spellInfo["ritual"]) {
+        spellName += " (ritual)"
+      }
       spellcard.find(".name").text(spellName);
 
-      const spellDesc = genInfo["spells"][key]["desc"];
-      spellcard.find(".text").text(spellDesc);
+      var castTime = spellInfo["casting_time"];
+      if (castTime[0] < '0' || castTime[0] > '9') {
+        castTime = "1 " + castTime; 
+      } else if (castTime[1] != ' ') {
+        castTime = castTime[0] + ' ' + castTime.slice(1);
+      }
+      spellcard.find(".casting").text(castTime);
+
+      spellcard.find(".range").text(spellInfo["range_text"]);
+
+      var spellComponents = "";
+      if (spellInfo["verbal"]) { spellComponents += "V"; }
+      if (spellInfo["somatic"]) {
+        if (spellComponents != "") { spellComponents += ", "; }
+        spellComponents += "S";
+      }
+      if (spellInfo["material"]) {
+        if (spellComponents != "") { spellComponents += ", "; }
+        spellComponents += "M";
+      }
+      spellcard.find(".components").text(spellComponents)
+
+      spellcard.find(".duration").text(spellInfo["duration"]);
+
+      var material = spellInfo["material_specified"];
+      if (material) { material = material.toLowerCase().replace('.', ''); }
+      spellcard.find('.need').text(material);
+
+      var spellDesc = spellInfo["desc"];
+      if (spellInfo["reaction_condition"]) {
+        spellDesc = `<b>Reaction Condition</b>: Reaction ${spellInfo["reaction_condition"]}<br><br>${spellDesc}`;
+      } 
+      if (spellInfo["higher_level"]) {
+        spellDesc += `<br><b>At Higher Levels</b>: ${spellInfo["higher_level"]}`;
+      }
+      spellcard.find(".text").html(spellDesc);
+
+      // TODO: replace with source material
+      spellcard.find(".class").text("Source");
+
+      const level = spellInfo["level"];
+      const school = spellInfo["school"]["name"];
+      var type = `Level ${level} ${school}`;
+      if (level == 0) { type = `${school} Cantrip`; }
+      spellcard.find(".type").text(type);
     });
   }
 
