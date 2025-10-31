@@ -250,8 +250,7 @@
       }
       spellcard.find(".text").html(spellDesc);
 
-      // TODO: replace with source material
-      spellcard.find(".class").text("Source");
+      spellcard.find(".class").text(spellInfo["document"]["publisher"]["name"]);
 
       const level = spellInfo["level"];
       const school = spellInfo["school"]["name"];
