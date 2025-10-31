@@ -90,7 +90,7 @@
   function init() {
     numSections = $(".section").length;
 
-    const panzoom = Panzoom($("#character-sheet")[0], { contain: 'inside' });
+    const panzoom = Panzoom($("#character-sheet")[0], { excludeClass: 'x' });
     // No function bind needed
     // $("#character-sheet-parent").on('wheel', panzoom.zoomWithWheel);
 
@@ -104,6 +104,7 @@
     $("#character-sheet").sortable({
       handle: ".handle",
       placeholder: "placeholder",
+      forcePlaceholderSize: true,
       start: function (e, ui) {
         // let items = $(this).data()['ui-sortable-helper'].items;
         // items.forEach(function (item) {

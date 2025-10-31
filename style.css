@@ -155,6 +155,10 @@ button:active, nav a:active{
   margin-top: 10px;
 }
 
+.gr{
+  display: grid;
+}
+
 .fl{
   display: flex;
 }
@@ -295,13 +299,13 @@ button:active, nav a:active{
 
 #character-sheet{
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
 }
 
 #character-sheet-parent{
   border:4px solid var(--border);
   border-radius: 2px;
-  
+  min-height: 50vh;
 }
 
 #character-sheet .comp{
@@ -315,4 +319,33 @@ button:active, nav a:active{
 #character-sheet .placeholder{
   border: 2px dotted var(--active);
   border-radius: 5px;
+  background-color: color-mix(in hsl, var(--active), transparent);
+}
+
+
+#character-sheet .comp .header{
+  display: flex;
+}
+
+#character-sheet .comp .handle{
+  cursor: move; 
+}
+
+#character-sheet .comp .content div{
+  padding: 5px;
+}
+
+input{
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid white;
+  cursor: text;
+  color: var(--text);
+}
+
+#character-sheet-parent:hover, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):hover{
+  cursor: grab;
+}
+#character-sheet-parent:active, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):active{
+  cursor: grabbing;
 }
