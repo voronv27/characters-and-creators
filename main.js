@@ -140,6 +140,11 @@
     // $("#character-sheet .comp").on("sort", function (event, ui) {
     //
     // });
+    $('[id]').each(function () {
+      var ids = $('[id="' + this.id + '"]');
+      if (ids.length > 1 && ids[0] == this)
+        console.warn('Multiple IDs #' + this.id);
+    });
 
     sectionFromURL();
     updateSection();
@@ -293,9 +298,10 @@
     $(".section").eq(sectionNum).addClass("selected");
     $("#section-title").text($(".section.selected").attr("data-title"));
     let sectionId = $(".section.selected").attr("id");
-    if ($("#" + sectionId).length > 1) {
-      $("#" + sectionId + ":not(:first)").remove();
-      console.error("There are duplicate sections for #", sectionId, ". The first section has been kept and the rest will be removed.")
+    if ($("[id='" + sectionId + "']").length > 1) {
+      console.error("There are duplicate sections for \"#" + sectionId + "\".")
+    } else {
+      console.log("Log length: " + $("[id='" + sectionId + "']").length);
     }
     console.log("section id: ", sectionId)
     let sectionHash = "#" + sectionId.slice(0, sectionId.length - 8);
