@@ -30,6 +30,10 @@
       html: `
         <div id="new">
           <button class="select-class">Select Class</button>
+          <label for="select-level-" class="select">Select level:</label>
+          <select id="select-level-" class="select">
+            <option selected="selected">1</option>
+          </select>
           <div class="desc"></div>
       </div>`,
       func: function (comp) {
@@ -198,6 +202,14 @@
       htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
       let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
       classCont.find(".desc").html(htmlOutput);
+      acc.find(".select").attr("id", "select-level-" + key);
+    });
+
+    $("#race-acc").empty();
+    Object.keys(genInfo["races"]).forEach(key => {
+      let acc = initComp("accItem", "#race-acc");
+      acc.find(".title").text(key);
+      acc.attr("id", "acc-item-" + key);
     });
 
     $("#spellcards-acc").empty();
@@ -280,7 +292,7 @@
     if (comp[key].func) {
       comp[key].func(added);
     }
-    console.log(added);
+    //console.log(added);
     return added;
   }
 
