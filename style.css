@@ -303,7 +303,7 @@ justify-content: center;
 
 .spellcard .type {
 	font-weight: 400;
-	left: 145px;
+	right: 8px;
 	position: absolute;
 	top: 315.146px;
 	-webkit-text-fill-color: rgb(255, 255, 255);
