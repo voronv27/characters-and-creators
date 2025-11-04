@@ -31,7 +31,7 @@
         <div id="new">
           <button class="select-class">Select Class</button>
           <div class="desc"></div>
-      </div>`,
+        </div>`,
       func: function (comp) {
         comp.children(".select-class").click(function (e) {
           e.stopPropagation();
@@ -231,7 +231,7 @@
     if (comp[key].func) {
       comp[key].func(added);
     }
-    console.log(added);
+    // console.log(added);
     return added;
   }
 
