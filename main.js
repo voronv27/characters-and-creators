@@ -35,7 +35,7 @@
             <option selected="selected">1</option>
           </select>
           <div class="desc"></div>
-      </div>`,
+        </div>`,
       func: function (comp) {
         comp.children(".select-class").click(function (e) {
           e.stopPropagation();
@@ -218,7 +218,7 @@
 
       // TODO: move to function
       const spellInfo = genInfo["spells"][key];
-      
+
       var spellName = spellInfo["name"];
       if (spellInfo["ritual"]) {
         spellName += " (ritual)"
@@ -227,7 +227,7 @@
 
       var castTime = spellInfo["casting_time"];
       if (castTime[0] < '0' || castTime[0] > '9') {
-        castTime = "1 " + castTime; 
+        castTime = "1 " + castTime;
       } else if (castTime[1] != ' ') {
         castTime = castTime[0] + ' ' + castTime.slice(1);
       }
@@ -256,7 +256,7 @@
       var spellDesc = spellInfo["desc"];
       if (spellInfo["reaction_condition"]) {
         spellDesc = `<b>Reaction Condition</b>: Reaction ${spellInfo["reaction_condition"]}<br><br>${spellDesc}`;
-      } 
+      }
       if (spellInfo["higher_level"]) {
         spellDesc += `<br><b>At Higher Levels</b>: ${spellInfo["higher_level"]}`;
       }
@@ -292,7 +292,7 @@
     if (comp[key].func) {
       comp[key].func(added);
     }
-    //console.log(added);
+    // console.log(added);
     return added;
   }
 
@@ -305,6 +305,10 @@
     $(".section").eq(sectionNum).addClass("selected");
     $("#section-title").text($(".section.selected").attr("data-title"));
     let sectionId = $(".section.selected").attr("id");
+    if ($("#" + sectionId).length > 1) {
+      $("#" + sectionId + ":not(:first)").remove();
+      console.error("There are duplicate sections for #", sectionId, ". The first section has been kept and the rest will be removed.")
+    }
     console.log("section id: ", sectionId)
     let sectionHash = "#" + sectionId.slice(0, sectionId.length - 8);
     if (window.location.hash != sectionHash) {

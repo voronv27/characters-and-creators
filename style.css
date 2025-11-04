@@ -87,7 +87,7 @@ button:active, nav a:active{
   border-left: 2px solid var(--active-dark);
 }
 
-.section{
+html .section{
   margin: 0 20px;
   display: none;
 }
@@ -163,8 +163,20 @@ button:active, nav a:active{
   display: flex;
 }
 
+.fl-center{
+  display: flex;
+align-items: center;
+justify-content: center;
+}
+
 .fl-g{
   flex-grow: 1;
+}
+
+.comp{
+  background-color: var(--fg);
+  padding: 10px;
+  border-radius: 10px;
 }
 
 /* spellcard style */
@@ -335,12 +347,20 @@ button:active, nav a:active{
   padding: 5px;
 }
 
-input{
+input[type='text']{
   background: transparent;
   border: none;
   border-bottom: 1px solid white;
   cursor: text;
   color: var(--text);
+  width: 100%;
+  padding: 5px;
+  transition: border 0.25s;
+}
+
+input[type='text']:focus{
+    outline: 0;
+    border-bottom: 1px solid var(--active);
 }
 
 #character-sheet-parent:hover, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):hover{
