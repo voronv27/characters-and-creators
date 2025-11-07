@@ -322,7 +322,6 @@ justify-content: center;
 
 #character-sheet .comp{
   background-color: var(--fg);
-  padding: 10px;
   border-radius: 10px;
   border-bottom: 5px solid var(--border);
   border-left: 5px solid var(--border);
@@ -368,4 +367,8 @@ input[type='text']:focus{
 }
 #character-sheet-parent:active, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):active{
   cursor: grabbing;
+}
+
+.gridr-2-6{
+grid-row: 1 / span 6; 
 }

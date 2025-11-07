@@ -94,7 +94,10 @@
   function init() {
     numSections = $(".section").length;
 
-    const panzoom = Panzoom($("#character-sheet")[0], { excludeClass: 'x' });
+    const panzoom = Panzoom($("#character-sheet")[0], {
+      excludeClass: 'x',
+      contain: "outside",
+    });
     // No function bind needed
     // $("#character-sheet-parent").on('wheel', panzoom.zoomWithWheel);
 
@@ -144,6 +147,10 @@
     // $("#character-sheet .comp").on("sort", function (event, ui) {
     //
     // });
+    //
+    $("#character-sheet .comp").resizable();
+
+    //Warning for extra IDs
     $('[id]').each(function () {
       var ids = $('[id="' + this.id + '"]');
       if (ids.length > 1 && ids[0] == this)
@@ -195,6 +202,8 @@
     });
   }
 
+
+  //Components creation that requires backend
   async function initComps() {
     genInfo = await generalInfo.then((resp) => resp.json());
     //Class Accordion
