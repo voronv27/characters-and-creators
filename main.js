@@ -7,7 +7,7 @@
   const S_A = "Sibling After";
 
   let char = {
-    class: null
+    class: {}
   }
   const comp = {
     accItem: {
@@ -20,7 +20,11 @@
           <div class="cont"></div>
         </div>`,
       func: function (comp) {
-        comp.click(function () {
+        comp.click(function (event) {
+          if ($(event.target).hasClass('select')){
+            // don't collapse if clicked on level select
+            return;
+          }
           $(this).closest(".acc").children().not(this).addClass("hidden");
           $(this).toggleClass("hidden");
         });
@@ -30,18 +34,42 @@
       html: `
         <div id="new">
           <button class="select-class">Select Class</button>
-          <label for="select-level-" class="select">Select level:</label>
+          <label for="select-level-" class="select-level">Select level:</label>
           <select id="select-level-" class="select">
-            <option selected="selected">1</option>
-          </select>
+            <option selected="selected">1</option>`
+            + [...Array(19).keys()].map(i => i+2).reduce(
+              (opts, newOpt) => opts + `<option>${newOpt}</option>\n`, "") +
+        ` </select>
           <div class="desc"></div>
         </div>`,
       func: function (comp) {
         comp.children(".select-class").click(function (e) {
           e.stopPropagation();
-          char.class = $(this).closest(".acc-item").find(".title").first();
-          console.log(char.class)
-          nextSection();
+          const className = $(this).closest(".acc-item").find(".title").first().text();
+          const classLevel = $(this).closest(".acc-item").find(".select option:selected").text();
+          char.class[className] = classLevel;
+          console.log(`class ${className}, level ${classLevel}`);
+          
+          var selectedClasses = "";
+          for (c in char.class) {
+            selectedClasses += `${c} ${char.class[c]}<br>\n`;
+          }
+          $("#chosen-class").html(selectedClasses);
+          //nextSection();
+        })
+      }
+    },
+    raceCont: {
+      html: `
+        <div id="new">
+          <button class="select-race">Select Race</button>
+          <img class="race-img">
+          <div class="desc"></div>
+        </div>
+      `,
+      func: function (comp) {
+        comp.children(".select-race").click(function () {
+          console.log("TODO, race has been selected, offer subrace options and update chosen-race");
         })
       }
     },
@@ -207,6 +235,7 @@
       htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
       let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
       classCont.find(".desc").html(htmlOutput);
+      acc.find(".select-level").attr("for", "select-level-" + key);
       acc.find(".select").attr("id", "select-level-" + key);
     });
 
@@ -215,6 +244,9 @@
       let acc = initComp("accItem", "#race-acc");
       acc.find(".title").text(key);
       acc.attr("id", "acc-item-" + key);
+      let raceCont = initComp("raceCont", "#acc-item-" + key + " .cont");
+      raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
+      raceCont.find(".desc").html("TODO: add in class benefits");
     });
 
     $("#spellcards-acc").empty();
