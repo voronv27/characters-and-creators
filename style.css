@@ -179,9 +179,20 @@ justify-content: center;
   border-radius: 10px;
 }
 
+.icon-img{
+	max-width:30px;
+	max-height:30px;
+	padding-right: 10px;
+}
+
 .race-img{
-  max-width: 200px;
-  max-height: 200px;
+  max-width: 400px;
+  max-height: 400px;
+  float: left;
+}
+
+.race-desc{
+  font-size: 15px;
 }
 
 /* spellcard style */

@@ -7,13 +7,15 @@
   const S_A = "Sibling After";
 
   let char = {
-    class: {}
+    class: {},
+    race: {},
   }
   const comp = {
     accItem: {
       html: `
         <div id="new" class="acc-item hidden">
 <div class="header">
+          <img class="icon-img">
           <div class="title"></div>
           <i class="fa-solid fa-chevron-down acc-icon"></i>
 </div>
@@ -62,14 +64,18 @@
     raceCont: {
       html: `
         <div id="new">
-          <button class="select-race">Select Race</button>
+          <button class="select-race">Select Race</button><br>
           <img class="race-img">
-          <div class="desc"></div>
+          <div class="desc race-desc"></div>
         </div>
       `,
       func: function (comp) {
-        comp.children(".select-race").click(function () {
-          console.log("TODO, race has been selected, offer subrace options and update chosen-race");
+        comp.children(".select-race").click(function (e) {
+          e.stopPropagation();
+          const raceName = $(this).closest(".acc-item").find(".title").first().text();
+          char.race[raceName] = {subrace: "None"};
+          console.log(`race ${raceName}`);
+          $("#chosen-race").html(raceName);
         })
       }
     },
@@ -223,6 +229,40 @@
     });
   }
 
+  function getRaceDesc(data, subrace="") {
+    let converter = new showdown.Converter();
+    const size = converter.makeHtml(data["size"]);
+    const speed = converter.makeHtml(data["speed_desc"]);
+    const asi = converter.makeHtml(data["asi_desc"]);
+    const languages = converter.makeHtml(data["languages"]);
+    const vision = converter.makeHtml(data["vision"]);
+    const traits = converter.makeHtml(data["traits"]);
+
+    var desc = `<b>Key Race Features:</b><br>
+    ${size}
+    ${speed}
+    ${asi}
+    ${languages}
+    ${vision}
+    ${traits}`
+    if (subrace != "") {
+      var subraceDesc = "";
+      const subraceData = data[subrace];
+      const subraceAsi = converter.makeHtml(subraceData["asi_desc"]);
+      const subraceTraits = converter.makeHtml(subraceData["traits"]);
+      if (subraceAsi) {
+        subraceDesc += `${subraceAsi}`;
+      }
+      if (subraceTraits) {
+        subraceDesc += `${subraceTraits}`;
+      }
+      if (subraceDesc.length) {
+        desc += `<br><b>Selected Subrace Features:</b><br>${subraceDesc}`;
+      }
+    }
+    return desc;
+  }
+
   async function initComps() {
     genInfo = await generalInfo.then((resp) => resp.json());
     //Class Accordion
@@ -230,7 +270,8 @@
     Object.keys(genInfo["classes"]).forEach(key => {
       let acc = initComp("accItem", "#class-acc");
       acc.find(".title").text(key);
-      acc.attr("id", "acc-item-" + key)
+      acc.attr("id", "acc-item-" + key);
+      acc.find(".icon-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
       converter = new showdown.Converter();
       htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
       let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
@@ -246,7 +287,8 @@
       acc.attr("id", "acc-item-" + key);
       let raceCont = initComp("raceCont", "#acc-item-" + key + " .cont");
       raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
-      raceCont.find(".desc").html("TODO: add in class benefits");
+      let raceDesc = getRaceDesc(genInfo["races"][key]);
+      raceCont.find(".desc").html(raceDesc);
     });
 
     $("#spellcards-acc").empty();
