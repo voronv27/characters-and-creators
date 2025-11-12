@@ -162,7 +162,7 @@ returns:
 
 preferred_stats_data format:
 ["stat1", "stat2"] (any stats to prioritize giving high scores, in order of priority)
-ex: "/specific-info?class=Bard"["preferred-stats"] returns [ "cha", "dex" ]
+ex: "/specific-info?class=Bard"["preferred-stats"] returns [ "Charisma", "Dexterity" ]
 
 ----------------------------------------------------------------------------------------------------------------
 

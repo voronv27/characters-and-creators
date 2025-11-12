@@ -52,7 +52,10 @@ def getSpecificInfo():
     data["proficiencies"] = dataGetter.getProficiencies(classname, race, background, subclass, subrace)
 
     # Given race and subrace, return the ASI (stat increases)
-    data["asi"] = dataGetter.getAsi(race, subrace)
+    if race:
+        data["asi"] = dataGetter.getAsi(race, subrace)
+    else:
+        data["asi"] = None
 
     # Given race and background, return the languages the character speaks
     data["languages"] = dataGetter.getLanguages(race, background)

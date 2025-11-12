@@ -10,55 +10,55 @@ localClassData = {
         "desc": "",
     },
     "Artificer": {
-        "preferredStats": ["int", "con"],
+        "preferredStats": ["Intelligence", "Constitution"],
         "desc": "Masters of invention, artificers use ingenuity and magic to unlock extraordinary capabilities in objects",
     },
     "Barbarian": {
-        "preferredStats": ["str", "con"],
+        "preferredStats": ["Strength", "Constitution"],
         "desc": "Barbarians are mighty warriors who are powered by primal forces of the multiverse that manifest as a Rage"
         },
     "Bard": {
-        "preferredStats": ["cha", "dex"],
+        "preferredStats": ["Charisma", "Dexterity"],
         "desc": "Bards are expert at inspiring others, soothing hurts, disheartening foes, and creating illusions"
         },
     "Cleric": {
-        "preferredStats": ["wis", "con"],
+        "preferredStats": ["Wisdom", "Constitution"],
         "desc": "Clerics can reach out to the divine magic of the Outer Planes and channel it to bolster people and battle foes"
         },
     "Druid": {
-        "preferredStats": ["wis", "con"],
+        "preferredStats": ["Wisdom", "Constitution"],
         "desc": "Druids call on the forces of nature, harnessing magic to heal, transform into animals, and wield elemental destruction"
         },
     "Fighter": {
-        "preferredStats": ["str", "con"],
+        "preferredStats": ["Strength", "Constitution"],
         "desc": "Fighters all share an unparalleled prowess with weapons and armor, and are well acquainted with death, both meting it out and defying it"
         },
     "Monk": {
-        "preferredStats": ["dex", "wis"],
+        "preferredStats": ["Dexterity", "Wisdom"],
         "desc": "Monks focus their internal reservoirs of power to create extraordinary, even supernatural, effects"
         },
     "Paladin": {
-        "preferredStats": ["str", "cha"],
+        "preferredStats": ["Strength", "Charisma"],
         "desc": "Paladins live on the front lines of the cosmic struggle, united by their oaths against the forces of annihilation"
         },
     "Ranger": {
-        "preferredStats": ["dex", "wis"],
+        "preferredStats": ["Dexterity", "Wisdom"],
         "desc": "Rangers are honed with deadly focus and harness primal powers to protect the world from the ravages of monsters and tyrants"
         },
     "Rogue": {
-        "preferredStats": ["dex", "int"],
+        "preferredStats": ["Dexterity", "Intelligence"],
         "desc": "Rogues have a knack for finding the solution to just about any problem, prioritizing subtle strikes over brute strength",
     },
     "Sorcerer": {
-        "preferredStats": ["cha", "con"],
+        "preferredStats": ["Charisma", "Constitution"],
         "desc": "Sorcerers harness and channel the raw, roiling power of innate magic that is stamped into their very being",
     },
     "Warlock": {
-        "preferredStats": ["cha", "con"],
+        "preferredStats": ["Charisma", "Constitution"],
         "desc": "Warlocks quest for knowledge that lies hidden in the fabric of the multiverse, piecing together arcane secrets to bolster their own power",
     },
     "Wizard": {
-        "preferredStats": ["int", "con"],
+        "preferredStats": ["Intelligence", "Constitution"],
         "desc": "Wizards cast spells of explosive fire, arcing lightning, subtle deception, and spectacular transformations",
     },
 }
@@ -79,24 +79,24 @@ number = {
 
 # DnD skills and the corresponding stat they use (not in API)
 skills = {
-    "Athletics": "str",
-    "Acrobatics": "dex",
-    "Sleight of Hand": "dex",
-    "Stealth": "dex",
-    "Arcana": "int",
-    "History": "int",
-    "Investigation": "int",
-    "Nature": "int",
-    "Religion": "int",
-    "Animal Handling": "wis",
-    "Insight": "wis",
-    "Medicine": "wis",
-    "Perception": "wis",
-    "Survival": "wis",
-    "Deception": "cha",
-    "Intimidation": "cha",
-    "Performance": "cha",
-    "Persuasion": "cha",
+    "Athletics": "Strength",
+    "Acrobatics": "Dexterity",
+    "Sleight of Hand": "Dexterity",
+    "Stealth": "Dexterity",
+    "Arcana": "Intelligence",
+    "History": "Intelligence",
+    "Investigation": "Intelligence",
+    "Nature": "Intelligence",
+    "Religion": "Intelligence",
+    "Animal Handling": "Wisdom",
+    "Insight": "Wisdom",
+    "Medicine": "Wisdom",
+    "Perception": "Wisdom",
+    "Survival": "Wisdom",
+    "Deception": "Charisma",
+    "Intimidation": "Charisma",
+    "Performance": "Charisma",
+    "Persuasion": "Charisma",
 }
 
 # Helper functions to get data from the open5e API
@@ -450,8 +450,6 @@ class DataGetter:
             equipment["background"] = self.getBackgroundEquipment(background)
 
         return equipment
-
-    # TODO: spellcards (can probably just return API spell data)
 
 # Test DataGetter class
 if __name__ == "__main__":

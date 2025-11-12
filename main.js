@@ -8,7 +8,8 @@
 
   let char = {
     class: {},
-    race: {},
+    primaryClass: null,
+    race: null,
   }
   const comp = {
     accItem: {
@@ -53,10 +54,22 @@
           console.log(`class ${className}, level ${classLevel}`);
           
           var selectedClasses = "";
+          var primaryClass= "";
+          var maxLevel = 0;
           for (c in char.class) {
+            if (char.class[c] > maxLevel) {
+              maxLevel = char.class[c];
+              primaryClass = c;
+            }
             selectedClasses += `${c} ${char.class[c]}<br>\n`;
           }
+          char["primaryClass"] = primaryClass;
           $("#chosen-class").html(selectedClasses);
+          $("#primary-class").html(primaryClass);
+
+          // reset specificInfo because we changed class
+          specificInfo = null;
+          $("#stat-suggestion").show();
           //nextSection();
         })
       }
@@ -73,9 +86,12 @@
         comp.children(".select-race").click(function (e) {
           e.stopPropagation();
           const raceName = $(this).closest(".acc-item").find(".title").first().text();
-          char.race[raceName] = {subrace: "None"};
+          char.race = raceName;
           console.log(`race ${raceName}`);
           $("#chosen-race").html(raceName);
+          // reset specificInfo because we changed race
+          specificInfo = null;
+          
         })
       }
     },
@@ -110,13 +126,14 @@
 
   //Variables
   let generalInfo;
+  let specificInfo;
   let genInfo;
+  let specInfo;
 
   let numSections;
   let sectionNum = 0;
 
   let charStates;
-
 
   $(async function () {
     init();
@@ -234,6 +251,37 @@
         "Content-Type": "application/json",
       },
     });
+  }
+
+  function specificApiData() {
+    var fetchRequired = false;
+    // TODO: more than primary class, subclass, subrace
+    var paramUrl = `${URL}/specific-info?`;
+    if (char.primaryClass) {
+      paramUrl += `class=${char.primaryClass}`;
+      fetchRequired = true;
+    }
+    if (char.race) {
+      paramUrl += `&race=${char.race}`;
+      fetchRequired = true;
+    }
+
+    if (fetchRequired) {
+      specificInfo = fetch(paramUrl, {
+        method: "GET",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      });
+    }
+    return fetchRequired;
+  }
+
+  // Update elements after updating specInfo
+  function updateSpecInfo() {
+    const recStats = "<b>" + specInfo["preferred-stats"].join("</b> and <b>") + "</b>";
+    $("#rec-stats").html(recStats);
   }
 
   function getRaceDesc(data, subrace="") {
@@ -387,7 +435,14 @@
   function initNewAccItem(acc) {
   }
 
-  function updateSection() {
+  async function updateSection() {
+    // if we don't have specificInfo, get it from the API
+    if (!specificInfo && sectionNum > 2) {
+      if (specificApiData()) {
+        specInfo = await specificInfo.then((resp) => resp.json());
+        updateSpecInfo();
+      }
+    }
     $(".section.selected").removeClass("selected");
     $(".section").eq(sectionNum).addClass("selected");
     $("#section-title").text($(".section.selected").attr("data-title"));
