@@ -393,5 +393,4 @@ grid-row: 1 / span 6;
 .ui-resizable-handle{
   min-width: 5px;
   min-height: 5px;
-  background: red;
 }
