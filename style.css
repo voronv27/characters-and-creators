@@ -182,7 +182,8 @@ justify-content: center;
 .icon-img{
 	max-width:30px;
 	max-height:30px;
-	padding-right: 10px;
+	margin-right: 10px;
+  border-radius: 100px !important;
 }
 
 .race-img{
