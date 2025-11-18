@@ -147,7 +147,6 @@
 
     const panzoom = Panzoom($("#character-sheet")[0], {
       excludeClass: 'x',
-      contain: "outside",
     });
     // No function bind needed
     // $("#character-sheet-parent").on('wheel', panzoom.zoomWithWheel);
@@ -160,6 +159,7 @@
     // });
     //Character Sheet
     $("#character-sheet").sortable({
+      connectWith: '.comp, .sub-comp',
       handle: ".handle",
       placeholder: "placeholder",
       forcePlaceholderSize: true,
@@ -201,10 +201,10 @@
     //
     $("#character-sheet .comp").resizable({
       create: function (event, ui) {
-        $(".ui-resizable-handle").addClass("x")
-        $(".ui-resizable-e").html(`<i class="fa-solid fa-arrows-left-right"></i>`);
-        $(".ui-resizable-s").html(`<i class="fa-solid fa-arrows-up-down"></i>`);
-        $(".ui-resizable-se").html(`<i class="fa-solid fa-up-right-and-down-left-from-center"></i>`);
+        // $(".ui-resizable-handle").addClass("x")
+        // $(".ui-resizable-e").html(`<i class="fa-solid fa-arrows-left-right"></i>`);
+        // $(".ui-resizable-s").html(`<i class="fa-solid fa-arrows-up-down"></i>`);
+        $(".ui-resizable-se").html(`<i class="fa-solid fa-up-right-and-down-left-from-center"></i>`).addClass("x");
 
       }
 
