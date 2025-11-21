@@ -25,7 +25,7 @@
         </div>`,
       func: function (comp) {
         comp.click(function (event) {
-          if ($(event.target).hasClass('select')){
+          if ($(event.target).hasClass('select')) {
             // don't collapse if clicked on level select
             return;
           }
@@ -41,8 +41,8 @@
           <label for="select-level-" class="select-level">Select level:</label>
           <select id="select-level-" class="select">
             <option selected="selected">1</option>`
-            + [...Array(19).keys()].map(i => i+2).reduce(
-              (opts, newOpt) => opts + `<option>${newOpt}</option>\n`, "") +
+        + [...Array(19).keys()].map(i => i + 2).reduce(
+          (opts, newOpt) => opts + `<option>${newOpt}</option>\n`, "") +
         ` </select>
           <div class="desc"></div>
         </div>`,
@@ -53,9 +53,9 @@
           const classLevel = $(this).closest(".acc-item").find(".select option:selected").text();
           char.class[className] = classLevel;
           console.log(`class ${className}, level ${classLevel}`);
-          
+
           var selectedClasses = "";
-          var primaryClass= "";
+          var primaryClass = "";
           var maxLevel = 0;
           for (c in char.class) {
             if (char.class[c] > maxLevel) {
@@ -166,7 +166,6 @@
 
     const panzoom = Panzoom($("#character-sheet")[0], {
       excludeClass: 'x',
-      contain: "outside",
     });
     // No function bind needed
     // $("#character-sheet-parent").on('wheel', panzoom.zoomWithWheel);
@@ -179,6 +178,7 @@
     // });
     //Character Sheet
     $("#character-sheet").sortable({
+      connectWith: '.comp, .sub-comp',
       handle: ".handle",
       placeholder: "placeholder",
       forcePlaceholderSize: true,
@@ -218,7 +218,17 @@
     //
     // });
     //
-    $("#character-sheet .comp").resizable();
+    $("#character-sheet .comp").resizable({
+      create: function (event, ui) {
+        // $(".ui-resizable-handle").addClass("x")
+        // $(".ui-resizable-e").html(`<i class="fa-solid fa-arrows-left-right"></i>`);
+        // $(".ui-resizable-s").html(`<i class="fa-solid fa-arrows-up-down"></i>`);
+        $(".ui-resizable-se").html(`<i class="fa-solid fa-up-right-and-down-left-from-center"></i>`).addClass("x");
+
+      }
+
+    }
+    );
 
     //Warning for extra IDs
     $('[id]').each(function () {
@@ -307,7 +317,7 @@
     $("#rec-stats").html(recStats);
   }
 
-  function getRaceDesc(data, subrace="") {
+  function getRaceDesc(data, subrace = "") {
     let converter = new showdown.Converter();
     const size = converter.makeHtml(data["size"]);
     const speed = converter.makeHtml(data["speed_desc"]);

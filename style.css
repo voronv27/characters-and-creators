@@ -182,7 +182,8 @@ justify-content: center;
 .icon-img{
 	max-width:30px;
 	max-height:30px;
-	padding-right: 10px;
+	margin-right: 10px;
+  border-radius: 100px !important;
 }
 
 .race-img{
@@ -327,7 +328,11 @@ justify-content: center;
 
 #character-sheet{
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.fr-3{
+  grid-template-columns: repeat(3, 1fr);
 }
 
 #character-sheet-parent{
@@ -337,6 +342,13 @@ justify-content: center;
 }
 
 #character-sheet .comp{
+  background-color: var(--fg);
+  border-radius: 10px;
+  border-bottom: 5px solid var(--border);
+  border-left: 5px solid var(--border);
+}
+
+#character-sheet .sub-comp{
   background-color: var(--fg);
   border-radius: 10px;
   border-bottom: 5px solid var(--border);
@@ -368,8 +380,8 @@ input[type='text']{
   border-bottom: 1px solid white;
   cursor: text;
   color: var(--text);
-  width: 100%;
   padding: 5px;
+  display: block;
   transition: border 0.25s;
 }
 
@@ -379,12 +391,23 @@ input[type='text']:focus{
 }
 
 #character-sheet-parent:hover, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):hover{
-  cursor: grab;
+  cursor: grab !important;
 }
 #character-sheet-parent:active, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):active{
-  cursor: grabbing;
+  /* cursor: grabbing !important; */
 }
+
+
 
 .gridr-2-6{
 grid-row: 1 / span 6; 
+}
+
+.ui-resizable-handle{
+  min-width: 5px;
+  min-height: 5px;
+}
+
+.ui-resizable-e, .ui-resizable-s {
+  display: none;
 }
