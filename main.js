@@ -384,7 +384,6 @@
     return desc;
   }
 
-
   //Components creation that requires backend
   async function initComps() {
     genInfo = await generalInfo.then((resp) => resp.json());
@@ -540,3 +539,59 @@
 
 
 })();
+
+// Stat generating functions
+function diceRoll(max) {
+  return Math.floor(Math.random() * (max)) + 1;
+}
+
+function assignStats() {
+  //TODO
+  const statOpts = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+  var assignedStats = $(".select-stat option:selected").text();
+  $(".stat-input").val('');
+}
+
+function displayGeneratedStats(stats){
+  const statOpts = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+  var html = `<b>Generated stats:</b><br>`
+  for (s in stats) {
+    stat = stats[s];
+    html += `<b>${stat} </b>
+            <select id="select-stat-${s}" class="select-stat">
+            <option selected disabled hidden>Select Stat</option>`
+        + statOpts.reduce(
+          (opts, newOpt) => opts + `<option>${newOpt}</option>\n`, "") +
+        " </select><br>"
+  }
+  html += "<button onclick='assignStats();'>Assign Stats</button><br><br>";
+  $("#generated-stats").html(html);
+}
+
+function rollStats() {
+  var stats = [];
+  // roll stats: we roll 4d6 and drop the lowest d6, repeat 6 times
+  for (let i = 0; i < 6; i++) {
+    var sum = 0;
+    var min = 6;
+    for (let j = 0; j < 4; j++) {
+      const roll = diceRoll(6);
+      if (roll < min) {
+        min = roll;
+      }
+      sum += roll;
+    }
+    sum -= min;
+    stats.push(sum);
+  }
+  displayGeneratedStats(stats);
+}
+
+function pointBuy() {
+  console.log("point buy");
+}
+
+function standardArray() {
+  const stats = [15, 14, 13, 12, 10, 8];
+  displayGeneratedStats(stats);
+}

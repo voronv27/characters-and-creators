@@ -64,20 +64,26 @@
         </div>
       </div>
     </div>
-    
     <div id="stats-section" class="section" data-title="Stats">
       There are 6 main abilities in D&D, and your stats represent your character's skill level for that ability<br>
       Player stats are usually restricted from 3-20, with possible creature stats ranging from 1-30.<br>
       <div id="stat-suggestion" style="display: none;"><br>Based on your primary class of <b><span id="primary-class"></span></b>, the stats we recommend you prioritize are <span id="rec-stats"></span><br></div>
       <br>
+      <!-- TODO: add tooltip for each stat method -->
       To calculate your stats, you can <b>roll</b>, use <b>standard array</b>, or <b>use point buy</b>. You can also type in your own values.<br><br>
 
-      Strength: <input type="number" min="1" max="30" step="1" id="Strength"><br>
-      Dexterity: <input type="number" min="1" max="30" step="1" id="Dexterity"><br>
-      Constitution: <input type="number" min="1" max="30" step="1" id="Constitution"><br>
-      Intelligence: <input type="number" min="1" max="30" step="1" id="Intelligence"><br>
-      Wisdom: <input type="number" min="1" max="30" step="1" id="Wisdom"><br>
-      Charisma: <input type="number" min="1" max="30" step="1" id="Charisma">
+      <button id="roll" onclick="rollStats();">Roll Stats</button>
+      <button id="point-buy" onclick="pointBuy();">Point Buy</button>
+      <button id="standard array" onclick="standardArray();">Standard Array</button><br><br>
+
+      <div id="generated-stats"></div>
+
+      Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
+      Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
+      Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
+      Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
+      Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
+      Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
     </div>
     <div id="proficiencies-section" class="section" data-title="Proficiencies">
       Select proficiencies (TDDO)<br>
