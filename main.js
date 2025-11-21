@@ -10,6 +10,7 @@
     class: {},
     primaryClass: null,
     race: null,
+    background: null,
   }
   const comp = {
     accItem: {
@@ -91,7 +92,25 @@
           $("#chosen-race").html(raceName);
           // reset specificInfo because we changed race
           specificInfo = null;
-          
+        })
+      }
+    },
+    backgroundCont: {
+      html: `
+        <div id="new">
+          <button class="select-background">Select Background</button><br>
+          <div class="desc background-desc"></div>
+        </div>
+      `,
+      func: function (comp) {
+        comp.children(".select-background").click(function (e) {
+          e.stopPropagation();
+          const bgName = $(this).closest(".acc-item").find(".title").first().text();
+          char.background = bgName;
+          console.log(`background ${bgName}`);
+          $("#chosen-background").html(bgName);
+          // reset specificInfo because we changed background
+          specificInfo = null;
         })
       }
     },
@@ -265,6 +284,10 @@
       paramUrl += `&race=${char.race}`;
       fetchRequired = true;
     }
+    if (char.background) {
+      paramUrl += `&background=${char.background}`;
+      fetchRequired = true;
+    }
 
     if (fetchRequired) {
       specificInfo = fetch(paramUrl, {
@@ -318,6 +341,40 @@
     return desc;
   }
 
+  function getBackgroundDesc(data) {
+    var desc = "";
+    if (data["desc"]) {
+      desc += `<br><b>Overview:</b><br>${data["desc"]}<br><br>`;
+    }
+
+    if (data["benefits"]) {
+      desc += "<br><b>Key Background Features:</b><br><br>";
+      const tagsToRemove = ["p"];
+      const idTagsToRemove = ["h3"];
+      for (b of data["benefits"]) {
+        var html = converter.makeHtml(b["desc"]);
+        for (t of tagsToRemove) {
+          html = html.replaceAll(`<${t}>`, "").replaceAll(`</${t}>`, "");
+        }
+        for (t of idTagsToRemove) {
+          html = html.replaceAll(RegExp(`<${t}.*>`, "g"), "").replaceAll(RegExp(`</${t}.*>`, "g"), "");
+        }
+        if (b["type"] == "suggested_characteristics") {
+          html = html.slice(0, html.indexOf("|"));
+          if (html == "Coming soon") {
+            continue;
+          }
+        }
+        desc += `${b["name"]}:<br>${html}`;
+        if (desc.charAt(desc.length - 1) != ">") {
+          desc += `<br><br>`;
+        }
+      }
+    }
+    return desc;
+  }
+
+
   //Components creation that requires backend
   async function initComps() {
     genInfo = await generalInfo.then((resp) => resp.json());
@@ -345,6 +402,17 @@
       raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
       let raceDesc = getRaceDesc(genInfo["races"][key]);
       raceCont.find(".desc").html(raceDesc);
+    });
+
+    $("#background-acc").empty();
+    Object.keys(genInfo["backgrounds"]).forEach(key => {
+      let acc = initComp("accItem", "#background-acc");
+      acc.find(".title").text(key);
+      const keyId = key.replaceAll(" ", "-");
+      acc.attr("id", "acc-item-" + keyId);
+      let bgCont = initComp("backgroundCont", "#acc-item-" + keyId + " .cont");
+      let bgDesc = getBackgroundDesc(genInfo["backgrounds"][key]);
+      bgCont.find(".desc").html(bgDesc);
     });
 
     $("#spellcards-acc").empty();
@@ -437,7 +505,7 @@
 
   async function updateSection() {
     // if we don't have specificInfo, get it from the API
-    if (!specificInfo && sectionNum > 2) {
+    if (!specificInfo && sectionNum > 3) {
       if (specificApiData()) {
         specInfo = await specificInfo.then((resp) => resp.json());
         updateSpecInfo();
