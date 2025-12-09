@@ -546,10 +546,13 @@ function diceRoll(max) {
 }
 
 function assignStats() {
-  //TODO
-  const statOpts = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
-  var assignedStats = $(".select-stat option:selected").text();
-  $(".stat-input").val('');
+  const assignedStats = $(".select-stat option:selected");
+  assignedStats.each(e => {
+    const aStat = assignedStats[e];
+    if (aStat.text != "Select Stat") {
+      $(`#${aStat.text}`).val(aStat.value);
+    }
+  });
 }
 
 function displayGeneratedStats(stats){
@@ -559,9 +562,9 @@ function displayGeneratedStats(stats){
     stat = stats[s];
     html += `<b>${stat} </b>
             <select id="select-stat-${s}" class="select-stat">
-            <option selected disabled hidden>Select Stat</option>`
+            <option selected disabled hidden value=${stat}>Select Stat</option>`
         + statOpts.reduce(
-          (opts, newOpt) => opts + `<option>${newOpt}</option>\n`, "") +
+          (opts, newOpt) => opts + `<option value=${stat}>${newOpt}</option>\n`, "") +
         " </select><br>"
   }
   html += "<button onclick='assignStats();'>Assign Stats</button><br><br>";
