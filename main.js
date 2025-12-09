@@ -1,3 +1,12 @@
+let char = {
+  name: null,
+  class: {},
+  primaryClass: null,
+  race: null,
+  background: null,
+  stats: {},
+};
+
 (function () {
 
   //Constants
@@ -6,12 +15,10 @@
   const S_B = "Sibling Before";
   const S_A = "Sibling After";
 
-  let char = {
-    class: {},
-    primaryClass: null,
-    race: null,
-    background: null,
-  }
+  $("#enter-name").change(function() {
+    char["name"] = $(this).val();
+  })
+
   const comp = {
     accItem: {
       html: `
@@ -512,6 +519,43 @@
   function initNewAccItem(acc) {
   }
 
+  function updateCharacterSheet(){
+    const fillableElements = $(".sheet-autofill");
+    fillableElements.each(e => {
+      const element = $(fillableElements[e]);
+      const id = element.attr("id");
+      
+      var value = null;
+      if (char[id]) {
+        value = char[id];
+        if (id == "class") {
+          value = "";
+          for (className in char[id]) {
+            if (value != "") {
+              value += ", ";
+            }
+            const classLevel = char[id][className];
+            value += `${className} ${classLevel}`;
+          }
+        }
+      } else if (id.startsWith("stats")){
+        const stat = id.split("-")[1];
+        if (stat in char["stats"]) {
+          value = char["stats"][stat];
+        }
+      }
+
+      if (value) {
+        if (element.is('input')) {
+          element.val(value);
+        } else if (element.hasClass('content x')) {
+          console.log("TODO");
+          console.log(value);
+        }
+      }
+    })
+  }
+
   async function updateSection() {
     // if we don't have specificInfo, get it from the API
     if (!specificInfo && sectionNum > 3) {
@@ -520,6 +564,12 @@
         updateSpecInfo();
       }
     }
+
+    // if we are on the character sheet, fill in info
+    if (sectionNum == 10){
+      updateCharacterSheet();
+    }
+
     $(".section.selected").removeClass("selected");
     $(".section").eq(sectionNum).addClass("selected");
     $("#section-title").text($(".section.selected").attr("data-title"));
@@ -546,11 +596,13 @@ function diceRoll(max) {
 }
 
 function assignStats() {
+  char["stats"] = {};
   const assignedStats = $(".select-stat option:selected");
   assignedStats.each(e => {
     const aStat = assignedStats[e];
     if (aStat.text != "Select Stat") {
       $(`#${aStat.text}`).val(aStat.value);
+      char["stats"][aStat.text] = aStat.value;
     }
   });
 }
