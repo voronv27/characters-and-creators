@@ -273,12 +273,12 @@ let char = {
     $("#export-pdf").click(function () {
       //Export format
       $("#character-sheet-parent").addClass("export-format");
-      // html2pdf($("#character-sheet")[0], {
-      //   filename: 'character-sheet.pdf',
-      //   html2canvas: { scale: 1 },
-      //   jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-      // });
-      // $("#character-sheet").removeClass("export-format");
+      html2pdf($("#character-sheet")[0], {
+        filename: 'character-sheet.pdf',
+        html2canvas: { scale: 1 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      });
+      $("#character-sheet").removeClass("export-format");
     });
   }
 
