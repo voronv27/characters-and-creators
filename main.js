@@ -6,7 +6,6 @@ let char = {
   background: null,
   stats: {},
 };
-
 (function () {
 
   //Constants
@@ -15,7 +14,7 @@ let char = {
   const S_B = "Sibling Before";
   const S_A = "Sibling After";
 
-  $("#enter-name").change(function() {
+  $("#enter-name").change(function () {
     char["name"] = $(this).val();
   })
 
@@ -270,6 +269,17 @@ let char = {
       sectionFromURL();
       updateSection();
     });
+
+    $("#export-pdf").click(function () {
+      //Export format
+      $("#character-sheet-parent").addClass("export-format");
+      // html2pdf($("#character-sheet")[0], {
+      //   filename: 'character-sheet.pdf',
+      //   html2canvas: { scale: 1 },
+      //   jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      // });
+      // $("#character-sheet").removeClass("export-format");
+    });
   }
 
   function sectionFromURL() {
@@ -519,12 +529,12 @@ let char = {
   function initNewAccItem(acc) {
   }
 
-  function updateCharacterSheet(){
+  function updateCharacterSheet() {
     const fillableElements = $(".sheet-autofill");
     fillableElements.each(e => {
       const element = $(fillableElements[e]);
       const id = element.attr("id");
-      
+
       var value = null;
       if (char[id]) {
         value = char[id];
@@ -538,7 +548,7 @@ let char = {
             value += `${className} ${classLevel}`;
           }
         }
-      } else if (id.startsWith("stats")){
+      } else if (id.startsWith("stats")) {
         const stat = id.split("-")[1];
         if (stat in char["stats"]) {
           value = char["stats"][stat];
@@ -566,7 +576,7 @@ let char = {
     }
 
     // if we are on the character sheet, fill in info
-    if (sectionNum == 10){
+    if (sectionNum == 10) {
       updateCharacterSheet();
     }
 
@@ -607,7 +617,7 @@ function assignStats() {
   });
 }
 
-function displayGeneratedStats(stats){
+function displayGeneratedStats(stats) {
   const statOpts = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
   var html = `<b>Generated stats:</b><br>`
   for (s in stats) {
@@ -615,9 +625,9 @@ function displayGeneratedStats(stats){
     html += `<b>${stat} </b>
             <select id="select-stat-${s}" class="select-stat">
             <option selected disabled hidden value=${stat}>Select Stat</option>`
-        + statOpts.reduce(
-          (opts, newOpt) => opts + `<option value=${stat}>${newOpt}</option>\n`, "") +
-        " </select><br>"
+      + statOpts.reduce(
+        (opts, newOpt) => opts + `<option value=${stat}>${newOpt}</option>\n`, "") +
+      " </select><br>"
   }
   html += "<button onclick='assignStats();'>Assign Stats</button><br><br>";
   $("#generated-stats").html(html);

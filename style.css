@@ -6,6 +6,12 @@
   --active: rgb(200, 10, 60);
   --active-dark: rgb(185, 0, 45);
   --active-text: white;
+
+  --export-bg: rgb(240, 240, 240);
+  --export-fg: rgb(255, 255, 255);
+  --export-text: rgb(0, 0, 0);
+  --export-border: rgb(250, 250, 250);
+
 }
 
 @font-face {
@@ -410,4 +416,14 @@ grid-row: 1 / span 6;
 
 .ui-resizable-e, .ui-resizable-s {
   display: none;
+}
+
+#character-sheet-parent.export-format{
+  background-color: var(--export-bg) !important;
+}
+
+#character-sheet-parent.export-format .comp{
+  background-color: var(--export-fg) !important;
+  color: var(--export-text) !important;
+  border-color: var(--export-border) !important;
 }
