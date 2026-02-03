@@ -1,6 +1,7 @@
 # Characters & Creators
 Project Lead: Victoria Voronina  
-Team Members: Victoria (Vicky) Voronina (voronv@rpi.edu), Garrett Gee (geeg@rpi.edu)  
+Current Team Members: Victoria (Vicky) Voronina (voronv@rpi.edu), Robyn Haney (haneyr2@rpi.edu), Owen Robb (robbo@rpi.edu), Daniel Fellenzer (felled2@rpi.edu) 
+Fall 2025 Members: Victoria (Vicky) Voronina (voronv@rpi.edu), Garrett Gee (geeg@rpi.edu)  
 Link to site: https://voronv27.github.io/characters-and-creators/
 
 # Overview
