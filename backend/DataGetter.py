@@ -234,19 +234,17 @@ class DataGetter:
     
     #checks if we have the data already, if so, loads it
     def loadData(self):
+        with open('local_data.json') as f:
+            loadData = json.load(f)
 
-        loadData = json.load(open('local_data.json'))
-
-
-        if ("classData" in loadData.keys()):
-            self.classData = loadData["classData"]
-        if ("race" in loadData.keys()):
-            self.race = loadData["race"]
-        if ("backgrounds" in loadData.keys()):
-            self.backgrounds = loadData["backgrounds"]
-        if ("spells" in loadData.keys()):
-            self.spells = loadData["spells"]
-
+            if ("classData" in loadData.keys()):
+                self.classData = loadData["classData"]
+            if ("race" in loadData.keys()):
+                self.race = loadData["race"]
+            if ("backgrounds" in loadData.keys()):
+                self.backgrounds = loadData["backgrounds"]
+            if ("spells" in loadData.keys()):
+                self.spells = loadData["spells"]
     
     def getClasses(self):
         if not self.classData:
@@ -471,12 +469,17 @@ class DataGetter:
 
     def refreshData(self):
         # fetch data from the open5e api and store it in a local file
+        self.classData = None
+        self.races = None
+        self.backgrounds = None
+        self.spells = None
+        self.spellList = None
+        
         self.getSpells()
         self.getClasses()
         self.getRaces()
         self.getBackgrounds()
 
-        # TODO: write to localdata
         localData = {
             "classData": self.classData,
             "races": self.races,
@@ -486,6 +489,8 @@ class DataGetter:
 
         with open("local_data.json", "w") as f:
             json.dump(localData, f)
+
+        return "Updated"
 
 # Test DataGetter class
 if __name__ == "__main__":
