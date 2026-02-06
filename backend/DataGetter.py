@@ -230,14 +230,14 @@ class DataGetter:
         self.backgrounds = None
         self.spells = None
         self.spellList = None
-        #TODO: consider caching proficiencies?
-
+        
     def getClasses(self):
-        if not self.spellList:
-            url = "https://api.open5e.com/v1/spelllist/"
-            spellList = getData(url)
-            self.spellList = {sl["name"].title(): set(sl["spells"]) for sl in spellList}
         if not self.classData:
+            if not self.spellList:
+                url = "https://api.open5e.com/v1/spelllist/"
+                spellList = getData(url)
+                self.spellList = {sl["name"].title(): set(sl["spells"]) for sl in spellList}
+
             url = "https://api.open5e.com/v1/classes/"
             classData = getData(url)
             self.classData = {classname["name"]: classname for classname in classData}
@@ -451,9 +451,29 @@ class DataGetter:
 
         return equipment
 
+
+    def refreshData(self):
+        # fetch data from the open5e api and store it in a local file
+        self.getSpells()
+        self.getClasses()
+        self.getRaces()
+        self.getBackgrounds()
+
+        # TODO: write to localdata
+        localData = {
+            "classData": self.classData,
+            "races": self.races,
+            "backgrounds": self.backgrounds,
+            "spells": self.spells
+        }
+
+        with open("local_data.json", "w") as f:
+            json.dump(localData, f)
+
 # Test DataGetter class
 if __name__ == "__main__":
     dataGetter = DataGetter()
+    #dataGetter.refreshData()
     classData = dataGetter.getClasses()
     for dndClassName in classData:
         dndClass = classData[dndClassName]
