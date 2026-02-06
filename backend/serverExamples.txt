@@ -6,6 +6,15 @@ returns: "Hello world!"
 
 ----------------------------------------------------------------------------------------------------------------
 
+ROUTE "/refresh-route":
+returns: "Updated" upon successful update
+"Error" if update fails
+
+Refetches our data from the open5e API and overwrites the local_data.json file. This takes a while to run, so only call it if there has been a change to the open5e API data that we would like to have in our data.
+
+----------------------------------------------------------------------------------------------------------------
+
+
 ROUTE "general-info":
 returns:
 { 
