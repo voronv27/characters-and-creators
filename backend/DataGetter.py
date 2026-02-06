@@ -232,22 +232,19 @@ class DataGetter:
         self.spellList = None
         self.loadData()
 
+    #checks if we have the data already, if so, loads it
     def loadData():
 
         loadData = json.load(open('local_data.json'))
 
 
         if ("classData" in loadData.keys()):
-
             self.classData = loadData["classData"]
         if ("race" in loadData.keys()):
-
             self.race = loadData["race"]
         if ("backgrounds" in loadData.keys()):
-
             self.backgrounds = loadData["backgrounds"]
         if ("spells" in loadData.keys()):
-
             self.spells = loadData["spells"]
 
     
