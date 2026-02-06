@@ -230,8 +230,27 @@ class DataGetter:
         self.backgrounds = None
         self.spells = None
         self.spellList = None
-        #TODO: consider caching proficiencies?
+        self.loadData()
 
+    def loadData():
+
+        loadData = json.load(open('local_data.json'))
+
+
+        if ("classData" in loadData.keys()):
+
+            self.classData = loadData["classData"]
+        if ("race" in loadData.keys()):
+
+            self.race = loadData["race"]
+        if ("backgrounds" in loadData.keys()):
+
+            self.backgrounds = loadData["backgrounds"]
+        if ("spells" in loadData.keys()):
+
+            self.spells = loadData["spells"]
+
+    
     def getClasses(self):
         if not self.spellList:
             url = "https://api.open5e.com/v1/spelllist/"
