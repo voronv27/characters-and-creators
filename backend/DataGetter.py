@@ -230,7 +230,24 @@ class DataGetter:
         self.backgrounds = None
         self.spells = None
         self.spellList = None
-        
+        self.loadData()
+    
+    #checks if we have the data already, if so, loads it
+    def loadData(self):
+
+        loadData = json.load(open('local_data.json'))
+
+
+        if ("classData" in loadData.keys()):
+            self.classData = loadData["classData"]
+        if ("race" in loadData.keys()):
+            self.race = loadData["race"]
+        if ("backgrounds" in loadData.keys()):
+            self.backgrounds = loadData["backgrounds"]
+        if ("spells" in loadData.keys()):
+            self.spells = loadData["spells"]
+
+    
     def getClasses(self):
         if not self.classData:
             if not self.spellList:
@@ -473,6 +490,8 @@ class DataGetter:
 # Test DataGetter class
 if __name__ == "__main__":
     dataGetter = DataGetter()
+
+    dataGetter.loadData()
     #dataGetter.refreshData()
     classData = dataGetter.getClasses()
     for dndClassName in classData:

@@ -16,6 +16,15 @@ dataGetter = DataGetter()
 def landing():
     return "Hello world!"
 
+@app.route('/refresh-route')
+def refreshData():
+    try:
+        dataGetter.refreshData()
+
+        return "Updated"
+    except Exception as e:
+        return "error"
+
 # This returns all general info that the character sheet creator will need
 @app.route('/general-info')
 def getGeneralInfo():
