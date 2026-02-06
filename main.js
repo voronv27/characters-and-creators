@@ -663,3 +663,29 @@ function standardArray() {
   const stats = [15, 14, 13, 12, 10, 8];
   displayGeneratedStats(stats);
 }
+
+function OpenTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+function increment() {
+  let counterElement = document.getElementById("counter");
+  let currentValue = parseInt(counterElement.innerText);
+  let newValue = currentValue + 1;
+  counterElement.innerText = newValue;
+}
+function decrement() {
+  let counterElement = document.getElementById("counter");
+  let currentValue = parseInt(counterElement.innerText);
+  let newValue = currentValue - 1;
+  counterElement.innerText = newValue;
+}

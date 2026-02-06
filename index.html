@@ -14,7 +14,46 @@
     <script src="main.js"></script>
   </head>
 <body>
-      <h1>Characters & Creators</h1>
+<style>
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 0px solid #ccc;
+  background-color: rgb(24, 20, 20);
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: rgb(200, 10, 60);
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 20px 40px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: rgb(180, 15, 45);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: rgb(180, 15, 45);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid rgb(20, 20, 20);
+  border-top: none;
+}
+</style>
+</body>
+  <h1>Characters & Creators</h1>
       <nav>
           <a id="prev-section">
             <i class="fa-solid fa-chevron-left"></i>
@@ -73,19 +112,72 @@
       <!-- TODO: add tooltip for each stat method -->
       To calculate your stats, you can <b>roll</b>, use <b>standard array</b>, or <b>use point buy</b>. You can also type in your own values.<br><br>
 
-      <button id="roll" onclick="rollStats();">Roll Stats</button>
-      <button id="point-buy" onclick="pointBuy();">Point Buy</button>
-      <button id="standard array" onclick="standardArray();">Standard Array</button><br><br>
+      <p>Click on the buttons inside the tabbed menu:</p>
 
-      <div id="generated-stats"></div>
+      <div class="tab">
+        <button class="tablinks" onclick="OpenTab(event, 'Rolling Stats')">Rolling Stats</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Point Buy')">Point Buy</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Custom Stats')">Custom Stats</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Vicky Is so Cool and SO Awesoome')">Standard Array(Booring)</button>
+      </div>
 
-      Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
-      Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
-      Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
-      Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
-      Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
-      Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
-    </div>
+      <div id="Rolling Stats" class="tabcontent">
+        <h3>Rolling Stats</h3>
+        <p>General Stuff about rolling stats</p>
+          <button id="roll" onclick="rollStats();">Roll Stats</button>
+
+          <div id="generated-stats"></div>
+
+          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
+          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
+          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
+          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
+          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
+          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
+        
+      </div>
+
+      <div id="Point Buy" class="tabcontent">
+        <h3>Point Buy</h3>
+          <div id="generated-stats"></div>
+
+              <h1>Count: <span id="counter">0</span></h1>
+              <button onclick="increment()">Increment</button>
+
+              <script>
+                  // JavaScript function to handle the click
+
+              </script>
+
+
+          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
+          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
+          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
+          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
+          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
+          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
+      </div>
+
+      <div id="Custom Stats" class="tabcontent">
+        <h3>Custom Stats</h3>
+          <div id="generated-stats"></div>
+        <div class="stepper">
+          <button class="decrement">-</button>
+          <input type="number" id="scrollNumber" value="0" readonly>
+          <button class="increment">+</button>
+        </div>
+          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
+          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
+          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
+          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
+          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
+          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
+      </div>
+      <div id="Vicky Is so Cool and SO Awesoome" class="tabcontent">
+        <h3>Standard Array</h3>
+        <p>The standard array is a pre-generated set of stats that players can choose to use instead of rolling for stats. The standard array is 15, 14, 13, 12, 10, and 8. Players can assign these values to their stats as they see fit.</p>
+      </div>
+     </div>
     <div id="proficiencies-section" class="section" data-title="Proficiencies">
       Select proficiencies (TDDO)<br>
       Other proficiencies (TODO: give option to select from valid options)

@@ -1,10 +1,10 @@
 :root{
   --bg: rgb(22, 20, 20);
-  --fg: rgb(42, 40, 40);
+  --fg: rgb(185, 0, 45);
   --border: rgb(32, 30, 30);
   --text: white;
-  --active: rgb(200, 10, 60);
-  --active-dark: rgb(185, 0, 45);
+  --active: rgb(20, 20, 20);
+  --active-dark: black;
   --active-text: white;
 
   --export-bg: rgb(240, 240, 240);
