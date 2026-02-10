@@ -125,57 +125,62 @@
         <h3>Rolling Stats</h3>
         <p>General Stuff about rolling stats</p>
           <button id="roll" onclick="rollStats();">Roll Stats</button>
-
+          <input type="checkbox" id="subscribe" name="subscribe" value="yes">
+          <label for="subscribe">True Random</label>
           <div id="generated-stats"></div>
 
-          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
-          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
-          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
-          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
-          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
-          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
-        
       </div>
 
       <div id="Point Buy" class="tabcontent">
         <h3>Point Buy</h3>
-          <div id="generated-stats"></div>
+          <div id="point-buy-info">
+            <p>With point buy, you have 27 points to spend on your stats, with each stat starting at 8. Each increase in a stat costs a certain number of points, and the cost increases as the stat gets higher.</p>
+            <h2>Current Score: <span id='score'>27</span>/27</h2>
+          </div>
+        
+          <div id="generated-stats"class="gen-stats">
+              <button onclick="increment('Strength', 'score')">Increment</button>
+              <button onclick="decrement('Dexterity')">Increment</button>
+              <button onclick="decrement('Constitution')">Increment</button>
+              <button onclick="decrement('Intelligence')">Increment</button>
+              <button onclick="decrement('Wisdom')">Increment</button>
+              <button onclick="decrement('Charisma')">Increment</button>
+          </div>
+          <div id="generated-stats"class="gen-stats">
+              <h2>Strength: <span id='Strength'>8</span></h2>
+              <h2>Dexterity: <span id="Dexterity">8</span></h2>
+              <h2>Constitution: <span id='Constitution'>8</span></h2>
+              <h2>Intelligence: <span id='Intelligence'>8</span></h2>
+              <h2>Wisdom: <span id='Wisdom'>8</span></h2>
+              <h2>Charisma: <span id='Charisma'>8</span></h2>
+          </div>
+          <div id="generated-stats"class="gen-stats">
+              <button onclick="decrement('Strength')">Decrement</button>
+              <button onclick="decrement('Dexterity')">Decrement</button>
+              <button onclick="decrement('Constitution')">Decrement</button>
+              <button onclick="decrement('Intelligence')">Decrement</button>
+              <button onclick="decrement('Wisdom')">Decrement</button>
+              <button onclick="decrement('Charisma')">Decrement</button>
+            </div>
 
-              <h1>Count: <span id="counter">0</span></h1>
-              <button onclick="increment()">Increment</button>
-
-              <script>
-                  // JavaScript function to handle the click
-
-              </script>
-
-
-          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
-          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
-          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
-          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
-          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
-          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
       </div>
 
       <div id="Custom Stats" class="tabcontent">
         <h3>Custom Stats</h3>
-          <div id="generated-stats"></div>
-        <div class="stepper">
-          <button class="decrement">-</button>
-          <input type="number" id="scrollNumber" value="0" readonly>
-          <button class="increment">+</button>
-        </div>
-          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
-          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
-          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
-          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
-          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
-          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
+          <div id="generated-stats">
+          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="StrengthInput"><br>
+          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="DexterityInput"><br>
+          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="ConstitutionInput"><br>
+          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="IntelligenceInput"><br>
+          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="WisdomInput"><br>
+          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="CharismaInput">
+          </div>
       </div>
       <div id="Vicky Is so Cool and SO Awesoome" class="tabcontent">
         <h3>Standard Array</h3>
         <p>The standard array is a pre-generated set of stats that players can choose to use instead of rolling for stats. The standard array is 15, 14, 13, 12, 10, and 8. Players can assign these values to their stats as they see fit.</p>
+        <p>The chosen stats for your character will be based on your 1st level class.</p>
+        <h4>Stats:</h4>
       </div>
      </div>
     <div id="proficiencies-section" class="section" data-title="Proficiencies">
