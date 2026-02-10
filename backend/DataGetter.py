@@ -220,6 +220,17 @@ def getBackgroundSkills(skillDesc):
 
     return skillList
 
+def parseGear(gearStr):
+    parsedGear = {}
+    gear = gearStr.split("###")[0].split("**_")
+    # first element is empty string so skip it
+    for g in gear[1:]:
+        split = g.split("_**")
+        name = split[0].replace(".", "")
+        desc = split[1].strip()
+        parsedGear[name] = desc
+    return parsedGear
+
 # DataGetter is imported by routes.py to get DnD data.
 # It caches this data to avoid making extra API calls.
 class DataGetter:
@@ -474,7 +485,7 @@ class DataGetter:
         self.backgrounds = None
         self.spells = None
         self.spellList = None
-        
+
         self.getSpells()
         self.getClasses()
         self.getRaces()
@@ -546,3 +557,11 @@ if __name__ == "__main__":
         print()
         print("Starting equipment:", dataGetter.getEquipment(None, background))
         print()
+
+    url = 'https://api.open5e.com/v1/sections/'
+    equipData = getData(url)
+    equipData = next(d for d in equipData if d["name"] == "Adventuring Gear")
+    equipStr = equipData["desc"]
+    equipStr = equipStr[equipStr.index('*'):]
+    parsedGear = parseGear(equipStr)
+    print(parsedGear)
