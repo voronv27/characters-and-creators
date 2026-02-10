@@ -13,6 +13,44 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="main.js"></script>
   </head>
+<style>
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 0px solid #ccc;
+  background-color: rgb(24, 20, 20);
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: rgb(200, 10, 60);
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 20px 40px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: rgb(180, 15, 45);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: rgb(180, 15, 45);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid rgb(20, 20, 20);
+  border-top: none;
+}
+</style>
 <body>
       <h1>Characters & Creators</h1>
       <nav>
@@ -69,18 +107,83 @@
       <!-- TODO: add tooltip for each stat method -->
       To calculate your stats, you can <b>roll</b>, use <b>standard array</b>, or <b>use point buy</b>. You can also type in your own values.<br><br>
 
-      <button id="roll" onclick="rollStats();">Roll Stats</button>
-      <button id="point-buy" onclick="pointBuy();">Point Buy</button>
-      <button id="standard array" onclick="standardArray();">Standard Array</button><br><br>
+      <p>Click on the buttons inside the tabbed menu:</p>
 
-      <div id="generated-stats"></div>
+      <div class="tab">
+        <button class="tablinks" onclick="OpenTab(event, 'Rolling Stats')">Rolling Stats</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Point Buy')">Point Buy</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Custom Stats')">Custom Stats</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Vicky Is so Cool and SO Awesoome')">Standard Array(Booring)</button>
+      </div>
 
-      Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
-      Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
-      Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
-      Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
-      Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
-      Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
+      <div id="Rolling Stats" class="tabcontent">
+        <h3>Rolling Stats</h3>
+        <p>General Stuff about rolling stats</p>
+          <button id="roll" onclick="trueRollTest(document.getElementById('trueRollCheck').checked);">Roll Stats</button>
+          <input type="checkbox" id="trueRollCheck" name="trueRollCheck" value="yes">
+          <label for="trueRollCheck">True Random</label>
+          <div id="generated-stats"></div>
+        
+
+      </div>
+
+      <div id="Point Buy" class="tabcontent">
+        <h3>Point Buy</h3>
+          <div id="point-buy-info">
+            <p>With point buy, you have 27 points to spend on your stats, with each stat starting at 8. Each increase in a stat costs a certain number of points, and the cost increases as the stat gets higher.</p>
+            <h2>Current Score: <span id='score'>27</span>/27</h2>
+          </div>
+        
+          <div id="generated-stats"class="gen-stats">
+              <button onclick="increment('Strength', 'score')">Increment</button>
+              <button onclick="increment('Dexterity', 'score')">Increment</button>
+              <button onclick="increment('Constitution', 'score')">Increment</button>
+              <button onclick="increment('Intelligence', 'score')">Increment</button>
+              <button onclick="increment('Wisdom', 'score')">Increment</button>
+              <button onclick="increment('Charisma', 'score')">Increment</button>
+          </div>
+          <div id="generated-stats"class="gen-stats">
+              <h2>Strength: <span id='Strength'>8</span></h2>
+              <h2>Dexterity: <span id="Dexterity">8</span></h2>
+              <h2>Constitution: <span id='Constitution'>8</span></h2>
+              <h2>Intelligence: <span id='Intelligence'>8</span></h2>
+              <h2>Wisdom: <span id='Wisdom'>8</span></h2>
+              <h2>Charisma: <span id='Charisma'>8</span></h2>
+          </div>
+          <div id="generated-stats"class="gen-stats">
+              <button onclick="decrement('Strength','score')">Decrement</button>
+              <button onclick="decrement('Dexterity','score')">Decrement</button>
+              <button onclick="decrement('Constitution','score')">Decrement</button>
+              <button onclick="decrement('Intelligence','score')">Decrement</button>
+              <button onclick="decrement('Wisdom','score')">Decrement</button>
+              <button onclick="decrement('Charisma','score')">Decrement</button>
+            </div>
+        <button class="colorTheme" id="accept-stats" onclick="acceptStats();">Accept Stats</button>
+      
+
+      </div>
+
+      <div id="Custom Stats" class="tabcontent">
+        <h3>Custom Stats</h3>
+          <div id="generated-stats">
+          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="StrengthInput"><br>
+          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="DexterityInput"><br>
+          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="ConstitutionInput"><br>
+          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="IntelligenceInput"><br>
+          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="WisdomInput"><br>
+          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="CharismaInput">
+          </div>
+        
+        <button class="colorTheme" id="accept-stats" onclick="acceptStats();">Accept Stats</button>
+      </div>
+      <div id="Vicky Is so Cool and SO Awesoome" class="tabcontent">
+        <h3>Standard Array</h3>
+        <p>The standard array is a pre-generated set of stats that players can choose to use instead of rolling for stats. The standard array is 15, 14, 13, 12, 10, and 8. Players can assign these values to their stats as they see fit.</p>
+        <p>The chosen stats for your character will be based on your 1st level class.</p>
+        <h4>Stats:</h4>
+
+        <button class="colorTheme" id="accept-stats" onclick="acceptStats();">Accept Stats</button>
+      </div>
     </div>
     <div id="proficiencies-section" class="section" data-title="Proficiencies">
       Select proficiencies (TDDO)<br>

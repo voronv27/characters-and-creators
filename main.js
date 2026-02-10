@@ -632,11 +632,21 @@ function displayGeneratedStats(stats) {
         (opts, newOpt) => opts + `<option value=${stat}>${newOpt}</option>\n`, "") +
       " </select><br>"
   }
-  html += "<button onclick='assignStats();'>Assign Stats</button><br><br>";
+  html += "<button class='colorTheme' onclick='assignStats();'>Assign Stats</button><br><br>";
   $("#generated-stats").html(html);
 }
 
-function rollStats() {
+function displayAssignedStats(stats) {
+  var html = `<b>Assigned stats:</b><br>`
+  const statNames = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+  for (s in stats) {
+    stat = stats[s];
+    html += `<b>${statNames[s]}: ${stat}</b><br>`;
+  }
+  html += "<br><button class='colorTheme' onclick='assignStats();'>Assssign Stats</button><br><br>";
+  $("#generated-stats").html(html);
+}
+function trueRollTest(trueRandom) {
   var stats = [];
   // roll stats: we roll 4d6 and drop the lowest d6, repeat 6 times
   for (let i = 0; i < 6; i++) {
@@ -652,8 +662,13 @@ function rollStats() {
     sum -= min;
     stats.push(sum);
   }
-  displayGeneratedStats(stats);
+  if (trueRandom) {
+    displayAssignedStats(stats);
+  } else {
+    displayGeneratedStats(stats);
+  }
 }
+
 
 function pointBuy() {
   console.log("point buy");
@@ -706,10 +721,18 @@ function decrement(statName,store) {
   if (currentValue >= 13 && currentScore <26) {
     newValue = currentValue - 1;
     currentScore += 2;
-  } else {
+  } else if (currentValue ==8) {
+    counterElement.innerText = currentValue;
+    scoreElement.innerText = currentScore;
+    return;
+  }  else {
     newValue = currentValue - 1;
     currentScore += 1;
   }
   counterElement.innerText = Math.max(newValue, 8);
   scoreElement.innerText = currentScore;
+}
+
+function acceptStats() {
+    const aStat = assignedStats[e];
 }
