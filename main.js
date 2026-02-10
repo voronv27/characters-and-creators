@@ -677,15 +677,39 @@ function OpenTab(evt, tabName) {
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
 }
-function increment() {
-  let counterElement = document.getElementById("counter");
+
+function increment(statName,store) {
+  let counterElement = document.getElementById(statName);
+  let scoreElement = document.getElementById(store);
   let currentValue = parseInt(counterElement.innerText);
-  let newValue = currentValue + 1;
-  counterElement.innerText = newValue;
+  let currentScore = parseInt(scoreElement.innerText);
+  let newValue;
+  if (currentValue >= 12 && currentValue <20 &&currentScore >= 2) {
+    newValue = currentValue + 1;
+    currentScore -= 2;
+  } else if (currentScore >= 1 && currentValue < 20) {
+    newValue = currentValue + 1;
+    currentScore -= 1;
+  } else {
+      counterElement.innerText = currentValue;
+      return;
+  }
+  counterElement.innerText = Math.min(newValue, 20);
+  scoreElement.innerText = currentScore;
 }
-function decrement() {
-  let counterElement = document.getElementById("counter");
+function decrement(statName,store) {
+  let counterElement = document.getElementById(statName);
+  let scoreElement = document.getElementById(store);
   let currentValue = parseInt(counterElement.innerText);
-  let newValue = currentValue - 1;
-  counterElement.innerText = newValue;
+  let currentScore = parseInt(scoreElement.innerText);
+  let newValue;
+  if (currentValue >= 13 && currentScore <26) {
+    newValue = currentValue - 1;
+    currentScore += 2;
+  } else {
+    newValue = currentValue - 1;
+    currentScore += 1;
+  }
+  counterElement.innerText = Math.max(newValue, 8);
+  scoreElement.innerText = currentScore;
 }

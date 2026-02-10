@@ -97,6 +97,20 @@ button, nav a{
   transition: border 0.1s;
 }
 
+button, tablinks{
+  font-family: "Roboto", Arial;
+  padding: 10px;
+  border-radius: 0px;
+  background-color: var(--active);
+  color: var(--active-text);
+  user-select: none;
+  cursor: pointer;
+  border: 0;
+  border-bottom: 5px solid var(--active-dark);
+  border-left: 5px solid var(--active-dark);
+  transition: border 0.1s;
+}
+
 button:active, nav a:active{
   border-bottom: 2px solid var(--active-dark);
   border-left: 2px solid var(--active-dark);
@@ -441,3 +455,7 @@ grid-row: 1 / span 6;
   background-color: var(--export-fg) !important;
 }
 
+.gen-stats{
+  display: flex;
+  font-size: 10px;
+}
