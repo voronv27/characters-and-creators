@@ -230,6 +230,7 @@ class DataGetter:
         self.backgrounds = None
         self.spells = None
         self.spellList = None
+        self.equipment = None
         self.loadData()
     
     #checks if we have the data already, if so, loads it
@@ -245,7 +246,33 @@ class DataGetter:
                 self.backgrounds = loadData["backgrounds"]
             if ("spells" in loadData.keys()):
                 self.spells = loadData["spells"]
-    
+            if ("equipment" in loadData.keys()):
+                self.equipment = loadData["equipment"]
+
+
+    def getEquipment():
+
+        if not self.equipment:
+            magicURL = "https://api.open5e.com/v1/magicitems/"
+
+            armorURL = "https://api.open5e.com/v2/armor/"
+
+            weaponURL = "https://api.open5e.com/v2/weapons/"
+
+
+            magicData = getData(magicURL)
+            armorData = getData(armorURL)
+            weaponData = getData(weaponURL)
+
+
+            self.equipment["magicItems"] = {magicItem["name"]: magicItem for magicItem in magicData}
+
+            self.equipment["armor"] = {armor["name"]: armor for armor in armorData}
+
+            self.equipment["weapon"] = {weapon["name"]: weapon for weapon in weaponData}
+
+        return self.equipment
+
     def getClasses(self):
         if not self.classData:
             if not self.spellList:
@@ -474,17 +501,20 @@ class DataGetter:
         self.backgrounds = None
         self.spells = None
         self.spellList = None
+        self.equipment = None
         
         self.getSpells()
         self.getClasses()
         self.getRaces()
         self.getBackgrounds()
+        self.getEquipment()
 
         localData = {
             "classData": self.classData,
             "races": self.races,
             "backgrounds": self.backgrounds,
-            "spells": self.spells
+            "spells": self.spells,
+            "equipment": self.equipment
         }
 
         with open("local_data.json", "w") as f:
@@ -546,3 +576,9 @@ if __name__ == "__main__":
         print()
         print("Starting equipment:", dataGetter.getEquipment(None, background))
         print()
+
+    equipments = dataGetter.getEquipment()
+    for equipment in equipments:
+        if(equipment == "armor"):
+            for armor in equipment:
+                print(f"Name of armor: {armor["name"]}")
