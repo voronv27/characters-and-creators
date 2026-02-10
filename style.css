@@ -15,24 +15,28 @@
 }
 
 @font-face {
-  font-family: "NotoSerif"; 
-  src: url("assets/fonts/NotoSerif-Regular.ttf") format("truetype");
+  font-family: "CinzelDecorative"; 
+  src: url("assets/fonts/CinzelDecorative-Black.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap; /* Improves performance by controlling font loading behavior */
 }
 
 @font-face {
-  font-family: "Roboto"; 
-  src: url("assets/fonts/Roboto-Regular.ttf") format("truetype");
+  font-family: "Ubuntu"; 
+  src: url("assets/fonts/Ubuntu-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap; /* Improves performance by controlling font loading behavior */
 }
 
 *{
-  font-family: "NotoSerif", serif;
+  font-family: "Ubuntu", sans-serif;
   transition-timing-function: cubic-bezier(0, 0, 0, 1);
+}
+
+h1 {
+  font-family: "CinzelDecorative", sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -68,6 +72,7 @@ nav{
   flex-grow: 1;
   font-size: 2em;
   text-align: center;
+  font-family: "CinzelDecorative", sans-serif;
 }
 
 nav a{
@@ -84,7 +89,7 @@ nav a:hover{
 }
 
 button, nav a{
-  font-family: "Roboto", Arial;
+  font-family: "Ubuntu", sans-serif;
   padding: 10px;
   border-radius: 100px;
   background-color: var(--active);
