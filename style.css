@@ -446,3 +446,17 @@ grid-row: 1 / span 6;
   background-color: var(--export-fg) !important;
 }
 
+
+.githubbutton{
+  font-family: "Roboto", Arial;
+  padding: 10px;
+  border-radius: 100px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  user-select: none;
+  cursor: pointer;
+  border: 0;
+  border-bottom: 0px solid rgb(255, 255, 255);
+  border-left: 0px solid rgb(255, 255, 255);
+  transition: border 0s;
+}
