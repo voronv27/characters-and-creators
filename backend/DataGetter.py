@@ -345,6 +345,7 @@ class DataGetter:
             self.items["armor"] = {armor["name"]: armor for armor in armorData}
             self.items["weapon"] = {weapon["name"]: weapon for weapon in weaponData}
 
+
             adventuringGearData = next(d for d in otherItemsData if d["name"] == "Adventuring Gear")
             adventuringGearStr = adventuringGearData["desc"]
             adventuringGearStr = adventuringGearStr[adventuringGearStr.index('*'):]
@@ -354,7 +355,12 @@ class DataGetter:
             equipmentPacksStr = equipmentPacksData["desc"]
             equipmentPacksStr = equipmentPacksStr[equipmentPacksStr.index('*'):]
             self.items["equipmentPacks"] = parseEquipmentPacks(equipmentPacksStr)
-        
+
+            toolsData = next(d for d in otherItemsData if d["name"] == "Tools")
+            toolsStr = toolsData["desc"]
+            toolsStr = toolsStr[toolsStr.index('*'):]
+            self.items["tools"] = parseTools(toolsStr)
+
         return self.items
 
     def getClasses(self):
