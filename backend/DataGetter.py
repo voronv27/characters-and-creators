@@ -231,6 +231,17 @@ def parseGear(gearStr):
         parsedGear[name] = desc
     return parsedGear
 
+def parseEquipmentPacks(epStr):
+    parsedPacks = {}
+    packs = epStr.split("**")
+    # start at index 1 because first element is empty string
+    for i in range(1, len(packs), 2):
+        # get rid of the price of the item in its name
+        name = packs[i].strip().split("(")[0]
+        desc = packs[i+1].strip()
+        parsedPacks[name] = desc
+    return parsedPacks
+
 # DataGetter is imported by routes.py to get DnD data.
 # It caches this data to avoid making extra API calls.
 class DataGetter:
@@ -257,31 +268,38 @@ class DataGetter:
                 self.backgrounds = loadData["backgrounds"]
             if ("spells" in loadData.keys()):
                 self.spells = loadData["spells"]
-            if ("equipment" in loadData.keys()):
-                self.equipment = loadData["equipment"]
-
+            if ("items" in loadData.keys()):
+                self.items = loadData["items"]
 
     def getItems(self):
 
         if not self.items:
+            self.items = {}
+
             magicURL = "https://api.open5e.com/v1/magicitems/"
-
             armorURL = "https://api.open5e.com/v2/armor/"
-
             weaponURL = "https://api.open5e.com/v2/weapons/"
-
+            otherItemsURL = 'https://api.open5e.com/v1/sections/'
 
             magicData = getData(magicURL)
             armorData = getData(armorURL)
             weaponData = getData(weaponURL)
-
+            otherItemsData = getData(otherItemsURL)
 
             self.items["magicItems"] = {magicItem["name"]: magicItem for magicItem in magicData}
-
             self.items["armor"] = {armor["name"]: armor for armor in armorData}
-
             self.items["weapon"] = {weapon["name"]: weapon for weapon in weaponData}
 
+            adventuringGearData = next(d for d in otherItemsData if d["name"] == "Adventuring Gear")
+            adventuringGearStr = adventuringGearData["desc"]
+            adventuringGearStr = adventuringGearStr[adventuringGearStr.index('*'):]
+            self.items["adventuringGear"] = parseGear(adventuringGearStr)
+
+            equipmentPacksData = next(d for d in otherItemsData if d["name"] == "Equipment Packs")
+            equipmentPacksStr = equipmentPacksData["desc"]
+            equipmentPacksStr = equipmentPacksStr[equipmentPacksStr.index('*'):]
+            self.items["equipmentPacks"] = parseEquipmentPacks(equipmentPacksStr)
+        
         return self.items
 
     def getClasses(self):
@@ -504,7 +522,6 @@ class DataGetter:
 
         return equipment
 
-
     def refreshData(self):
         # fetch data from the open5e api and store it in a local file
         self.classData = None
@@ -512,7 +529,7 @@ class DataGetter:
         self.backgrounds = None
         self.spells = None
         self.spellList = None
-        self.items= None
+        self.items = None
         
         self.getSpells()
         self.getClasses()
@@ -588,10 +605,9 @@ if __name__ == "__main__":
         print("Starting equipment:", dataGetter.getEquipment(None, background))
         print()
 
-    url = 'https://api.open5e.com/v1/sections/'
-    equipData = getData(url)
-    equipData = next(d for d in equipData if d["name"] == "Adventuring Gear")
-    equipStr = equipData["desc"]
-    equipStr = equipStr[equipStr.index('*'):]
-    parsedGear = parseGear(equipStr)
-    print(parsedGear)
+    items = dataGetter.getItems()
+    print("Item types:", list(items.keys()))
+    print()
+    """for iType in items:
+        print(f"{iType}: {items[iType]}")
+        print()""" 
