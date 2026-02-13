@@ -102,8 +102,9 @@
     <div id="stats-section" class="section" data-title="Stats">
       There are 6 main abilities in D&D, and your stats represent your character's skill level for that ability<br>
       Player stats are usually restricted from 3-20, with possible creature stats ranging from 1-30.<br>
-      <div id="stat-suggestion" style="display: none;"><br>Based on your primary class of <b><span id="primary-class"></span></b>, the stats we recommend you prioritize are <span id="rec-stats"></span><br></div>
+      <div id="stat-suggestion1" style="display: none;"><br>Based on your primary class of <b><span id="primary-class"></span></b>, the stats we recommend you prioritize are <span id="rec-stats"></span><br></div>
       <br>
+
       <!-- TODO: add tooltip for each stat method -->
       To calculate your stats, you can <b>roll</b>, use <b>standard array</b>, or <b>use point buy</b>. You can also type in your own values.<br><br>
 
@@ -143,12 +144,12 @@
               <button onclick="increment('Charisma', 'score')">Increment</button>
           </div>
           <div id="generated-stats"class="gen-stats">
-              <h2>Strength: <span id='Strength'>8</span></h2>
-              <h2>Dexterity: <span id="Dexterity">8</span></h2>
-              <h2>Constitution: <span id='Constitution'>8</span></h2>
-              <h2>Intelligence: <span id='Intelligence'>8</span></h2>
-              <h2>Wisdom: <span id='Wisdom'>8</span></h2>
-              <h2>Charisma: <span id='Charisma'>8</span></h2>
+              <h2>Strength: <span id='Strength'>8&ensp;</span></h2>
+              <h2>Dexterity: <span id="Dexterity">8&ensp;</span></h2>
+              <h2>Constitution: <span id='Constitution'>8&ensp;</span></h2>
+              <h2>Intelligence: <span id='Intelligence'>8&ensp;</span></h2>
+              <h2>Wisdom: <span id='Wisdom'>8&ensp;</span></h2>
+              <h2>Charisma: <span id='Charisma'>8&ensp;</span></h2>
           </div>
           <div id="generated-stats"class="gen-stats">
               <button onclick="decrement('Strength','score')">Decrement</button>
@@ -180,7 +181,12 @@
         <h3>Standard Array</h3>
         <p>The standard array is a pre-generated set of stats that players can choose to use instead of rolling for stats. The standard array is 15, 14, 13, 12, 10, and 8. Players can assign these values to their stats as they see fit.</p>
         <p>The chosen stats for your character will be based on your 1st level class.</p>
-        <h4>Stats:</h4>
+          <div id="stat-suggestion2" style="display: none;"><br>Primary Recommended Stat<span id="primary-stat"></span></div>
+          <div id="stat-suggestion3" style="display: none;"><br>Secondary Recommended Stat<span id="secondary-stat"></span></div>
+          <div id="displayStandardSpread"></div>
+          <script>displayRecommendedStandardStats('primary-stat', 'secondary-stat');</script>
+      </div>  
+        
 
         <button class="colorTheme" id="accept-stats" onclick="acceptStats();">Accept Stats</button>
       </div>

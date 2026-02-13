@@ -76,7 +76,9 @@ let char = {
 
           // reset specificInfo because we changed class
           specificInfo = null;
-          $("#stat-suggestion").show();
+          $("#stat-suggestion1").show();
+          $("#stat-suggestion2").show();
+          $("#stat-suggestion3").show();
           //nextSection();
         })
       }
@@ -154,6 +156,8 @@ let char = {
   let specificInfo;
   let genInfo;
   let specInfo;
+  let primaryStat;
+  let secondaryStat;
 
   let numSections;
   let sectionNum = 0;
@@ -335,6 +339,10 @@ let char = {
   function updateSpecInfo() {
     const recStats = "<b>" + specInfo["preferred-stats"].join("</b> and <b>") + "</b>";
     $("#rec-stats").html(recStats);
+    primaryStat = specInfo["preferred-stats"][0];
+    secondaryStat = specInfo["preferred-stats"][1];
+    $("#primary-stat").html(`: <b>${primaryStat}</b>`);
+    $("#secondary-stat").html(secondaryStat ? `: <b>${secondaryStat}</b>` : "");
   }
 
   function getRaceDesc(data, subrace = "") {
@@ -669,7 +677,6 @@ function trueRollTest(trueRandom) {
   }
 }
 
-
 function pointBuy() {
   console.log("point buy");
 }
@@ -735,4 +742,32 @@ function decrement(statName,store) {
 
 function acceptStats() {
     const aStat = assignedStats[e];
+}
+
+function displayRecommendedStandardStats(primaryId, secondaryId) {
+  newhtml = primaryStat + " as primary stat with 15, " + secondaryStat + " as secondary stat with 14, and the rest of the stats as 13, 12, 10, and 8.";
+  $('#displayStandardSpread').html(newhtml);
+  html = `<b>Standard Array:</b><br>`;
+  availableNumbers = [13,12,10,8];
+  stats = {
+  "Constitution": 0,
+  "Dexterity": 0,
+  "Strength": 0,
+  "Intelligence": 0,
+  "Wisdom": 0,
+  "Charisma": 0
+  };
+  stats[document.getElementById(primaryId).value] = 15;
+  stats[document.getElementById(secondaryId).value] = 14;
+
+  for (s in stats) {
+    if (stats[s] == 0) {
+      stats[s] = availableNumbers.pop();
+    }
+    html += `<b>${s}: ${stats[s]}</b><br>`;
+  }
+
+
+  //$('#displayStandardSpread').html(html);
+
 }
