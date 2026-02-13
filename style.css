@@ -15,24 +15,28 @@
 }
 
 @font-face {
-  font-family: "NotoSerif"; 
-  src: url("assets/fonts/NotoSerif-Regular.ttf") format("truetype");
+  font-family: "CinzelDecorative"; 
+  src: url("assets/fonts/CinzelDecorative-Black.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap; /* Improves performance by controlling font loading behavior */
 }
 
 @font-face {
-  font-family: "Roboto"; 
-  src: url("assets/fonts/Roboto-Regular.ttf") format("truetype");
+  font-family: "Ubuntu"; 
+  src: url("assets/fonts/Ubuntu-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap; /* Improves performance by controlling font loading behavior */
 }
 
 *{
-  font-family: "NotoSerif", serif;
+  font-family: "Ubuntu", sans-serif;
   transition-timing-function: cubic-bezier(0, 0, 0, 1);
+}
+
+h1 {
+  font-family: "CinzelDecorative", sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -68,6 +72,7 @@ nav{
   flex-grow: 1;
   font-size: 2em;
   text-align: center;
+  font-family: "CinzelDecorative", sans-serif;
 }
 
 nav a{
@@ -84,7 +89,7 @@ nav a:hover{
 }
 
 button, nav a{
-  font-family: "Roboto", Arial;
+  font-family: "Ubuntu", sans-serif;
   padding: 10px;
   border-radius: 100px;
   background-color: var(--active);
@@ -469,4 +474,17 @@ grid-row: 1 / span 6;
   border-bottom: 5px solid rgb(185,0,45);
   border-radius: 100px;
 
+
+.githubbutton{
+  font-family: "Roboto", Arial;
+  padding: 10px;
+  border-radius: 100px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  user-select: none;
+  cursor: pointer;
+  border: 0;
+  border-bottom: 0px solid rgb(255, 255, 255);
+  border-left: 0px solid rgb(255, 255, 255);
+  transition: border 0s;
 }
