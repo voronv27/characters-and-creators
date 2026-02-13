@@ -3,8 +3,8 @@
   --fg: rgb(42, 40, 40);
   --border: rgb(32, 30, 30);
   --text: white;
-  --active: rgb(200, 10, 60);
-  --active-dark: rgb(185, 0, 45);
+  --active: rgb(152, 0, 0);
+  --active-dark: rgb(122 0 0);
   --active-text: white;
 
   --export-bg: rgb(240, 240, 240);
