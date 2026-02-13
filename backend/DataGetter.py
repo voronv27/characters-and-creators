@@ -142,6 +142,16 @@ def getSkills(skillDesc):
         options = filteredDesc.split(", ")
 
     return {"count": number[countWord], "options": options}
+def parseTools(toolStr):
+    parsedTool = {}
+    tool = toolStr.split("section.\n\n")[1].split("**_")
+    # first element is empty string so skip it
+    for t in tool[1:]:
+        split = t.split("_**")
+        name = split[0].replace(".", "")
+        desc = split[1].strip()
+        parsedTool[name] = desc
+    return parsedTool
 
 # The open5e API lists race proficiencies as a string which we'd like to parse
 def parseTraits(traitsDesc):
@@ -260,7 +270,6 @@ class DataGetter:
             if ("equipment" in loadData.keys()):
                 self.equipment = loadData["equipment"]
 
-
     def getItems(self):
 
         if not self.items:
@@ -277,9 +286,7 @@ class DataGetter:
 
 
             self.items["magicItems"] = {magicItem["name"]: magicItem for magicItem in magicData}
-
             self.items["armor"] = {armor["name"]: armor for armor in armorData}
-
             self.items["weapon"] = {weapon["name"]: weapon for weapon in weaponData}
 
         return self.items
@@ -590,8 +597,8 @@ if __name__ == "__main__":
 
     url = 'https://api.open5e.com/v1/sections/'
     equipData = getData(url)
-    equipData = next(d for d in equipData if d["name"] == "Adventuring Gear")
+    equipData = next(d for d in equipData if d["name"] == "Tools")
     equipStr = equipData["desc"]
     equipStr = equipStr[equipStr.index('*'):]
-    parsedGear = parseGear(equipStr)
-    print(parsedGear)
+    parsedGear = parseTools(equipStr)
+    print(json.dumps(parsedGear, indent=4))
