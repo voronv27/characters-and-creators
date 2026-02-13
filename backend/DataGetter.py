@@ -230,7 +230,7 @@ class DataGetter:
         self.backgrounds = None
         self.spells = None
         self.spellList = None
-        self.equipment = None
+        self.items = None
         self.loadData()
     
     #checks if we have the data already, if so, loads it
@@ -250,9 +250,9 @@ class DataGetter:
                 self.equipment = loadData["equipment"]
 
 
-    def getEquipment():
+    def getItems(self):
 
-        if not self.equipment:
+        if not self.items:
             magicURL = "https://api.open5e.com/v1/magicitems/"
 
             armorURL = "https://api.open5e.com/v2/armor/"
@@ -265,13 +265,13 @@ class DataGetter:
             weaponData = getData(weaponURL)
 
 
-            self.equipment["magicItems"] = {magicItem["name"]: magicItem for magicItem in magicData}
+            self.items["magicItems"] = {magicItem["name"]: magicItem for magicItem in magicData}
 
-            self.equipment["armor"] = {armor["name"]: armor for armor in armorData}
+            self.items["armor"] = {armor["name"]: armor for armor in armorData}
 
-            self.equipment["weapon"] = {weapon["name"]: weapon for weapon in weaponData}
+            self.items["weapon"] = {weapon["name"]: weapon for weapon in weaponData}
 
-        return self.equipment
+        return self.items
 
     def getClasses(self):
         if not self.classData:
@@ -577,8 +577,8 @@ if __name__ == "__main__":
         print("Starting equipment:", dataGetter.getEquipment(None, background))
         print()
 
-    equipments = dataGetter.getEquipment()
-    for equipment in equipments:
-        if(equipment == "armor"):
-            for armor in equipment:
+    items = dataGetter.getItems()
+    for item in items:
+        if(item == "armor"):
+            for armor in item:
                 print(f"Name of armor: {armor["name"]}")
