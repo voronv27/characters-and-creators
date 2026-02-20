@@ -531,6 +531,11 @@ grid-row: 1 / span 6;
   justify-content: center;
   height: 100%;
 }
+.column { /*when using the center items class, create new div with column class to create individual columns that divide the overarching container*/
+  flex: 1;
+  padding: 10px;
+  border: 5px solid var(--fg)
+}
 
 /* align (vertical center) items */
 .vertical-center-items {

@@ -746,7 +746,7 @@ function acceptStats() {
 
 function displayRecommendedStandardStats(primaryId, secondaryId) {
   newhtml = primaryStat + " as primary stat with 15, " + secondaryStat + " as secondary stat with 14, and the rest of the stats as 13, 12, 10, and 8.";
-  $('#displayStandardSpread').html(newhtml);
+  divElement = document.getElementById("displayStandardSpread");
   html = `<b>Standard Array:</b><br>`;
   availableNumbers = [13,12,10,8];
   stats = {
@@ -765,6 +765,8 @@ function displayRecommendedStandardStats(primaryId, secondaryId) {
       stats[s] = availableNumbers.pop();
     }
     html += `<b>${s}: ${stats[s]}</b><br>`;
+    divElement.text = html;
+//    $('#displayStandardSpread').html(html);
   }
 
 
