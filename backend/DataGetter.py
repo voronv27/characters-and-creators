@@ -667,7 +667,9 @@ if __name__ == "__main__":
         print()
 
     items = dataGetter.getItems()
-    print("Item types:", list(items.keys()))
+    print("Item types:", list(items["armor"]["Breastplate"]))
+    print("Item types:", list(items["weapon"]["Club"]))
+    print("Item types:", list(items["magicItems"]["Worry Stone"]))
     print()
     """for iType in items:
         print(f"{iType}: {items[iType]}")
