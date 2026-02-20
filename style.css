@@ -84,19 +84,6 @@ nav{
   font-family: "CinzelDecorative", sans-serif;
 }
 
-nav a{
-  /* cursor: pointer; */
-  /* padding: 10px; */
-  /* font-size: 1.2em; */
-  /* border: 0 !important; */
-  /* box-shadow: 0 0 20px 10px black; */
-  /* border-radius: 100px; */
-}
-
-nav a:hover{
-
-}
-
 button, nav a{
   font-family: "Ubuntu", sans-serif;
   padding: 10px;
@@ -422,11 +409,6 @@ input[type='text']:focus{
 #character-sheet-parent:hover, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):hover{
   cursor: grab !important;
 }
-#character-sheet-parent:active, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):active{
-  /* cursor: grabbing !important; */
-}
-
-
 
 .gridr-2-6{
 grid-row: 1 / span 6; 
