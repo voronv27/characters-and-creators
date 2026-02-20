@@ -16,31 +16,39 @@ The website should be able to walk the user through a step-by-step process to cr
 For the back end we plan on using Python and Flask. The front end stack will most likely use HTML, CSS, and jQuery.  
 
 # Milestones
-NOTE: If a specific time isn’t listed, we aim to achieve the listed goal by the end of the month (or before RCOS presentations begin for the December goals)  
+NOTE: If a specific time isn’t listed, we aim to achieve the listed goal by the end of the month (or before RCOS presentations begin for the May goals)  
 
-# September 2025
-Create github repository by first week of small groups (Vicky)  
-Get working character sheet editor interface (Garrett)  
-User should be able to type in information and download the final result (Garrett)  
-Look into the open5e API to see what DnD 5e character information can be pulled–get flask server running and have working API calls by end of month (Vicky)  
-Plan website layout so it looks nice–have mockup template by end of the month (Garrett & Vicky)  
+# February 2026
+New members (Robyn, Dan, Owen): learn the Github repository setup
+Create UI mockup for how we want site to look (Vicky, Dan)
+Backend refactoring & optimization: change to storing data locally to fix load time (Vicky, Robyn)
+Frontend: code cleanup/refactoring  (Owen)
+Frontend: fix UI based on mockup (Robyn)
 
-# October 2025
-Implement open5e API into frontend by start of month (Vicky)  
-Set up step-by-step process UI for filling in the sheet (Garrett)  
-Start providing options to select from rather than having it all be typed in manually (Garrett & Vicky)  
-Add spellcards as extra pages on the character sheet (Vicky)  
-Give option to save character sheets so they can be uploaded and edited later (Garrett)  
+# March 2026
+Work on character sheet navigation (Vicky, Dan)
+Implement multiclass logic:
+Backend: add extra multiclass info to our Flask server (Vicky, Robyn)
+Frontend: update class selection to be able to order class selection (Dan)
+Frontend: on the stats page, specify multiclass requirements and warn user if their stats don’t meet multiclass requirements (Owen)
+Implement point buy system (Owen)
+Implement languages (Robyn)
+Implement spells (Dan)
+Fix text overflow in spell card formatting
+Implement Extra Custom Info (Dan)
+Frontend: fix UI based on mockup (Vicky)
 
-# November 2025
-Continue work on listing options to choose from as opposed to typing in information manually–have API calls wherever possible to get this information instead of setting it up manually (Garrett & Vicky)  
-Store information in local storage in order to stop information from being lost when reloading  
-Add the option to suggest/assign “optimal” choices. For example, when deciding how to distribute stats, a strength-based class would have its highest stat value assigned to the strength stat (Vicky)  
-Work on website layout and aesthetics (Garrett & Vicky)  
-Optional: if there’s time available, start working on character sheet filtering/searching for specific values (Vicky & Garrett)  
+# April 2026
+Add subclass implementation (Vicky)
+Add subrace implementation (Dan)
+Implement proficiencies (Owen)
+Implement equipment (Robyn)
+Add character sheet filtering (Vicky, Robyn)
+Begin work on sheet export (Vicky, Robyn)
+Add option to filter by source book for categories (Owen, Dan)
+Frontend: fix UI based on mockup (Dan)
 
-# December 2025
-Finish up features and ensure basic site functionality (Garrett & Vicky)  
-Finalize UI: make sure website looks good and is easy to use, make tweaks where needed (Garrett & Vicky)  
-Optional: if there’s time, and search/filtering was worked on in November, try to have that working as well (Garrett & Vicky)  
-Optional: implement a login system (Garrett)  
+# May 2026
+Finish work on sheet export (Vicky, Robyn)
+Code cleanup - make sure everything is correctly commented, extraneous code is removed, etc. (Owen, Robyn, Vicky, Dan)
+Frontend: fix UI based on mockup (Owen)
