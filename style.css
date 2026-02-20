@@ -84,7 +84,38 @@ nav{
   font-family: "CinzelDecorative", sans-serif;
 }
 
-button, nav a{
+/* button styling  in various sections */
+/* default */
+button {
+  font-family: "Ubuntu", sans-serif;
+  padding: 15px 10px;
+  background-color: var(--active);
+  border-radius: 2px;
+  color: var(--active-text);
+  user-select: none;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 5px;
+  border-color: var(--white);
+  transition: background-color 0.1s;
+  min-width: 150px;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: var(--active-dark);
+}
+
+/* big */
+.big-button {
+  padding: 20px 10px;
+  font-size: 15px;
+  width: 250px;
+  margin-bottom: 10px;
+}
+
+/* nav (prev/next buttons)*/
+nav button, nav a {
   font-family: "Ubuntu", sans-serif;
   padding: 10px;
   border-radius: 100px;
@@ -98,10 +129,15 @@ button, nav a{
   transition: border 0.1s;
 }
 
-button:active, nav a:active{
+nav a:hover {
+  color: var(--white);
+}
+
+nav button:active, nav a:active{
   border-bottom: 2px solid var(--active-dark);
   border-left: 2px solid var(--active-dark);
 }
+/* end of button styling */
 
 html .section{
   margin: 0 20px;
@@ -439,6 +475,8 @@ grid-row: 1 / span 6;
   border: 0;
   padding: 5px;
   margin-right: 4px;
+  border-radius: 100px;
+  min-width: 0;
 }
 
 /* change svg fill color */
