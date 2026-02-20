@@ -83,7 +83,8 @@ let secondaryStat;
             // to change anything about this item--look up jquery method to modify newDropDown in desired way
             const newDropdown = dropdown.clone();
             const newDropdownId = dropdown.attr('id') + '-selected';
-            newDropdown.attr('id', newDropdownId)
+            newDropdown.find(".select-class").remove();
+            newDropdown.attr('id', newDropdownId);
             selectedClasses += newDropdown[0].outerHTML;
           }
           char["primaryClass"] = primaryClass;
