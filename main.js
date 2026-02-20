@@ -1,3 +1,4 @@
+// variables
 let char = {
   name: null,
   class: {},
@@ -6,6 +7,13 @@ let char = {
   background: null,
   stats: {},
 };
+let generalInfo;
+let specificInfo;
+let genInfo;
+let specInfo;
+let primaryStat;
+let secondaryStat;
+
 (function () {
 
   //Constants
@@ -158,14 +166,6 @@ let char = {
   };
 
   const URL = "https://voronv.pythonanywhere.com"
-
-  //Variables
-  let generalInfo;
-  let specificInfo;
-  let genInfo;
-  let specInfo;
-  let primaryStat;
-  let secondaryStat;
 
   let numSections;
   let sectionNum = 0;
@@ -753,11 +753,11 @@ function acceptStats() {
 }
 
 function displayRecommendedStandardStats(primaryId, secondaryId) {
-  newhtml = primaryStat + " as primary stat with 15, " + secondaryStat + " as secondary stat with 14, and the rest of the stats as 13, 12, 10, and 8.";
-  divElement = document.getElementById("displayStandardSpread");
-  html = `<b>Standard Array:</b><br>`;
-  availableNumbers = [13,12,10,8];
-  stats = {
+  const newhtml = primaryStat + " as primary stat with 15, " + secondaryStat + " as secondary stat with 14, and the rest of the stats as 13, 12, 10, and 8.";
+  var divElement = document.getElementById("displayStandardSpread");
+  var html = `<b>Standard Array:</b><br>`;
+  var availableNumbers = [13,12,10,8];
+  var stats = {
   "Constitution": 0,
   "Dexterity": 0,
   "Strength": 0,
@@ -768,7 +768,7 @@ function displayRecommendedStandardStats(primaryId, secondaryId) {
   stats[document.getElementById(primaryId).value] = 15;
   stats[document.getElementById(secondaryId).value] = 14;
 
-  for (s in stats) {
+  for (let s in stats) {
     if (stats[s] == 0) {
       stats[s] = availableNumbers.pop();
     }
