@@ -55,11 +55,13 @@ let char = {
       func: function (comp) {
         comp.children(".select-class").click(function (e) {
           e.stopPropagation();
-          const className = $(this).closest(".acc-item").find(".title").first().text();
-          const classLevel = $(this).closest(".acc-item").find(".select option:selected").text();
+          const dropdown = $(this).closest(".acc-item");
+          const className = dropdown.find(".title").first().text();
+          const classLevel = dropdown.find(".select option:selected").text();
           char.class[className] = classLevel;
           console.log(`class ${className}, level ${classLevel}`);
 
+          // create the the class dropdowns
           var selectedClasses = "";
           var primaryClass = "";
           var maxLevel = 0;
@@ -69,6 +71,12 @@ let char = {
               primaryClass = c;
             }
             selectedClasses += `${c} ${char.class[c]}<br>\n`;
+
+            // to change anything about this item--look up jquery method to modify newDropDown in desired way
+            const newDropdown = dropdown.clone();
+            const newDropdownId = dropdown.attr('id') + '-selected';
+            newDropdown.attr('id', newDropdownId)
+            selectedClasses += newDropdown[0].outerHTML;
           }
           char["primaryClass"] = primaryClass;
           $("#chosen-class").html(selectedClasses);
