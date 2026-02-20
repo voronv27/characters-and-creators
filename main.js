@@ -173,29 +173,17 @@ let char = {
     const panzoom = Panzoom($("#character-sheet")[0], {
       excludeClass: 'x',
     });
-    // No function bind needed
-    // $("#character-sheet-parent").on('wheel', panzoom.zoomWithWheel);
 
     $("#character-sheet-parent")[0].addEventListener('wheel', panzoom.zoomWithWheel);
 
-    //   if (!event.shiftKey) return
-    //   panzoom.zoomWithWheel(event)
-    //
-    // });
+
     //Character Sheet
     $("#character-sheet").sortable({
       connectWith: '.comp, .sub-comp',
       handle: ".handle",
       placeholder: "placeholder",
       forcePlaceholderSize: true,
-      start: function (e, ui) {
-        // let items = $(this).data()['ui-sortable-helper'].items;
-        // items.forEach(function (item) {
-        //   item.height *= panzoom.getScale();
-        //   item.width *= panzoom.getScale();
-        // });
-
-      },
+    
       sort: function (e, ui) {
         let changeLeft = ui.position.left - ui.originalPosition.left;
         // For left position, the problem here is not only the scaling,
@@ -220,15 +208,10 @@ let char = {
         });
       }
     });
-    // $("#character-sheet .comp").on("sort", function (event, ui) {
-    //
-    // });
-    //
+    
     $("#character-sheet .comp").resizable({
       create: function (event, ui) {
-        // $(".ui-resizable-handle").addClass("x")
-        // $(".ui-resizable-e").html(`<i class="fa-solid fa-arrows-left-right"></i>`);
-        // $(".ui-resizable-s").html(`<i class="fa-solid fa-arrows-up-down"></i>`);
+
         $(".ui-resizable-se").html(`<i class="fa-solid fa-up-right-and-down-left-from-center"></i>`).addClass("x");
 
       }

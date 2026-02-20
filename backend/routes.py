@@ -39,6 +39,8 @@ def getGeneralInfo():
     # { spell key: spell info }
     data["spells"] = dataGetter.getSpells()
 
+    data["items"] = dataGetter.getItems()
+
     return data
 
 @app.route('/specific-info')

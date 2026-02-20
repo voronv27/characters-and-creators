@@ -84,19 +84,8 @@ nav{
   font-family: "CinzelDecorative", sans-serif;
 }
 
-nav a{
-  /* cursor: pointer; */
-  /* padding: 10px; */
-  /* font-size: 1.2em; */
-  /* border: 0 !important; */
-  /* box-shadow: 0 0 20px 10px black; */
-  /* border-radius: 100px; */
-}
-
-nav a:hover{
-
-}
-
+/* button styling  in various sections */
+/* default */
 button {
   font-family: "Ubuntu", sans-serif;
   padding: 15px 10px;
@@ -117,6 +106,7 @@ button:hover {
   background-color: var(--active-dark);
 }
 
+/* big */
 .big-button {
   padding: 20px 10px;
   font-size: 15px;
@@ -124,7 +114,8 @@ button:hover {
   margin-bottom: 10px;
 }
 
-nav button, nav a{
+/* nav (prev/next buttons)*/
+nav button, nav a {
   font-family: "Ubuntu", sans-serif;
   padding: 10px;
   border-radius: 100px;
@@ -146,6 +137,7 @@ nav button:active, nav a:active{
   border-bottom: 2px solid var(--active-dark);
   border-left: 2px solid var(--active-dark);
 }
+/* end of button styling */
 
 html .section{
   margin: 0 20px;
@@ -453,11 +445,6 @@ input[type='text']:focus{
 #character-sheet-parent:hover, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):hover{
   cursor: grab !important;
 }
-#character-sheet-parent:active, #character-sheet:hover, #character-sheet-parent *:not(.x, .x *):active{
-  /* cursor: grabbing !important; */
-}
-
-
 
 .gridr-2-6{
 grid-row: 1 / span 6; 
