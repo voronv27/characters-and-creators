@@ -11,23 +11,37 @@
     <script src="https://kit.fontawesome.com/476f3336e3.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@panzoom/panzoom@4.6.0/dist/panzoom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="main.js"></script>
   </head>
 <body>
-<h1>Characters & Creators</h1>
-Welcome to Characters & Creators! <p>This open source program allows you to either create a new character for D&D 5e in a simplified process or to upload a preexisting character sheet in order to tweak aspects of it.<hr>
-<a href="createCharacter.html">
+<!--in order to have a footer, wrap screen in this vertical flex-->
+<div class="vertical-flex-screen">
+
+<!--main page content-->
+<div class="center-items pad-items">
+  <h1 class="title-text">Characters & Creators</h1>
+  <div class="newline"></div>
+
+  Welcome to Characters & Creators! <p>This open source program allows you to either create a new character for D&D 5e in a simplified process or to upload a preexisting character sheet in order to tweak aspects of it.<hr>
+  <div class="newline"></div>
+
+  <a href="createCharacter.html">
+    <button>
+    Create New Character 
+  </button> 
+  </a>
+  <div class="newline"></div>
   <button>
-  Create New Character 
-</button> 
-</a><br><br>
-<button>
-  Upload Existing Character Sheet
-</button>
+    Upload Existing Character Sheet
+  </button>
+</div>
 
-<hr>
-<a href="https://github.com/voronv27/characters-and-creators"><button class="githubbutton"><img src="github.svg" alt="Github Logo" width="50" height="50"></button></a>
-<a href="https://github.com/voronv27/characters-and-creators">Github Repo</a>
+<!--footer uses fill class on empty div above to be at bottom of page-->
+<div class="fill"></div>
+<div class="center-items pad-items vertical-center-items">
+  <a href="https://github.com/voronv27/characters-and-creators"><button class="githubbutton"><img src="assets/svg/github.svg" alt="Github Logo" width="25"></button></a>
+  Check out our <a href="https://github.com/voronv27/characters-and-creators">Github Repository</a>
+</div>
 
+</div>
 </body>
 </html>
