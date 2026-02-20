@@ -12,54 +12,98 @@ localClassData = {
     "Artificer": {
         "preferredStats": ["Intelligence", "Constitution"],
         "desc": "Masters of invention, artificers use ingenuity and magic to unlock extraordinary capabilities in objects",
+        "multiClassRec": {
+            "Intelligence": 13
+        }
+
     },
     "Barbarian": {
         "preferredStats": ["Strength", "Constitution"],
-        "desc": "Barbarians are mighty warriors who are powered by primal forces of the multiverse that manifest as a Rage"
+        "desc": "Barbarians are mighty warriors who are powered by primal forces of the multiverse that manifest as a Rage",
+        "multiClassRec": {
+            "Strength": 13
+        }
         },
     "Bard": {
         "preferredStats": ["Charisma", "Dexterity"],
-        "desc": "Bards are expert at inspiring others, soothing hurts, disheartening foes, and creating illusions"
+        "desc": "Bards are expert at inspiring others, soothing hurts, disheartening foes, and creating illusions",
+        "multiClassRec": {
+            "Charisma": 13
+        }
         },
     "Cleric": {
         "preferredStats": ["Wisdom", "Constitution"],
-        "desc": "Clerics can reach out to the divine magic of the Outer Planes and channel it to bolster people and battle foes"
+        "desc": "Clerics can reach out to the divine magic of the Outer Planes and channel it to bolster people and battle foes",
+        "multiClassRec": {
+            "Wisdom": 13
+        }
         },
     "Druid": {
         "preferredStats": ["Wisdom", "Constitution"],
-        "desc": "Druids call on the forces of nature, harnessing magic to heal, transform into animals, and wield elemental destruction"
+        "desc": "Druids call on the forces of nature, harnessing magic to heal, transform into animals, and wield elemental destruction",
+        "multiClassRec": {
+            "Wisdom": 13
+        }
         },
     "Fighter": {
         "preferredStats": ["Strength", "Constitution"],
-        "desc": "Fighters all share an unparalleled prowess with weapons and armor, and are well acquainted with death, both meting it out and defying it"
+        "desc": "Fighters all share an unparalleled prowess with weapons and armor, and are well acquainted with death, both meting it out and defying it",
+        "multiClassRec": {
+            "Strength": 13,
+            "Dexterity": 13
+        }
         },
     "Monk": {
         "preferredStats": ["Dexterity", "Wisdom"],
-        "desc": "Monks focus their internal reservoirs of power to create extraordinary, even supernatural, effects"
+        "desc": "Monks focus their internal reservoirs of power to create extraordinary, even supernatural, effects",
+        "multiClassRec": {
+            "Dexterity": 13,
+            "Wisdom": 13
+        }
         },
     "Paladin": {
         "preferredStats": ["Strength", "Charisma"],
-        "desc": "Paladins live on the front lines of the cosmic struggle, united by their oaths against the forces of annihilation"
+        "desc": "Paladins live on the front lines of the cosmic struggle, united by their oaths against the forces of annihilation",
+        "multiClassRec": {
+            "Strength": 13,
+            "Charisma": 13
+        }
         },
     "Ranger": {
         "preferredStats": ["Dexterity", "Wisdom"],
-        "desc": "Rangers are honed with deadly focus and harness primal powers to protect the world from the ravages of monsters and tyrants"
+        "desc": "Rangers are honed with deadly focus and harness primal powers to protect the world from the ravages of monsters and tyrants",
+        "multiClassRec": {
+            "Dexterity": 13,
+            "Wisdom": 13
+        }
         },
     "Rogue": {
         "preferredStats": ["Dexterity", "Intelligence"],
         "desc": "Rogues have a knack for finding the solution to just about any problem, prioritizing subtle strikes over brute strength",
+        "multiClassRec": {
+            "Dexterity": 13
+        }
     },
     "Sorcerer": {
         "preferredStats": ["Charisma", "Constitution"],
         "desc": "Sorcerers harness and channel the raw, roiling power of innate magic that is stamped into their very being",
+        "multiClassRec": {
+            "Charisma": 13
+        }
     },
     "Warlock": {
         "preferredStats": ["Charisma", "Constitution"],
         "desc": "Warlocks quest for knowledge that lies hidden in the fabric of the multiverse, piecing together arcane secrets to bolster their own power",
+        "multiClassRec": {
+            "Charisma": 13
+        }
     },
     "Wizard": {
         "preferredStats": ["Intelligence", "Constitution"],
         "desc": "Wizards cast spells of explosive fire, arcing lightning, subtle deception, and spectacular transformations",
+        "multiClassRec": {
+            "Intelligence": 13
+        }
     },
 }
 
@@ -98,6 +142,7 @@ skills = {
     "Performance": "Charisma",
     "Persuasion": "Charisma",
 }
+
 
 # Helper functions to get data from the open5e API
 def getApiData(url, payload={}):
@@ -142,6 +187,16 @@ def getSkills(skillDesc):
         options = filteredDesc.split(", ")
 
     return {"count": number[countWord], "options": options}
+def parseTools(toolStr):
+    parsedTool = {}
+    tool = toolStr.split("section.\n\n")[1].split("**_")
+    # first element is empty string so skip it
+    for t in tool[1:]:
+        split = t.split("_**")
+        name = split[0].replace(".", "")
+        desc = split[1].strip()
+        parsedTool[name] = desc
+    return parsedTool
 
 # The open5e API lists race proficiencies as a string which we'd like to parse
 def parseTraits(traitsDesc):
@@ -290,6 +345,7 @@ class DataGetter:
             self.items["armor"] = {armor["name"]: armor for armor in armorData}
             self.items["weapon"] = {weapon["name"]: weapon for weapon in weaponData}
 
+
             adventuringGearData = next(d for d in otherItemsData if d["name"] == "Adventuring Gear")
             adventuringGearStr = adventuringGearData["desc"]
             adventuringGearStr = adventuringGearStr[adventuringGearStr.index('*'):]
@@ -299,7 +355,12 @@ class DataGetter:
             equipmentPacksStr = equipmentPacksData["desc"]
             equipmentPacksStr = equipmentPacksStr[equipmentPacksStr.index('*'):]
             self.items["equipmentPacks"] = parseEquipmentPacks(equipmentPacksStr)
-        
+
+            toolsData = next(d for d in otherItemsData if d["name"] == "Tools")
+            toolsStr = toolsData["desc"]
+            toolsStr = toolsStr[toolsStr.index('*'):]
+            self.items["tools"] = parseTools(toolsStr)
+
         return self.items
 
     def getClasses(self):
