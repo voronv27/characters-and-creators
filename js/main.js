@@ -133,7 +133,7 @@ let char = {
               </ul> 
               <ul class="status bottom">
                 <li><em>components</em><div class="components"></div></li>
-                <li class="second"><em>duration</em><div class="duration"></div></li>			
+                <li class="second"><em>duration</em><div class="duration"></div></li>     
                 <br clear="all">
               </ul>        
               <b class="need"></b>
