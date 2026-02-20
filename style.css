@@ -471,9 +471,26 @@ grid-row: 1 / span 6;
   filter: invert(11%) sepia(42%) saturate(5907%) hue-rotate(354deg) brightness(98%) contrast(119%);
 }
 
+/* text for title on homepage and header on other pages */
 .title-text {
   font-size: 3em;
   margin: 0.2em; /* less padding around title */
+  margin-top: 1em;
+}
+
+.header-link {
+  text-decoration: none; /* no underline on link for title */
+  color: var(--white);
+}
+.header-link:hover {
+  color: var(--active);
+}
+
+.header-text {
+  font-size: 2.5em;
+  margin: 0.2em;
+  margin-top:0.5em;
+  padding-left: 20px;
 }
 
 /* SOME UTILITY CLASSES ITEM PLACEMENT */
@@ -512,5 +529,7 @@ then add an empty div with the fill class above footer*/
 /* utility class for having some padding between items */
 .pad-items {
   padding: 20px;
+  padding-top: 0;
   gap: 2px;
 }
+
