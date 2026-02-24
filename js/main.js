@@ -766,3 +766,20 @@ function displayRecommendedStandardStats(primaryId, secondaryId) {
   //$('#displayStandardSpread').html(html);
 
 }
+
+//another function that might not work
+function filterItems() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("searchbar");
+    filter = input.value.toUpperCase();
+    classAcc = document.getElementById("class-acc");
+    accItem = classAcc.getElementsByClassName("acc-item");
+    for (i = 0; i < accItem.length; i++) {
+        txtValue = $(accItem[i]).find(".title").first().text();
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            accItem[i].style.display = "";
+        } else {
+            accItem[i].style.display = "none";
+        }
+    }
+}

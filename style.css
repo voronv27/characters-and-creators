@@ -600,3 +600,44 @@ then add an empty div with the fill class above footer*/
 .padded {
   padding: 5px;
 }
+#sections {
+  background-color: var(--fg);
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 0px solid #ccc;
+  background-color: rgb(24, 20, 20);
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: rgb(200, 10, 60);
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 20px 40px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: rgb(180, 15, 45);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: rgb(180, 15, 45);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid rgb(20, 20, 20);
+  border-top: none;
+}
+
