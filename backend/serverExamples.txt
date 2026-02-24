@@ -29,7 +29,17 @@ returns:
 	},
 	"spells": {
 		"spell_key": spell_data
-	}
+	},
+    "items": {
+        "item_key": {
+            "magicItems": magic_item_data,
+            "armor": armor_data,
+            "weapon": weapon_data,
+            "adventuringGear": adventuring_gear_data,
+            "equipmentPacks": equipment_pack_data,
+            "tools": tools_data
+}
+}
 }
 
 class_data format:
@@ -151,6 +161,72 @@ spell_data format:
 	"shape_type": "shape for area of effect",
 	"shape_size": "size of shape for area of effect",
 	"concentration": true/false
+}
+
+
+magic_items_data format
+{
+    "slug": slug for item,
+    "name": "item_name",
+    "type": type of item,
+    "desc": magic item desciption,
+    "rarity": how rare an item is,
+    "requires_attunement": whether or not the item requires attunement,
+    "document__slug": slug for document,
+    "document__title": title for the document,
+    "document__url": url for document
+}
+weapon_data format
+{
+    "url": open5e api url,
+    "key": key for item on open5e,
+    "document": {
+        "name": name of reference document,
+        "key": key for reference docuement on open5e,
+        "type": what kind of reference docuement it is,
+        "display_name": name of the rules document
+        "publisher": {
+            "name": name of publisher,
+            "key": key for publisher on open5e,
+            "url": open5e url for publisher
+        },
+        "gamesystem": {
+            "name": name of game system used,
+            "key": key for gamesystem on open5e,
+            "url": url for gamesystem on open5e
+        },
+        "permalink": permalink for reference document,
+    }
+    "properties": [
+        list of all properties of the weapon, will be different for each one
+        property will be in this format
+        {"property": {
+            "name": name of property,
+            "type": type of property,
+            "url": url for property on open5e,
+            "desc": description of property,
+            },
+         "detail": details about the property
+
+        }
+
+        ]
+    "damage_type": {
+        "name": name of damage type,
+        "key": open5e api key for damage type,
+        "url": open5e url for damage type,
+        },
+    "distance_unit": distance unit the item,
+    "name": name of item,
+    "damage_dice": damage dice of item,
+    "range": range of item,
+    "long_range": extended range of item,
+    "is_simple": whether or not an item is simple,
+    "is_improvised": whether or not an item is improvised
+}
+adventuring_gear_data, equipment_packs_data, tools_data format
+{
+    "name": "item_description",
 }
 note: a lot of these values can be null
 

@@ -4,7 +4,7 @@
 3) Run from the terminal python3 -m venv venv (try py or python instead of python3 if you get an error)
 4) Run from the terminal venv\Scripts\activate (use source venv/bin/activate if on linux)
 5) Run from the terminal pip install -r requirements.txt
-6) if that does not work instead run pip install flask and then pip install python-dotenv
+6) if that does not work instead run pip install flask, pip install flask_cors and then pip install python-dotenv
 7) You are now done!
 
 # To Run Locally
