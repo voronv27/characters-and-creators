@@ -38,7 +38,13 @@ returns:
             "adventuringGear": adventuring_gear_data,
             "equipmentPacks": equipment_pack_data,
             "tools": tools_data
-}
+  },
+  "languages" : {
+      "language_name": {
+        "type": What type of language it is
+        "typical_speakers": What races typically speak the language
+      }
+  }
 }
 }
 
@@ -223,6 +229,36 @@ weapon_data format
     "long_range": extended range of item,
     "is_simple": whether or not an item is simple,
     "is_improvised": whether or not an item is improvised
+}
+armor_data format
+{
+  "url": open5e api url,
+  "key": key for item on open5e,
+  "ac_display": How the ac for the armor is calculated
+  "category": Category of armor
+  "document": {
+      "name": name of reference document,
+      "key": key for reference docuement on open5e,
+      "type": what kind of reference docuement it is,
+      "display_name": name of the rules document
+      "publisher": {
+          "name": name of publisher,
+          "key": key for publisher on open5e,
+          "url": open5e url for publisher
+      },
+      "gamesystem": {
+          "name": name of game system used,
+          "key": key for gamesystem on open5e,
+          "url": url for gamesystem on open5e
+      },
+      "permalink": permalink for reference document,
+    }
+  "name": name of armor
+  "grants_stealth_disavantage": boolean, says whether or not armor grants disadvantage for Stealth
+  "strength_score_required": strength needed to use item, null if no requirement present
+  "ac_base": base ac before modifiers
+  "ac_add_dexmod": whether or not you add dex to ac for armor
+  "ac_cap_dexmod": cap on how much dex adds to your ac
 }
 adventuring_gear_data, equipment_packs_data, tools_data format
 {
