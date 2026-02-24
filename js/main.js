@@ -5,6 +5,7 @@ let char = {
   race: null,
   background: null,
   stats: {},
+  languages: {"Common":{"type":"Exotic", "typical_speakers":["People"]}, "Undercommon":{"type": "Normal", "typical_speakers":["Underpeople"], "Amogi":{"type:" "Amogus", "typical_speakers":["Amongi"]}} //note: placeholder, still need to add functionality 
 };
 (function () {
 
@@ -77,7 +78,6 @@ let char = {
           // reset specificInfo because we changed class
           specificInfo = null;
           $("#stat-suggestion").show();
-          //nextSection();
         })
       }
     },
@@ -507,7 +507,6 @@ let char = {
     if (comp[key].func) {
       comp[key].func(added);
     }
-    // console.log(added);
     return added;
   }
 
