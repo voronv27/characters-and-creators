@@ -157,8 +157,8 @@ nav button:active, nav a:active{
 html .section{
   margin: 0 20px;
   display: none;
+  background-color: var(--bg);
 }
-
 
 .section.selected{
   display: block;
@@ -589,6 +589,14 @@ then add an empty div with the fill class above footer*/
   gap: 2px;
 }
 
-#sections {
-  background-color: var(--fg);
+.bg-active {
+  background-color: var(--active);
+}
+
+.wrapper {
+  padding-top: 10px;
+}
+
+.padded {
+  padding: 5px;
 }
