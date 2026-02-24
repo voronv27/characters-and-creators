@@ -6,7 +6,7 @@ let char = {
   background: null,
   stats: {},
 };
-let languages: {"Common":{"type":"Exotic", "typical_speakers":["People"]}, "Undercommon":{"type": "Normal", "typical_speakers":["Underpeople"], "Amogi":{"type:" "Amogus", "typical_speakers":["Amongi"]}} //note: placeholder, still need to add functionality
+let languages: {"Common":{"type":"Exotic", "typical_speakers":["People"]}, "Undercommon":{"type": "Normal", "typical_speakers":["Underpeople"]}, "Amogi":{"type:" "Amogus", "typical_speakers":["Amongi"]}} //note: placeholder, still need to add functionality
 
 // Constants
 const P_B = "Parent Before";
