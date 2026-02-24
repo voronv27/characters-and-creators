@@ -41,6 +41,8 @@ def getGeneralInfo():
 
     data["items"] = dataGetter.getItems()
 
+    data["languages"] = dataGetter.fetchLanguages()
+
     return data
 
 @app.route('/specific-info')
