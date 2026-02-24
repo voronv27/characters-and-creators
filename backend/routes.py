@@ -41,7 +41,7 @@ def getGeneralInfo():
 
     data["items"] = dataGetter.getItems()
 
-    data["languages"] = dataGetter.fetchLanguages
+    data["languages"] = dataGetter.fetchLanguages()
 
     return data
 
