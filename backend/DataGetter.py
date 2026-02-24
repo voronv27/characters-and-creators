@@ -297,6 +297,22 @@ def parseEquipmentPacks(epStr):
         parsedPacks[name] = desc
     return parsedPacks
 
+def parseLanguages(languageResults):
+
+
+    result = {}
+    for lang in languageResults:
+        langProperties = {}
+        langUrl = "https://dnd5eapi.co" + lang["url"]
+        langData = getApiData(langUrl)
+        langProperties["type"] = langData["type"]
+        langProperties["typical_speakers"] = langData["typical_speakers"]
+        result[lang["name"]] = langProperties
+
+    return result
+
+
+
 # DataGetter is imported by routes.py to get DnD data.
 # It caches this data to avoid making extra API calls.
 class DataGetter:
@@ -308,6 +324,7 @@ class DataGetter:
         self.spells = None
         self.spellList = None
         self.items = None
+        self.languages = None
         self.loadData()
     
     #checks if we have the data already, if so, loads it
@@ -325,6 +342,8 @@ class DataGetter:
                 self.spells = loadData["spells"]
             if ("items" in loadData.keys()):
                 self.items = loadData["items"]
+            if ("languages" in loadData.keys()):
+                self.languages = loadData["languages"]
 
     def getItems(self):
 
@@ -362,6 +381,16 @@ class DataGetter:
             self.items["tools"] = parseTools(toolsStr)
 
         return self.items
+
+    def fetchLanguages(self):
+        if not self.languages:
+            self.languages = {}
+
+            languageUrl = "https://www.dnd5eapi.co/api/2014/languages"
+
+            languageData = getData(languageUrl)
+            self.languages = parseLanguages(languageData)
+        return self.languages
 
     def getClasses(self):
         if not self.classData:
@@ -591,19 +620,22 @@ class DataGetter:
         self.spells = None
         self.spellList = None
         self.items = None
+        self.languages = None
         
         self.getSpells()
         self.getClasses()
         self.getRaces()
         self.getBackgrounds()
         self.getItems()
+        self.fetchLanguages()
 
         localData = {
             "classData": self.classData,
             "races": self.races,
             "backgrounds": self.backgrounds,
             "spells": self.spells,
-            "items": self.items
+            "items": self.items,
+            "languages": self.languages
         }
 
         with open("local_data.json", "w") as f:
@@ -666,11 +698,19 @@ if __name__ == "__main__":
         print("Starting equipment:", dataGetter.getEquipment(None, background))
         print()
 
+    languages = dataGetter.fetchLanguages()
+
+    print(languages)
+    for lang in languages:
+        print(f"language: {lang}, type: {languages[lang]["type"]}, typical speakers: {languages[lang]["typical_speakers"]}")
+"""
     items = dataGetter.getItems()
     print("Item types:", list(items["armor"]["Breastplate"]))
     print("Item types:", list(items["weapon"]["Club"]))
     print("Item types:", list(items["magicItems"]["Worry Stone"]))
     print()
-    """for iType in items:
+    for iType in items:
         print(f"{iType}: {items[iType]}")
-        print()""" 
+        print() 
+
+"""
