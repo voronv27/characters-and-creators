@@ -13,15 +13,17 @@ let genInfo;
 let specInfo;
 let primaryStat;
 let secondaryStat;
+let languages: {"Common":{"type":"Exotic", "typical_speakers":["People"]}, "Undercommon":{"type": "Normal", "typical_speakers":["Underpeople"], "Amogi":{"type:" "Amogus", "typical_speakers":["Amongi"]}} //note: placeholder, still need to add functionality
+
+// Constants
+const P_B = "Parent Before";
+const P_A = "Parent After";
+const S_B = "Sibling Before";
+const S_A = "Sibling After";
 
 (function () {
 
-  //Constants
-  const P_B = "Parent Before";
-  const P_A = "Parent After";
-  const S_B = "Sibling Before";
-  const S_A = "Sibling After";
-
+  
   $("#enter-name").change(function () {
     char["name"] = $(this).val();
   })
@@ -152,7 +154,7 @@ let secondaryStat;
               </ul> 
               <ul class="status bottom">
                 <li><em>components</em><div class="components"></div></li>
-                <li class="second"><em>duration</em><div class="duration"></div></li>			
+                <li class="second"><em>duration</em><div class="duration"></div></li>     
                 <br clear="all">
               </ul>        
               <b class="need"></b>
@@ -186,29 +188,17 @@ let secondaryStat;
     const panzoom = Panzoom($("#character-sheet")[0], {
       excludeClass: 'x',
     });
-    // No function bind needed
-    // $("#character-sheet-parent").on('wheel', panzoom.zoomWithWheel);
 
     $("#character-sheet-parent")[0].addEventListener('wheel', panzoom.zoomWithWheel);
 
-    //   if (!event.shiftKey) return
-    //   panzoom.zoomWithWheel(event)
-    //
-    // });
+
     //Character Sheet
     $("#character-sheet").sortable({
       connectWith: '.comp, .sub-comp',
       handle: ".handle",
       placeholder: "placeholder",
       forcePlaceholderSize: true,
-      start: function (e, ui) {
-        // let items = $(this).data()['ui-sortable-helper'].items;
-        // items.forEach(function (item) {
-        //   item.height *= panzoom.getScale();
-        //   item.width *= panzoom.getScale();
-        // });
-
-      },
+    
       sort: function (e, ui) {
         let changeLeft = ui.position.left - ui.originalPosition.left;
         // For left position, the problem here is not only the scaling,
@@ -233,15 +223,10 @@ let secondaryStat;
         });
       }
     });
-    // $("#character-sheet .comp").on("sort", function (event, ui) {
-    //
-    // });
-    //
+    
     $("#character-sheet .comp").resizable({
       create: function (event, ui) {
-        // $(".ui-resizable-handle").addClass("x")
-        // $(".ui-resizable-e").html(`<i class="fa-solid fa-arrows-left-right"></i>`);
-        // $(".ui-resizable-s").html(`<i class="fa-solid fa-arrows-up-down"></i>`);
+
         $(".ui-resizable-se").html(`<i class="fa-solid fa-up-right-and-down-left-from-center"></i>`).addClass("x");
 
       }
@@ -541,7 +526,6 @@ let secondaryStat;
     if (comp[key].func) {
       comp[key].func(added);
     }
-    // console.log(added);
     return added;
   }
 
