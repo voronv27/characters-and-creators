@@ -5,16 +5,18 @@ let char = {
   race: null,
   background: null,
   stats: {},
-  languages: {"Common":{"type":"Exotic", "typical_speakers":["People"]}, "Undercommon":{"type": "Normal", "typical_speakers":["Underpeople"], "Amogi":{"type:" "Amogus", "typical_speakers":["Amongi"]}} //note: placeholder, still need to add functionality 
 };
+let languages: {"Common":{"type":"Exotic", "typical_speakers":["People"]}, "Undercommon":{"type": "Normal", "typical_speakers":["Underpeople"], "Amogi":{"type:" "Amogus", "typical_speakers":["Amongi"]}} //note: placeholder, still need to add functionality
+
+// Constants
+const P_B = "Parent Before";
+const P_A = "Parent After";
+const S_B = "Sibling Before";
+const S_A = "Sibling After";
+
 (function () {
 
-  //Constants
-  const P_B = "Parent Before";
-  const P_A = "Parent After";
-  const S_B = "Sibling Before";
-  const S_A = "Sibling After";
-
+  
   $("#enter-name").change(function () {
     char["name"] = $(this).val();
   })
