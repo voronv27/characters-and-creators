@@ -2,6 +2,15 @@
 //Note: the comp variable is stored separately in utils.js at the moment.
 //Feel free to move it if we feel like that'd be best for organization.
 
+// Constants
+const P_B = "Parent Before";
+const P_A = "Parent After";
+const S_B = "Sibling Before";
+const S_A = "Sibling After";
+
+//Variables
+let genInfo;
+
 // Components creation that requires backend
 async function initComps() {
   genInfo = await generalInfo.then((resp) => resp.json());

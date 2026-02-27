@@ -11,16 +11,11 @@ let char = {
 };
 
 // Constants
-const P_B = "Parent Before";
-const P_A = "Parent After";
-const S_B = "Sibling Before";
-const S_A = "Sibling After";
 const URL = "https://voronv.pythonanywhere.com"
 
 // Variables
 let generalInfo;
 let specificInfo;
-let genInfo;
 let specInfo;
 
 
