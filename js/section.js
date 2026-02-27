@@ -1,4 +1,5 @@
 //JS file that stores all Section related vars/functions
+
 let numSections;
 let sectionNum = 0;
 function init() {

@@ -1,4 +1,5 @@
 //JS file that stores all stats related functions
+
 function diceRoll(max) {
   return Math.floor(Math.random() * (max)) + 1;
 }

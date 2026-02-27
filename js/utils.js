@@ -1,4 +1,5 @@
-//Stores utility functions/variables such as comp.
+//JS file that stores utility functions/variables such as comp.
+
 // comp contains html and functions for elements dynamically populated by the site
 const comp = {
   accItem: {
