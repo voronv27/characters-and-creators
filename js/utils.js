@@ -43,6 +43,8 @@ const comp = {
         char.class[className] = classLevel;
         console.log(`class ${className}, level ${classLevel}`);
 
+        openPopup('class-select-popup', className);
+
         var selectedClasses = "";
         var primaryClass = "";
         var maxLevel = 0;
@@ -128,3 +130,22 @@ const comp = {
     func: null
   }
 };
+
+// function to open the popup window and set the title as desired
+const popupWindow = $("#popup-window");
+const popupTitle = $("#popup-title");
+var openPopup;
+function openPopup(contentId, title) {
+  popupWindow.show();
+  popupTitle.text(title);
+  openPopup = $(`#${contentId}`);
+  openPopup.show();
+}
+
+// closes the popup window and hides the current popup content
+function closePopup() {
+  popupWindow.hide();
+  if (openPopup) {
+    openPopup.hide();
+  }
+}
