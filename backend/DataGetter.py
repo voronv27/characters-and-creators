@@ -702,7 +702,7 @@ if __name__ == "__main__":
 
     print(languages)
     for lang in languages:
-        print(f"language: {lang}, type: {languages[lang]["type"]}, typical speakers: {languages[lang]["typical_speakers"]}")
+        print(f"language: {lang}, type: {languages[lang]['type']}, typical speakers: {languages[lang]['typical_speakers']}")
 """
     items = dataGetter.getItems()
     print("Item types:", list(items["armor"]["Breastplate"]))
