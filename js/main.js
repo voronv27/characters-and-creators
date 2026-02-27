@@ -16,8 +16,8 @@ const URL = "https://voronv.pythonanywhere.com"
 // Variables
 let generalInfo;
 let specificInfo;
-let specInfo;
-
+let genInfo; // this is the actual dictionary with general info
+let specInfo; // this is the actual dictionary with specific info
 
 let languages = {"Common":{"type":"Exotic", "typical_speakers":["People"]},
                  "Undercommon":{"type": "Normal", "typical_speakers":["Underpeople"]},

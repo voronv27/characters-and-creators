@@ -8,9 +8,6 @@ const P_A = "Parent After";
 const S_B = "Sibling Before";
 const S_A = "Sibling After";
 
-//Variables
-let genInfo;
-
 // Components creation that requires backend
 async function initComps() {
   genInfo = await generalInfo.then((resp) => resp.json());
