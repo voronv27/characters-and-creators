@@ -23,46 +23,62 @@ const comp = {
       });
     }
   },
-  classCont: {
-    html: `
-      <div id="new">
-        <button class="select-class">Select Class</button>
-        <label for="select-level-" class="select-level">Select level:</label>
-        <select id="select-level-" class="select">
-          <option selected="selected">1</option>`
-          + [...Array(19).keys()].map(i => i + 2).reduce(
-              (opts, newOpt) => opts + `<option>${newOpt}</option>\n`, "") +
-      ` </select>
-        <div class="desc"></div>
-      </div>`,
-    func: function (comp) {
-      comp.children(".select-class").click(function (e) {
-        e.stopPropagation();
-        const className = $(this).closest(".acc-item").find(".title").first().text();
-        const classLevel = $(this).closest(".acc-item").find(".select option:selected").text();
-        char.class[className] = classLevel;
-        console.log(`class ${className}, level ${classLevel}`);
+classCont: {
+      html: `
+        <div id="new">
+          <button class="select-class">Select Class</button>
+          <label for="select-level-" class="select-level">Select level:</label>
+          <select id="select-level-" class="select">
+            <option selected="selected">1</option>`
+        + [...Array(19).keys()].map(i => i + 2).reduce(
+          (opts, newOpt) => opts + `<option>${newOpt}</option>\n`, "") +
+        ` </select>
+          <div class="desc"></div>
+        </div>`,
+      func: function (comp) {
+        comp.children(".select-class").click(function (e) {
+          e.stopPropagation();
+          const dropdown = $(this).closest(".acc-item");
+          const className = dropdown.find(".title").first().text();
+          const classLevel = dropdown.find(".select option:selected").text();
+          char.class[className] = classLevel;
+          console.log(`class ${className}, level ${classLevel}`);
 
-        var selectedClasses = "";
-        var primaryClass = "";
-        var maxLevel = 0;
-        for (c in char.class) {
-          if (char.class[c] > maxLevel) {
-            maxLevel = char.class[c];
-            primaryClass = c;
+          // create the the class dropdowns
+          var selectedClasses = "";
+          var primaryClass = "";
+          var maxLevel = 20;
+          for (c in char.class) {
+            console.log(char.class[c]);
+            console.log(c);
+            if (char.class[c] > maxLevel) {
+              maxLevel = char.class[c];
+              primaryClass = c
+            }
+            console.log(`${c} ${char.class[c]}<br>\n`);
+            selectedClasses += `${c} ${char.class[c]}<br>\n`;
+
+            // to change anything about this item--look up jquery method to modify newDropDown in desired way
+            const newDropdown = dropdown.clone();
+            const newDropdownId = dropdown.attr('id') + '-selected';
+            newDropdown.find(".select-class").remove();
+            newDropdown.attr('id', newDropdownId);
+            selectedClasses += newDropdown[0].outerHTML;
           }
-          selectedClasses += `${c} ${char.class[c]}<br>\n`;
-        }
-        char["primaryClass"] = primaryClass;
-        $("#chosen-class").html(selectedClasses);
-        $("#primary-class").html(primaryClass);
+          console.log(selectedClasses);
+          char["primaryClass"] = primaryClass;
+          $("#chosen-class").html(selectedClasses);
+          $("#primary-class").html(primaryClass);
 
-        // reset specificInfo because we changed class
-        specificInfo = null;
-        $("#stat-suggestion").show();
-      })
-    }
-  },
+          // reset specificInfo because we changed class
+          specificInfo = null;
+          $("#stat-suggestion1").show();
+          $("#stat-suggestion2").show();
+          $("#stat-suggestion3").show();
+          //nextSection();
+        })
+      }
+    },
   raceCont: {
     html: `
       <div id="new">
@@ -128,3 +144,19 @@ const comp = {
     func: null
   }
 };
+
+function filterItems() {
+    var input, filter, classAcc, accItem, i, txtValue;
+    input = document.getElementById("searchbar");
+    filter = input.value.toUpperCase();
+    classAcc = document.getElementById("class-acc");
+    accItem = classAcc.getElementsByClassName("acc-item");
+    for (i = 0; i < accItem.length; i++) {
+        txtValue = $(accItem[i]).find(".title").first().text();
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            accItem[i].style.display = "";
+        } else {
+            accItem[i].style.display = "none";
+        }
+    }
+}

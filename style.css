@@ -601,7 +601,7 @@ then add an empty div with the fill class above footer*/
   padding: 5px;
 }
 #sections {
-  background-color: var(--fg);
+  background-color: var(--active);
 }
 
 /* Style the tab */
