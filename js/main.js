@@ -78,7 +78,12 @@ function specificApiData() {
 // Update elements after updating specInfo
 function updateSpecInfo() {
   const recStats = "<b>" + specInfo["preferred-stats"].join("</b> and <b>") + "</b>";
+  const primaryDisplay = "<b>" + specInfo["preferred-stats"][0] + "</b>";
+  const secondaryDisplay = "<b>" + specInfo["preferred-stats"][1] + "</b>";
   $("#rec-stats").html(recStats);
+  $("#primary-stat").html(primaryDisplay);
+  $("#secondary-stat").html(secondaryDisplay);
+  displayRecommendedStandardStats(specInfo["preferred-stats"][0], specInfo["preferred-stats"][1]);
 }
 
 function getRaceDesc(data, subrace = "") {

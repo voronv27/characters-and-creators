@@ -155,8 +155,11 @@ function acceptStats() {
 }
 
 function displayRecommendedStandardStats(primaryId, secondaryId) {
+  console.log("displaying recommended standard stats");
+  console.log(primaryId);
+  console.log(secondaryId);
   const newhtml = primaryStat + " as primary stat with 15, " + secondaryStat + " as secondary stat with 14, and the rest of the stats as 13, 12, 10, and 8.";
-  var divElement = document.getElementById("displayStandardSpread");
+  var divElement = document.getElementById("stat-suggestion4");
   var html = `<b>Standard Array:</b><br>`;
   var availableNumbers = [13,12,10,8];
   var stats = {

@@ -113,7 +113,7 @@
         <button class="tablinks" onclick="OpenTab(event, 'Rolling Stats')">Rolling Stats</button>
         <button class="tablinks" onclick="OpenTab(event, 'Point Buy')">Point Buy</button>
         <button class="tablinks" onclick="OpenTab(event, 'Custom Stats')">Custom Stats</button>
-        <button class="tablinks" onclick="OpenTab(event, 'Vicky Is so Cool and SO Awesoome')">Standard Array(Booring)</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Standard Array')">Standard Array(Booring)</button>
       </div>
 
       <div id="Rolling Stats" class="tabcontent">
@@ -134,7 +134,7 @@
             <h2>Current Score: <span id='score'>27</span>/27</h2>
           </div>
         
-          <div id="generated-stats"class="gen-stats">
+          <div class="gen-stats">
               <button onclick="increment('Strength', 'score')">Increment</button>
               <button onclick="increment('Dexterity', 'score')">Increment</button>
               <button onclick="increment('Constitution', 'score')">Increment</button>
@@ -142,7 +142,7 @@
               <button onclick="increment('Wisdom', 'score')">Increment</button>
               <button onclick="increment('Charisma', 'score')">Increment</button>
           </div>
-          <div id="generated-stats"class="gen-stats">
+          <div class="gen-stats">
               <h2>Strength: <span id='Strength'>8&ensp;</span></h2>
               <h2>Dexterity: <span id="Dexterity">8&ensp;</span></h2>
               <h2>Constitution: <span id='Constitution'>8&ensp;</span></h2>
@@ -163,7 +163,7 @@
 
       <div id="Custom Stats" class="tabcontent">
         <h3>Custom Stats</h3>
-          <div id="generated-stats">
+          <div>
           Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="StrengthInput"><br>
           Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="DexterityInput"><br>
           Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="ConstitutionInput"><br>
@@ -178,9 +178,9 @@
         <h3>Standard Array</h3>
         <p>The standard array is a pre-generated set of stats that players can choose to use instead of rolling for stats. The standard array is 15, 14, 13, 12, 10, and 8. Players can assign these values to their stats as they see fit.</p>
         <p>The chosen stats for your character will be based on your 1st level class.</p>
-          <div id="stat-suggestion2" style="display: none;"><br>Primary Recommended Stat<span id="primary-stat"></span></div>
-          <div id="stat-suggestion3" style="display: none;"><br>Secondary Recommended Stat<span id="secondary-stat"></span></div>
-          <div id="displayStandardSpread"><span>This is some BS</span></div>
+          <div id="stat-suggestion2" style="display: none;"><br>Primary Recommended Stat: <span id="primary-stat"></span></div>
+          <div id="stat-suggestion3" style="display: none;"><br>Secondary Recommended Stat: <span id="secondary-stat"></span></div>
+          <div id="stat-suggestion4" style="display: none;"></div>
       </div>  
     </div>
     <div id="proficiencies-section" class="section" data-title="Proficiencies">

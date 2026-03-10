@@ -56,7 +56,7 @@ classCont: {
               primaryClass = c;
             }
 
-            console.log(`${c} ${char.class[c]}<br>\n`);
+            //console.log(`${c} ${char.class[c]}<br>\n`);
             selectedClasses += `${c} ${char.class[c]}<br>\n`;
 
             // to change anything about this item--look up jquery method to modify newDropDown in desired way
@@ -67,10 +67,11 @@ classCont: {
             selectedClasses += newDropdown[0].outerHTML;
           }
 
-          console.log(selectedClasses);
+          //console.log(selectedClasses);
           char["primaryClass"] = primaryClass;
           $("#chosen-class").html(selectedClasses);
           $("#primary-class").html(primaryClass);
+          
 
           // reset specificInfo because we changed class
           specificInfo = null;
