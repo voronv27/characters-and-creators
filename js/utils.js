@@ -173,7 +173,7 @@ function filterItems() {
     accItem = classAcc.getElementsByClassName("acc-item");
     for (i = 0; i < accItem.length; i++) {
         txtValue = $(accItem[i]).find(".title").first().text();
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
             accItem[i].style.display = "";
         } else {
             accItem[i].style.display = "none";
