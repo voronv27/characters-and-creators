@@ -150,7 +150,7 @@
               <h2>Wisdom: <span id='Wisdom'>8&ensp;</span></h2>
               <h2>Charisma: <span id='Charisma'>8&ensp;</span></h2>
           </div>
-          <div id="generated-stats"class="gen-stats">
+          <div class="gen-stats">
               <button onclick="decrement('Strength','score')">Decrement</button>
               <button onclick="decrement('Dexterity','score')">Decrement</button>
               <button onclick="decrement('Constitution','score')">Decrement</button>
@@ -158,9 +158,7 @@
               <button onclick="decrement('Wisdom','score')">Decrement</button>
               <button onclick="decrement('Charisma','score')">Decrement</button>
             </div>
-        <button class="colorTheme" id="accept-stats" onclick="acceptStats();">Accept Stats</button>
-      
-
+        <button class="colorTheme" onclick="console.log('todo');//acceptStats();">Accept Stats</button>
       </div>
 
       <div id="Custom Stats" class="tabcontent">
@@ -174,20 +172,16 @@
           Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="CharismaInput">
           </div>
         
-        <button class="colorTheme" id="accept-stats" onclick="acceptStats();">Accept Stats</button>
+        <button class="colorTheme" onclick="console.log('todo');//acceptStats();">Accept Stats</button>
       </div>
-      <div id="Vicky Is so Cool and SO Awesoome" class="tabcontent">
+      <div id="Standard Array" class="tabcontent">
         <h3>Standard Array</h3>
         <p>The standard array is a pre-generated set of stats that players can choose to use instead of rolling for stats. The standard array is 15, 14, 13, 12, 10, and 8. Players can assign these values to their stats as they see fit.</p>
         <p>The chosen stats for your character will be based on your 1st level class.</p>
           <div id="stat-suggestion2" style="display: none;"><br>Primary Recommended Stat<span id="primary-stat"></span></div>
           <div id="stat-suggestion3" style="display: none;"><br>Secondary Recommended Stat<span id="secondary-stat"></span></div>
           <div id="displayStandardSpread"><span>This is some BS</span></div>
-          <script src="main.js">displayRecommendedStandardStats('primary-stat', 'secondary-stat');</script>
       </div>  
-        
-
-      </div>
     </div>
     <div id="proficiencies-section" class="section" data-title="Proficiencies">
       Select proficiencies (TODO)<br>
