@@ -1,10 +1,10 @@
 :root{
   --bg: rgb(22, 20, 20);
-  --fg: rgb(42, 40, 40);
+  --fg: rgb(185, 0, 45);
   --border: rgb(32, 30, 30);
   --text: white;
   --active: rgb(152, 0, 0);
-  --active-dark: rgb(122 0 0);
+  --active-dark: rgb(122, 0, 0);
   --active-text: white;
 
   --export-bg: rgb(240, 240, 240);
@@ -74,7 +74,7 @@ nav{
   position: sticky;
   margin: 20px;
   top: 0px;
-  background-color: var(--fg);
+  background-color: var(--border);
   padding: 10px;
   border-radius: 50px;
 }
@@ -131,6 +131,21 @@ nav button, nav a {
   transition: border 0.1s;
 }
 
+button, tablinks{
+  font-family: "Roboto", Arial;
+  padding: 10px;
+  border-radius: 0px;
+  background-color: var(--active);
+  color: var(--active-text);
+  user-select: none;
+  cursor: pointer;
+  border: 0;
+  border-bottom: 5px solid var(--active-dark);
+  border-left: 5px solid var(--active-dark);
+  transition: border 0.1s;
+}
+
+
 nav a:hover {
   color: white;
 }
@@ -144,8 +159,8 @@ nav button:active, nav a:active{
 html .section{
   margin: 0 20px;
   display: none;
+  background-color: var(--bg);
 }
-
 
 .section.selected{
   display: block;
@@ -158,11 +173,9 @@ html .section{
 .acc-item{
   padding: 10px;
   user-select: none;
-  background: var(--fg);
+  color: var(--active-dark);
+  background: var(--active-text);
   border-radius: 20px;
-}
-
-.acc-item{
   margin-bottom: 20px;
   border-left: 5px solid var(--border);
   border-bottom: 5px solid var(--border);
@@ -174,6 +187,7 @@ html .section{
 }
 
 .acc-item .title{
+  color: var(--fg);
   cursor: pointer;
   font-size: 1.25em;
   flex-grow: 1;
@@ -204,6 +218,10 @@ html .section{
 
 .acc-item .select-class{
   margin-top: 10px;
+}
+
+.select-level{
+    color: var(--fg);
 }
 
 .gr{
@@ -472,6 +490,22 @@ grid-row: 1 / span 6;
   background-color: var(--export-fg) !important;
 }
 
+.gen-stats{
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.colorTheme {
+
+  padding: 10px;
+  border: 5px;
+  background-color: rgb(200, 15, 60);
+  border-left:5px solid rgb(185,0,45);
+  border-bottom: 5px solid rgb(185,0,45);
+  border-radius: 100px;
+}
+
 .githubbutton{
   background-color: rgb(255, 255, 255);
   border: 0;
@@ -519,6 +553,11 @@ grid-row: 1 / span 6;
   flex-wrap: wrap;
   justify-content: center;
   height: 100%;
+}
+.column { /*when using the center items class, create new div with column class to create individual columns that divide the overarching container*/
+  flex: 1;
+  padding: 10px;
+  border: 5px solid var(--fg)
 }
 
 /* align (vertical center) items */
@@ -616,4 +655,56 @@ then add an empty div with the fill class above footer*/
   border-right: 4px solid var(--active);
   flex-grow: 1;
   padding: 25px 25px;
+}
+
+.bg-active {
+  background-color: var(--active);
+}
+
+.wrapper {
+  padding-top: 10px;
+}
+
+.padded {
+  padding: 5px;
+}
+#sections {
+  background-color: var(--active);
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 0px solid #ccc;
+  background-color: rgb(24, 20, 20);
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: rgb(200, 10, 60);
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 20px 40px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: rgb(180, 15, 45);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: rgb(180, 15, 45);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid rgb(20, 20, 20);
+  border-top: none;
 }

@@ -18,8 +18,9 @@
     <script src="js/comps.js" defer></script>
   </head>
 <body>
-      <a href="index.html" class="header-link"><h1 class="header-text">Characters & Creators</h1></a>
-      <nav>
+  <a href="index.html" class="header-link"><h1 class="header-text">Characters & Creators</h1></a>
+  <div class="bg-active wrapper">
+    <nav>
           <a id="prev-section">
             <i class="fa-solid fa-chevron-left"></i>
             Prev
@@ -54,19 +55,28 @@
       </div>
     </div>
     <div id="sections" class="pad-items">
-      <div id="general-section" class="section fl"  data-title="General">
+      <div id="general-section" class="section fl padded"  data-title="General">
         Welcome to the character creator! This will walk you through the process of making your D&D 5e character, and provide a character sheet at the end. Navigate between steps using the prev and next buttons up top.<br><br>
         Click "Next" to get started.
       </div>
       <div id="class-section" class="section"  data-title="Class">
-        Selected class(es):
-        <div id="chosen-class">None</div>
+        <div class = "center-items">
+        <div class="column">
+        Choose class(es):
+        <input type="text" id="searchbar" onkeyup="filterItems(event)" placeholder="Search for items...">
         <div id="class-acc" class="acc">
           <div class="acc-item">
             <div class="title">Loading...</div>
             <div class="cont">Loading...</div>
           </div>
         </div>
+        </div>
+        <div class="column">
+          <div id="chosen-class"></div>
+      </div>
+
+      </div>
+
       </div>
     <div id="race-section" class="section" data-title="Race">
       Selected race:
@@ -91,23 +101,93 @@
     <div id="stats-section" class="section" data-title="Stats">
       There are 6 main abilities in D&D, and your stats represent your character's skill level for that ability<br>
       Player stats are usually restricted from 3-20, with possible creature stats ranging from 1-30.<br>
-      <div id="stat-suggestion" style="display: none;"><br>Based on your primary class of <b><span id="primary-class"></span></b>, the stats we recommend you prioritize are <span id="rec-stats"></span><br></div>
+      <div id="stat-suggestion1" style="display: none;"><br>Based on your primary class of <b><span id="primary-class"></span></b>, the stats we recommend you prioritize are <span id="rec-stats"></span><br></div>
       <br>
+
       <!-- TODO: add tooltip for each stat method -->
       To calculate your stats, you can <b>roll</b>, use <b>standard array</b>, or <b>use point buy</b>. You can also type in your own values.<br><br>
 
-      <button id="roll" onclick="rollStats();">Roll Stats</button>
-      <button id="point-buy" onclick="pointBuy();">Point Buy</button>
-      <button id="standard array" onclick="standardArray();">Standard Array</button><br><br>
+      <p>Click on the buttons inside the tabbed menu:</p>
 
-      <div id="generated-stats"></div>
+      <div class="tab">
+        <button class="tablinks" onclick="OpenTab(event, 'Rolling Stats')">Rolling Stats</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Point Buy')">Point Buy</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Custom Stats')">Custom Stats</button>
+        <button class="tablinks" onclick="OpenTab(event, 'Vicky Is so Cool and SO Awesoome')">Standard Array(Booring)</button>
+      </div>
 
-      Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="Strength"><br>
-      Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="Dexterity"><br>
-      Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="Constitution"><br>
-      Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="Intelligence"><br>
-      Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="Wisdom"><br>
-      Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="Charisma">
+      <div id="Rolling Stats" class="tabcontent">
+        <h3>Rolling Stats</h3>
+        <p>General Stuff about rolling stats</p>
+          <button id="roll" onclick="trueRollTest(document.getElementById('trueRollCheck').checked);">Roll Stats</button>
+          <input type="checkbox" id="trueRollCheck" name="trueRollCheck" value="yes">
+          <label for="trueRollCheck">True Random</label>
+          <div id="generated-stats"></div>
+        
+
+      </div>
+
+      <div id="Point Buy" class="tabcontent">
+        <h3>Point Buy</h3>
+          <div id="point-buy-info">
+            <p>With point buy, you have 27 points to spend on your stats, with each stat starting at 8. Each increase in a stat costs a certain number of points, and the cost increases as the stat gets higher.</p>
+            <h2>Current Score: <span id='score'>27</span>/27</h2>
+          </div>
+        
+          <div id="generated-stats"class="gen-stats">
+              <button onclick="increment('Strength', 'score')">Increment</button>
+              <button onclick="increment('Dexterity', 'score')">Increment</button>
+              <button onclick="increment('Constitution', 'score')">Increment</button>
+              <button onclick="increment('Intelligence', 'score')">Increment</button>
+              <button onclick="increment('Wisdom', 'score')">Increment</button>
+              <button onclick="increment('Charisma', 'score')">Increment</button>
+          </div>
+          <div id="generated-stats"class="gen-stats">
+              <h2>Strength: <span id='Strength'>8&ensp;</span></h2>
+              <h2>Dexterity: <span id="Dexterity">8&ensp;</span></h2>
+              <h2>Constitution: <span id='Constitution'>8&ensp;</span></h2>
+              <h2>Intelligence: <span id='Intelligence'>8&ensp;</span></h2>
+              <h2>Wisdom: <span id='Wisdom'>8&ensp;</span></h2>
+              <h2>Charisma: <span id='Charisma'>8&ensp;</span></h2>
+          </div>
+          <div id="generated-stats"class="gen-stats">
+              <button onclick="decrement('Strength','score')">Decrement</button>
+              <button onclick="decrement('Dexterity','score')">Decrement</button>
+              <button onclick="decrement('Constitution','score')">Decrement</button>
+              <button onclick="decrement('Intelligence','score')">Decrement</button>
+              <button onclick="decrement('Wisdom','score')">Decrement</button>
+              <button onclick="decrement('Charisma','score')">Decrement</button>
+            </div>
+        <button class="colorTheme" id="accept-stats" onclick="acceptStats();">Accept Stats</button>
+      
+
+      </div>
+
+      <div id="Custom Stats" class="tabcontent">
+        <h3>Custom Stats</h3>
+          <div id="generated-stats">
+          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="StrengthInput"><br>
+          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="DexterityInput"><br>
+          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="ConstitutionInput"><br>
+          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="IntelligenceInput"><br>
+          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="WisdomInput"><br>
+          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="CharismaInput">
+          </div>
+        
+        <button class="colorTheme" id="accept-stats" onclick="acceptStats();">Accept Stats</button>
+      </div>
+      <div id="Vicky Is so Cool and SO Awesoome" class="tabcontent">
+        <h3>Standard Array</h3>
+        <p>The standard array is a pre-generated set of stats that players can choose to use instead of rolling for stats. The standard array is 15, 14, 13, 12, 10, and 8. Players can assign these values to their stats as they see fit.</p>
+        <p>The chosen stats for your character will be based on your 1st level class.</p>
+          <div id="stat-suggestion2" style="display: none;"><br>Primary Recommended Stat<span id="primary-stat"></span></div>
+          <div id="stat-suggestion3" style="display: none;"><br>Secondary Recommended Stat<span id="secondary-stat"></span></div>
+          <div id="displayStandardSpread"><span>This is some BS</span></div>
+          <script src="main.js">displayRecommendedStandardStats('primary-stat', 'secondary-stat');</script>
+      </div>  
+        
+
+      </div>
     </div>
     <div id="proficiencies-section" class="section" data-title="Proficiencies">
       Select proficiencies (TODO)<br>
@@ -534,10 +614,9 @@
             <textarea></textarea>
           </div>
       </div>
-
-
+    </div>
 </div>
-
+</div>
 </div>
 <p>Github repo: <a href="https://github.com/voronv27/characters-and-creators">voronv/characters-and-creators</a></p>
 
