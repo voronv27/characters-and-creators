@@ -158,31 +158,33 @@ function displayRecommendedStandardStats(primaryId, secondaryId) {
   console.log("displaying recommended standard stats");
   console.log(primaryId);
   console.log(secondaryId);
-  const newhtml = primaryStat + " as primary stat with 15, " + secondaryStat + " as secondary stat with 14, and the rest of the stats as 13, 12, 10, and 8.";
   var divElement = document.getElementById("stat-suggestion4");
-  var html = `<b>Standard Array:</b><br>`;
+  var html = `<h2>Standard Array:</h2>`;
+  var standardOrder = { "Strength": 0, "Dexterity": 0, "Constitution": 0, "Intelligence": 0, "Wisdom": 0, "Charisma": 0 };
   var availableNumbers = [13,12,10,8];
-  var stats = {
-  "Constitution": 0,
-  "Dexterity": 0,
-  "Strength": 0,
-  "Intelligence": 0,
-  "Wisdom": 0,
-  "Charisma": 0
-  };
-  stats[document.getElementById(primaryId).value] = 15;
-  stats[document.getElementById(secondaryId).value] = 14;
+  var stats = [
+  "Charisma",
+  "Intelligence",
+  "Wisdom",
+  "Strength",
+  "Dexterity",
+  "Constitution"
+  ];
+  standardOrder[primaryId] = 15;
+  standardOrder[secondaryId] = 14;
 
   for (let s in stats) {
-    if (stats[s] == 0) {
-      stats[s] = availableNumbers.pop();
+    if (standardOrder[stats[s]] == 0) {
+      standardOrder[stats[s]] = availableNumbers.pop();
     }
-    html += `<b>${s}: ${stats[s]}</b><br>`;
-    divElement.text = html;
-//    $('#displayStandardSpread').html(html);
   }
-
-
-  //$('#displayStandardSpread').html(html);
+  for (let s in standardOrder) {
+    if (s == "Charisma") {
+      html += `<b>${s}: ${standardOrder[s]}</b>`;
+    } else {
+      html += `<b>${s}: ${standardOrder[s]}, </b>`;
+    }
+  }
+  $('#stat-suggestion4').html(html);
 
 }

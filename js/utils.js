@@ -78,6 +78,7 @@ classCont: {
           $("#stat-suggestion1").show();
           $("#stat-suggestion2").show();
           $("#stat-suggestion3").show();
+          $("#stat-suggestion4").show();
         })
       }
     },
