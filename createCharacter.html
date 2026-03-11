@@ -63,7 +63,12 @@
         <div class = "center-items">
         <div class="column">
         Choose class(es):
-        <input type="text" id="searchbar" onkeyup="filterItems(event)" placeholder="Search for items...">
+        <div id="searchbar-container">
+          <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+          <div id="searchbar-dropdown-container">
+            <div id="searchbar-dropdown"></div>
+          </div>
+        </div>
         <div id="class-acc" class="acc">
           <div class="acc-item">
             <div class="title">Loading...</div>
@@ -164,12 +169,12 @@
       <div id="Custom Stats" class="tabcontent">
         <h3>Custom Stats</h3>
           <div>
-          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="StrengthInput"><br>
-          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="DexterityInput"><br>
-          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="ConstitutionInput"><br>
-          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="IntelligenceInput"><br>
-          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="WisdomInput"><br>
-          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="CharismaInput">
+            Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="StrengthInput"><br>
+            Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="DexterityInput"><br>
+            Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="ConstitutionInput"><br>
+            Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="IntelligenceInput"><br>
+            Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="WisdomInput"><br>
+            Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="CharismaInput">
           </div>
         
         <button class="colorTheme" onclick="console.log('todo');//acceptStats();">Accept Stats</button>
