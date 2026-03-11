@@ -133,8 +133,8 @@ nav button, nav a {
   transition: border 0.1s;
 }
 
-button, tablinks{
-  font-family: "Roboto", Arial;
+tablinks{
+  font-family: "Ubuntu", sans-serif;
   padding: 10px;
   border-radius: 0px;
   background-color: var(--active);
