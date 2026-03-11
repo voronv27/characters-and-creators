@@ -63,7 +63,12 @@
         <div class = "center-items">
         <div class="column">
         Choose class(es):
-        <input type="text" id="searchbar" onkeyup="filterItems(event)" placeholder="Search for items...">
+        <div id="searchbar-container">
+          <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+          <div id="searchbar-dropdown-container">
+            <div id="searchbar-dropdown"></div>
+          </div>
+        </div>
         <div id="class-acc" class="acc">
           <div class="acc-item">
             <div class="title">Loading...</div>
@@ -134,7 +139,7 @@
             <h2>Current Score: <span id='score'>27</span>/27</h2>
           </div>
         
-          <div id="generated-stats"class="gen-stats">
+          <div class="gen-stats">
               <button onclick="increment('Strength', 'score')">Increment</button>
               <button onclick="increment('Dexterity', 'score')">Increment</button>
               <button onclick="increment('Constitution', 'score')">Increment</button>
@@ -142,7 +147,7 @@
               <button onclick="increment('Wisdom', 'score')">Increment</button>
               <button onclick="increment('Charisma', 'score')">Increment</button>
           </div>
-          <div id="generated-stats"class="gen-stats">
+          <div class="gen-stats">
               <h2>Strength: <span id='Strength'>8&ensp;</span></h2>
               <h2>Dexterity: <span id="Dexterity">8&ensp;</span></h2>
               <h2>Constitution: <span id='Constitution'>8&ensp;</span></h2>
@@ -163,13 +168,13 @@
 
       <div id="Custom Stats" class="tabcontent">
         <h3>Custom Stats</h3>
-          <div id="generated-stats">
-          Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="StrengthInput"><br>
-          Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="DexterityInput"><br>
-          Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="ConstitutionInput"><br>
-          Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="IntelligenceInput"><br>
-          Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="WisdomInput"><br>
-          Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="CharismaInput">
+          <div>
+            Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="StrengthInput"><br>
+            Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="DexterityInput"><br>
+            Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="ConstitutionInput"><br>
+            Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="IntelligenceInput"><br>
+            Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="WisdomInput"><br>
+            Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="CharismaInput">
           </div>
         
         <button class="colorTheme" onclick="console.log('todo');//acceptStats();">Accept Stats</button>

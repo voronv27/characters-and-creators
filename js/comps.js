@@ -11,9 +11,10 @@ const S_A = "Sibling After";
 // Components creation that requires backend
 async function initComps() {
   genInfo = await generalInfo.then((resp) => resp.json());
-  //Class Accordion
+  //Class Accordion and searchbar
   $("#class-acc").empty();
   Object.keys(genInfo["classes"]).forEach(key => {
+    // accordion
     let acc = initComp("accItem", "#class-acc");
     acc.find(".title").text(key);
     acc.attr("id", "acc-item-" + key);
@@ -24,6 +25,14 @@ async function initComps() {
     classCont.find(".desc").html(htmlOutput);
     acc.find(".select-level").attr("for", "select-level-" + key);
     acc.find(".select").attr("id", "select-level-" + key);
+
+    // dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key);
+      filterItems();
+    });
   });
 
   $("#race-acc").empty();

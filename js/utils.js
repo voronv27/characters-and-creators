@@ -143,6 +143,13 @@ classCont: {
         </div>
       </div>`,
     func: null
+  },
+  dropdownItem: {
+    html: `
+      <div id="new" class="dropdown-item">
+      </div>
+      `,
+    func: null
   }
 };
 
@@ -165,18 +172,45 @@ function closePopup() {
   }
 }
 
+// show/hide searchbar dropdown when clicking inside/outside
+// searchbar container
+const searchbarContainer = $("#searchbar-container")[0];
+const searchbarDropdown = $("#searchbar-dropdown");
+$(document).on("click", function (e) {
+  if ($.contains(searchbarContainer, e.target)) {
+    searchbarDropdown.show();
+  } else {
+    searchbarDropdown.hide();
+  }
+});
+
+// upon searchbar input, display classes matching search value
 function filterItems() {
     var input, filter, classAcc, accItem, i, txtValue;
     input = document.getElementById("searchbar");
     filter = input.value.toUpperCase();
     classAcc = document.getElementById("class-acc");
     accItem = classAcc.getElementsByClassName("acc-item");
+    
+    var dropdown = document.getElementById("searchbar-dropdown");
+    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
+    
+    // show/hide
     for (i = 0; i < accItem.length; i++) {
         txtValue = $(accItem[i]).find(".title").first().text();
         if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
             accItem[i].style.display = "";
+            dropdownItems[i].style.display = "";
         } else {
             accItem[i].style.display = "none";
+            dropdownItems[i].style.display = "none";
         }
     }
+}
+
+// updates the text in a searchbar with the provided value
+function updateSearchBar(text) {
+  const searchbar = $("#searchbar");
+  searchbar.val(text);
+  searchbar.focus();
 }

@@ -5,6 +5,7 @@
   --text: white;
   --active: rgb(152, 0, 0);
   --active-dark: rgb(122, 0, 0);
+  --active-light: rgb(202, 0, 0);
   --active-text: white;
 
   --export-bg: rgb(240, 240, 240);
@@ -14,6 +15,7 @@
   --export-border: rgb(250, 250, 250);
 
   --dim: rgb(0 0 0 / 0.7); /* 70% opacity black */
+  --dark-white: rgb(230, 230, 230);
 }
 
 @font-face {
@@ -707,4 +709,39 @@ then add an empty div with the fill class above footer*/
   padding: 6px 12px;
   border: 1px solid rgb(20, 20, 20);
   border-top: none;
+}
+
+/* Style the searchbar */
+#searchbar-container {
+  display: grid;
+  padding-bottom: 20px;
+}
+#searchbar-container:focus-within #searchbar-dropdown *{
+  border-color: var(--active-light);
+}
+#searchbar:focus {
+  border-color: var(--active-light);
+}
+#searchbar, .dropdown-item {
+  border: 2px solid var(--active);
+  background-color: white;
+  color: var(--bg);
+}
+.dropdown-item {
+  border-top: 0;
+  z-index: 20;
+}
+#searchbar-dropdown-container {
+  position: relative;
+}
+#searchbar-dropdown {
+  display: none;
+  position: absolute;
+  top: 0;
+  margin-top: auto;
+  z-index: 10;
+  width: 100%;
+}
+.dropdown-item:hover {
+  background-color: var(--dark-white);
 }
