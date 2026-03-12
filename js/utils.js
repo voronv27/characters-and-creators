@@ -6,8 +6,8 @@ const comp = {
     html: `
       <div id="new" class="acc-item hidden">
         <div class="header">
-          <img class="icon-img">
           <div class="title"></div>
+          <img class="icon-img">
           <i class="fa-solid fa-chevron-down acc-icon"></i>
         </div>
         <div class="cont"></div>

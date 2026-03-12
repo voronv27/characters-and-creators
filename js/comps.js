@@ -38,6 +38,7 @@ async function initComps() {
   let acc = initComp("accItem", "#class-acc");
   let key = "Custom";
   let nameInput = document.createElement("input");
+  nameInput.type = "text";
   nameInput.placeholder = "Custom Class";
   acc.find(".title").append(nameInput);
   acc.attr("id", "acc-item-" + key);
