@@ -159,10 +159,10 @@ function displayRecommendedStandardStats(primaryId, secondaryId) {
   console.log(primaryId);
   console.log(secondaryId);
   var divElement = document.getElementById("stat-suggestion4");
-  var html = `<h2>Standard Array:</h2>`;
+  var html = "";
   var standardOrder = { "Strength": 0, "Dexterity": 0, "Constitution": 0, "Intelligence": 0, "Wisdom": 0, "Charisma": 0 };
-  var availableNumbers = [13,12,10,8];
-  var stats = [
+  var availableNumbers = [13,12,10,8];  //remaining stat values to assign after assigning the primary and secondary stats
+  var stats = [   //order of importance of stats for the recommended standard array distribution, with the most important stat last
   "Charisma",
   "Intelligence",
   "Wisdom",
@@ -180,9 +180,9 @@ function displayRecommendedStandardStats(primaryId, secondaryId) {
   }
   for (let s in standardOrder) {
     if (s == "Charisma") {
-      html += `<b>${s}: ${standardOrder[s]}</b>`;
+      html += `<h2 style="flex-grow: 1"><b>${s}: ${standardOrder[s]}</b></h2>`;
     } else {
-      html += `<b>${s}: ${standardOrder[s]}, </b>`;
+      html += `<h2 style="flex-grow: 1"><b>${s}: ${standardOrder[s]}, </b></h2>`;
     }
   }
   $('#stat-suggestion4').html(html);
