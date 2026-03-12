@@ -709,9 +709,3 @@ then add an empty div with the fill class above footer*/
   border-top: none;
 }
 
-.stat-suggestion4 { /*Specifically for the standard array suggestions*/
-  display: flex;
-  flex-grow: 1;
-  padding-left:5em;
-  justify-content: space-between;
-}
