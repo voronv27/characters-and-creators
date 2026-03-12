@@ -60,26 +60,35 @@
         Click "Next" to get started.
       </div>
       <div id="class-section" class="section"  data-title="Class">
-        <div class = "center-items">
-        <div class="column">
-        Choose class(es):
-        <div id="searchbar-container">
-          <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
-          <div id="searchbar-dropdown-container">
-            <div id="searchbar-dropdown"></div>
-          </div>
-        </div>
-        <div id="class-acc" class="acc">
-          <div class="acc-item">
-            <div class="title">Loading...</div>
-            <div class="cont">Loading...</div>
-          </div>
-        </div>
-        </div>
-        <div class="column">
-          <div id="chosen-class"></div>
-      </div>
+        <div class = "center-items active-dark-border">
+          <div class="column left">
+            <div class="column-title">
+              Choose Classes
+            </div>
 
+            <div class="column-contents">
+              <div id="searchbar-container">
+                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown"></div>
+                </div>
+              </div>
+              <div id="class-acc" class="acc">
+                <div class="acc-item">
+                  <div class="title">Loading...</div>
+                  <div class="cont">Loading...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="column">
+          <div class="column-title">
+            Selected Classes
+          </div>
+          <div class="column-contents">
+            <div id="chosen-class">Chosen classes will be displayed here.</div>
+          </div>
+        </div>
       </div>
 
       </div>

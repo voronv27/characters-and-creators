@@ -6,8 +6,8 @@ const comp = {
     html: `
       <div id="new" class="acc-item hidden">
         <div class="header">
-          <img class="icon-img">
           <div class="title"></div>
+          <img class="icon-img">
           <i class="fa-solid fa-chevron-down acc-icon"></i>
         </div>
         <div class="cont"></div>
@@ -158,19 +158,19 @@ classCont: {
 // function to open the popup window and set the title as desired
 const popupWindow = $("#popup-window");
 const popupTitle = $("#popup-title");
-var openPopup;
+var currentPopup;
 function openPopup(contentId, title) {
   popupWindow.show();
   popupTitle.text(title);
-  openPopup = $(`#${contentId}`);
-  openPopup.show();
+  currentPopup = $(`#${contentId}`);
+  currentPopup.show();
 }
 
 // closes the popup window and hides the current popup content
 function closePopup() {
   popupWindow.hide();
-  if (openPopup) {
-    openPopup.hide();
+  if (currentPopup) {
+    currentPopup.hide();
   }
 }
 
@@ -198,8 +198,12 @@ function filterItems() {
     var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
     
     // show/hide
-    for (i = 0; i < accItem.length; i++) {
+    for (i = 0; i < accItem.length; i++) { 
         txtValue = $(accItem[i]).find(".title").first().text();
+        if ($(accItem[i]).has('input').length) {
+          // custom has an input element in the title, set txtValue manually
+          txtValue = "Custom";
+        }
         if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
             accItem[i].style.display = "";
             dropdownItems[i].style.display = "";
@@ -214,5 +218,4 @@ function filterItems() {
 function updateSearchBar(text) {
   const searchbar = $("#searchbar");
   searchbar.val(text);
-  searchbar.focus();
 }

@@ -177,10 +177,8 @@ html .section{
   user-select: none;
   color: var(--active-dark);
   background: var(--active-text);
-  border-radius: 20px;
   margin-bottom: 20px;
-  border-left: 5px solid var(--border);
-  border-bottom: 5px solid var(--border);
+  border: 2px solid var(--active);
 }
 
 .acc-item .header{
@@ -188,11 +186,15 @@ html .section{
   padding: 10px;
 }
 
-.acc-item .title{
+.acc-item .title {
   color: var(--fg);
   cursor: pointer;
   font-size: 1.25em;
   flex-grow: 1;
+}
+.acc-item .title input {
+  font-size: inherit; /* fixes sizing issues */
+  color: var(--active);
 }
 
 .acc-icon {
@@ -556,10 +558,26 @@ grid-row: 1 / span 6;
   justify-content: center;
   height: 100%;
 }
+.active-dark-border {
+  border: 5px solid var(--active-dark);
+}
 .column { /*when using the center items class, create new div with column class to create individual columns that divide the overarching container*/
   flex: 1;
+}
+/* add left to column with values to right of it */
+.left {
+  border-right: 5px solid var(--active-dark);
+}
+/* to style a title inside a column div */
+.column-title {
+  font-size: 20px;
+  border-bottom: 5px solid var(--active-dark);
+  background-color: white;
+  color: var(--bg);
   padding: 10px;
-  border: 5px solid var(--fg)
+}
+.column-contents {
+  padding: 10px;
 }
 
 /* align (vertical center) items */
@@ -716,20 +734,24 @@ then add an empty div with the fill class above footer*/
   display: grid;
   padding-bottom: 20px;
 }
-#searchbar-container:focus-within #searchbar-dropdown *{
-  border-color: var(--active-light);
-}
-#searchbar:focus {
-  border-color: var(--active-light);
-}
 #searchbar, .dropdown-item {
+  border: 2px solid var(--active-text);
+  background-color: var(--active);
+  color: var(--active-text);
+  padding: 5px;
+}
+#searchbar::placeholder {
+  color: var(--dark-white);
+}
+.dropdown-item {
   border: 2px solid var(--active);
+  border-top: 0;
+  z-index: 20;
   background-color: white;
   color: var(--bg);
 }
-.dropdown-item {
-  border-top: 0;
-  z-index: 20;
+.dropdown-item:first-child {
+  border-top: 2px solid var(--active);
 }
 #searchbar-dropdown-container {
   position: relative;
