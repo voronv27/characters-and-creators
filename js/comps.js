@@ -34,6 +34,25 @@ async function initComps() {
       filterItems();
     });
   });
+  // create an item for custom class as well
+  let acc = initComp("accItem", "#class-acc");
+  let key = "Custom";
+  let nameInput = document.createElement("input");
+  nameInput.placeholder = "Custom Class";
+  acc.find(".title").append(nameInput);
+  acc.attr("id", "acc-item-" + key);
+  acc.find(".icon-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
+  let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
+  acc.find(".select-level").attr("for", "select-level-" + key);
+  acc.find(".select").attr("id", "select-level-" + key);
+
+  // dropdown
+  let dropdownItem = initComp("dropdownItem", "#searchbar-dropdown");
+  dropdownItem.text(key);
+  dropdownItem.click(function () {
+    updateSearchBar(key);
+    filterItems();
+  });
 
   $("#race-acc").empty();
   Object.keys(genInfo["races"]).forEach(key => {

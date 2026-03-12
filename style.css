@@ -556,10 +556,26 @@ grid-row: 1 / span 6;
   justify-content: center;
   height: 100%;
 }
+.active-dark-border {
+  border: 5px solid var(--active-dark);
+}
 .column { /*when using the center items class, create new div with column class to create individual columns that divide the overarching container*/
   flex: 1;
+}
+/* add left to column with values to right of it */
+.left {
+  border-right: 5px solid var(--active-dark);
+}
+/* to style a title inside a column div */
+.column-title {
+  font-size: 20px;
+  border-bottom: 5px solid var(--active-dark);
+  background-color: white;
+  color: var(--bg);
   padding: 10px;
-  border: 5px solid var(--fg)
+}
+.column-contents {
+  padding: 10px;
 }
 
 /* align (vertical center) items */
@@ -733,6 +749,7 @@ then add an empty div with the fill class above footer*/
   border: 2px solid var(--active);
   background-color: white;
   color: var(--bg);
+  padding: 5px;
 }
 .dropdown-item {
   border-top: 0;
