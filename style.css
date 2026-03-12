@@ -577,7 +577,8 @@ grid-row: 1 / span 6;
   padding: 10px;
 }
 .column-contents {
-  padding: 10px;
+  padding: 20px;
+  padding-bottom: 0px;
 }
 
 /* align (vertical center) items */
@@ -617,7 +618,7 @@ then add an empty div with the fill class above footer*/
   width: 100%;
   height: 100%;
   background-color: var(--dim);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 50; /* make sure it's on top */
