@@ -81,23 +81,25 @@ classCont: {
         })
       }
     }, 
-        // reset specificInfo because we changed class
   langCont: {
     html: `
       <div id="new">
         <label for="select-language-" class="select-language">Select language:</label>
         <select id="select-language-" class="select">
-          <option selected="selected">1</option>`
-          + [...Array(genInfo["languages"]).keys()] +
-      ` </select>
+          <option selected="selected"></option>
+       </select>
         <div class="desc"></div>
       </div>`,
-      func: null
+      func: function (comp) {
 
-      
+        const langDropdown = comp.find("#select-language-");
 
+        langDropdown.append();
+        genInfo["languages"].keys().foreach(lang => {
+          langDropdown.append(lang);
+        });
+      }
   },
-
   raceCont: {
     html: `
       <div id="new">
