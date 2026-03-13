@@ -63,12 +63,28 @@ function init() {
 }
 
 function nextSection() {
+  $("#next-text").text('Next');
+  $("#prev-text").text('Prev');
   sectionNum = sectionNum + 1 >= numSections ? 0 : sectionNum + 1;
+  if(sectionNum == 0){
+    $("#prev-text").text('Sheet');
+  }
+  else if(sectionNum == numSections - 1){
+    $("#next-text").text('Start');
+  }
   updateSection();
 }
 
 function prevSection() {
+  $("#next-text").text('Next');
+  $("#prev-text").text('Prev');
   sectionNum = sectionNum - 1 < 0 ? numSections - 1 : sectionNum - 1;
+  if(sectionNum == 0){
+    $("#prev-text").text('Sheet');
+  }
+  else if(sectionNum == numSections - 1){
+    $("#next-text").text('Start');
+  }
   updateSection();
 }
 
