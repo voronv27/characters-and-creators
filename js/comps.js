@@ -19,12 +19,15 @@ async function initComps() {
     acc.find(".title").text(key);
     acc.attr("id", "acc-item-" + key);
     acc.find(".icon-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
-    converter = new showdown.Converter();
-    htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
     let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
-    classCont.find(".desc").html(htmlOutput);
+    classCont.find(".desc").text(genInfo["classes"][key]["short_desc"]);
     acc.find(".select-level").attr("for", "select-level-" + key);
     acc.find(".select").attr("id", "select-level-" + key);
+
+    // todo: when we create a classCont more info button, add this to that popup
+    //converter = new showdown.Converter();
+    //htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
+    //classCont.find(".desc").html(htmlOutput);
 
     // dropdown
     let dropdownItem = initComp("dropdownItem", "#searchbar-dropdown");
@@ -44,6 +47,7 @@ async function initComps() {
   acc.attr("id", "acc-item-" + key);
   acc.find(".icon-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
   let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
+  classCont.find(".desc").text("Your own custom class.");
   acc.find(".select-level").attr("for", "select-level-" + key);
   acc.find(".select").attr("id", "select-level-" + key);
 

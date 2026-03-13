@@ -26,6 +26,8 @@ const comp = {
 classCont: {
       html: `
         <div id="new">
+          <div class="desc"></div>
+          <button>More Info</button>
           <button class="select-class">Select Class</button>
           <label for="select-level-" class="select-level">Select level:</label>
           <select id="select-level-" class="select">
@@ -33,7 +35,6 @@ classCont: {
         + [...Array(19).keys()].map(i => i + 2).reduce(
           (opts, newOpt) => opts + `<option>${newOpt}</option>\n`, "") +
         ` </select>
-          <div class="desc"></div>
         </div>`,
       func: function (comp) {
         comp.children(".select-class").click(function (e) {
