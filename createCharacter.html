@@ -114,6 +114,14 @@
     <div id="backgrounds-section" class="section" data-title="Background">
       Selected background:
       <div id="chosen-background">None</div>
+      <div class="column-contents">
+              <div id="searchbar-container">
+                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown"></div>
+                </div>
+              </div>
+            </div>
       <div id="background-acc" class="acc">
         <div class="acc-item">
           <div class="title">Loading...</div>
@@ -212,19 +220,43 @@
     <div id="proficiencies-section" class="section" data-title="Proficiencies">
       Select proficiencies (TODO)<br>
       Other proficiencies (TODO: give option to select from valid options)
+      <div id="chosen-proficiency">None</div>
+      <div class="column-contents">
+              <div id="searchbar-container">
+                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown"></div>
+                </div>
+              </div>
+            </div>
+      <div id="profiency-acc" class="acc">
+        <div class="acc-item">
+          <div class="title">Loading...</div>
+          <div class="cont">Loading...</div>
+        </div>
+      </div>
+    </div>
     </div>
     <div id="languages-section" class="section" data-title="Languages">
       Select languages (TODO)<br>
       <select></select>
       Other language:
       <div id="chosen-languages">None</div>
+      <div class="column-contents">
+              <div id="searchbar-container">
+                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown"></div>
+                </div>
+              </div>
+            </div>
       <div id="language-acc" class="acc">
         <div class="acc-item">
           <div class="title">Loading...</div>
           <div class="cont">Loading...</div>
         </div>
       </div>
-     <textarea id="other-languages" rows="15" cols="50">Type langauges here.</textarea> 
+     <textarea id="other-languages" rows="15" cols="50">Type languages here.</textarea> 
   </div>
     <div id="equipment-section" class="section" data-title="Equipment">
       Select equipment (TODO)<br>
@@ -235,6 +267,14 @@
       Select spells (TODO)<br>
       For now, here are all available spells for all classes:
       <!--NOTE: it may be good to filter by spell source-->
+      <div class="column-contents">
+              <div id="searchbar-container">
+                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown"></div>
+                </div>
+              </div>
+            </div>
       <div id="spellcards-acc" class="acc">
         <div class="spellcard-item">
           <div class="title">Loading...</div>
