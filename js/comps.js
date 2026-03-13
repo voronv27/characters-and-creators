@@ -8,44 +8,36 @@ const P_A = "Parent After";
 const S_B = "Sibling Before";
 const S_A = "Sibling After";
 
-// Components creation that requires backend
-async function initComps() {
-  genInfo = await generalInfo.then((resp) => resp.json());
-  //Class Accordion and searchbar
-  $("#class-acc").empty();
-  Object.keys(genInfo["classes"]).forEach(key => {
-    // accordion
-    let acc = initComp("accItem", "#class-acc");
-    acc.find(".title").text(key);
-    acc.attr("id", "acc-item-" + key);
-    acc.find(".icon-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
-    converter = new showdown.Converter();
-    htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
-    let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
-    classCont.find(".desc").html(htmlOutput);
-    acc.find(".select-level").attr("for", "select-level-" + key);
-    acc.find(".select").attr("id", "select-level-" + key);
-
-    // dropdown
-    let dropdownItem = initComp("dropdownItem", "#searchbar-dropdown");
-    dropdownItem.text(key);
-    dropdownItem.click(function () {
-      updateSearchBar(key);
-      filterItems();
-    });
-  });
-  // create an item for custom class as well
+async function createClassComps(key) {
+  // accordion
   let acc = initComp("accItem", "#class-acc");
-  let key = "Custom";
-  let nameInput = document.createElement("input");
-  nameInput.type = "text";
-  nameInput.placeholder = "Custom Class";
-  acc.find(".title").append(nameInput);
+  if (key == "Custom") {
+    let nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.placeholder = "Custom Class";
+    acc.find(".title").append(nameInput);
+  } else {
+    acc.find(".title").text(key);
+  }
   acc.attr("id", "acc-item-" + key);
   acc.find(".icon-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
   let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
-  acc.find(".select-level").attr("for", "select-level-" + key);
-  acc.find(".select").attr("id", "select-level-" + key);
+  if (key == "Custom") {
+    classCont.find(".desc").text("Your own custom class.");
+  } else {
+    classCont.find(".desc").text(genInfo["classes"][key]["short_desc"]);
+  }
+
+  // create the more info popup
+  let moreInfoPopup = initComp("moreInfo", "#popup-inner-content");
+  moreInfoPopup.attr("id", `class-more-info-popup-${key}`);
+  if (key == "Custom") {
+    moreInfoPopup.find(".desc").text("No info available for custom classes.");
+  } else {
+    converter = new showdown.Converter();
+    htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
+    moreInfoPopup.find(".desc").html(htmlOutput);
+  }
 
   // dropdown
   let dropdownItem = initComp("dropdownItem", "#searchbar-dropdown");
@@ -54,7 +46,27 @@ async function initComps() {
     updateSearchBar(key);
     filterItems();
   });
+}
 
+// Components creation that requires backend
+async function initComps() {
+  genInfo = await generalInfo.then((resp) => resp.json());
+  
+  // Class Accordion and searchbar
+  $("#class-acc").empty();
+  Object.keys(genInfo["classes"]).forEach(key => {
+    createClassComps(key);
+  });
+  // create an item for custom class as well
+  createClassComps("Custom");
+  
+  // Add the level select dropdown
+  const levelDropdown = $("#select-level-");
+  for (let i = 2; i < 21; i++) {
+    const selOpt = new Option(i, i);
+    levelDropdown.append(selOpt);
+  }
+  
   $("#race-acc").empty();
   Object.keys(genInfo["races"]).forEach(key => {
     let acc = initComp("accItem", "#race-acc");
@@ -169,4 +181,47 @@ function initComp(key, existing, rel,) {
     comp[key].func(added);
   }
   return added;
+}
+
+// clicking the select-class button moves the class over to selected classes
+function selectClass() {
+  const className = $("#popup-title").text();
+  const dropdown = $("#select-level-");
+  const classLevel = dropdown.find("option:selected").text();
+  char.class[className] = classLevel;
+  console.log(`class ${className}, level ${classLevel}`);
+
+  // add acc-item to selected classes
+  $("#chosen-class").html("");
+  var primaryClass = "";
+  var maxLevel = 0;
+  const chosenClass = $("#chosen-class");
+  for (c in char.class) {
+    if (char.class[c] > maxLevel) {
+      maxLevel = char.class[c];
+      primaryClass = c;
+    }
+    
+    const acc = initComp("accItem", "#chosen-class");
+    acc.find(".title").text(`${className} ${classLevel}`);
+    acc.attr("id", "acc-item-" + className + "-selected");
+    acc.find(".icon-img").attr("src", `assets/images/${className.toLowerCase()}.png`);
+    let classCont = initComp("selectedClassCont", "#acc-item-" + className + "-selected .cont");
+    classCont.find(".desc").text(genInfo["classes"][className]["short_desc"]);
+    chosenClass.append(acc);
+  }
+
+  // update primary class
+  char["primaryClass"] = primaryClass;
+  $("#primary-class").html(primaryClass);
+  $("#stat-suggestion1").show();
+  $("#stat-suggestion2").show();
+  $("#stat-suggestion3").show();
+  $("#stat-suggestion4").show();
+
+  // reset specificInfo because we changed class
+  specificInfo = null;
+  
+  // close the popup
+  closePopup();
 }
