@@ -9,7 +9,7 @@ function init() {
     excludeClass: 'x',
   });
 
-  $("#character-sheet-parent")[0].addEventListener('wheel', panzoom.zoomWithWheel);
+  $("#character-sheet-parent")[0].addEventListener('wheel', panzoom.zoomWithWheel); //THIS IS WHAT DETERMINES SCROLL ZOOM
 
 
   //Character Sheet
