@@ -113,16 +113,18 @@
       </div>
     </div>
     <div id="stats-section" class="section" data-title="Stats">
-      There are 6 main abilities in D&D, and your stats represent your character's skill level for that ability<br>
-      Player stats are usually restricted from 3-20, with possible creature stats ranging from 1-30.<br>
-      <div id="stat-suggestion1" style="display: none;"><br>Based on your primary class of <b><span id="primary-class"></span></b>, the stats we recommend you prioritize are <span id="rec-stats"></span><br></div>
-      <br>
+      <div class="textFormater">
+        There are 6 main abilities in D&D, and your stats represent your character's skill level for that ability<br>
+        Player stats are usually restricted from 3-20, with possible creature stats ranging from 1-30.<br>
+        
+        <div id="stat-suggestion1" style="display: none;"><br>Based on your primary class of <b><span id="primary-class"></span></b>, the stats we recommend you prioritize are <span id="rec-stats"></span><br></div>
+        <br>
+        
+        <!-- TODO: add tooltip for each stat method -->
+        To calculate your stats, you can <b>roll</b>, use <b>standard array</b>, or <b>use point buy</b>. You can also type in your own values.<br><br>
 
-      <!-- TODO: add tooltip for each stat method -->
-      To calculate your stats, you can <b>roll</b>, use <b>standard array</b>, or <b>use point buy</b>. You can also type in your own values.<br><br>
-
-      <p>Click on the buttons inside the tabbed menu:</p>
-
+        <p>Click on the buttons inside the tabbed menu:</p>
+      </div>
       <div class="tab">
         <button class="tablinks" onclick="OpenTab(event, 'Rolling Stats')">Rolling Stats</button>
         <button class="tablinks" onclick="OpenTab(event, 'Point Buy')">Point Buy</button>
@@ -137,7 +139,8 @@
           <input type="checkbox" id="trueRollCheck" name="trueRollCheck" value="yes">
           <label for="trueRollCheck">True Random</label>
           <div id="generated-stats"></div>
-        
+
+
 
       </div>
 
@@ -172,21 +175,21 @@
               <button onclick="decrement('Wisdom','score')">Decrement</button>
               <button onclick="decrement('Charisma','score')">Decrement</button>
             </div>
-        <button class="colorTheme" onclick="console.log('todo');//acceptStats();">Accept Stats</button>
+        <button onclick='assignPointBuy("Strength","Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "score");'>Assign Stats</button><br><br>
       </div>
 
       <div id="Custom Stats" class="tabcontent">
         <h3>Custom Stats</h3>
           <div>
-            Strength: <input class="stat-input" type="number" min="1" max="30" step="1" id="StrengthInput"><br>
-            Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" id="DexterityInput"><br>
-            Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" id="ConstitutionInput"><br>
-            Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" id="IntelligenceInput"><br>
-            Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" id="WisdomInput"><br>
-            Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" id="CharismaInput">
+            Strength: <input class="stat-input" type="number" min="1" max="30" step="1" value="10" id="StrengthInput"><br>
+            Dexterity: <input class="stat-input" type="number" min="1" max="30" step="1" value="10" id="DexterityInput"><br>
+            Constitution: <input class="stat-input" type="number" min="1" max="30" step="1" value="10" id="ConstitutionInput"><br>
+            Intelligence: <input class="stat-input" type="number" min="1" max="30" step="1" value="10" id="IntelligenceInput"><br>
+            Wisdom: <input class="stat-input" type="number" min="1" max="30" step="1" value="10" id="WisdomInput"><br>
+            Charisma: <input class="stat-input" type="number" min="1" max="30" step="1" value="10" id="CharismaInput">
           </div>
         
-        <button class="colorTheme" onclick="console.log('todo');//acceptStats();">Accept Stats</button>
+          <button onclick='assignCustom("StrengthInput","DexterityInput", "ConstitutionInput", "IntelligenceInput", "WisdomInput", "CharismaInput");'>Assign Stats</button><br><br>
       </div>
       <div id="Standard Array" class="tabcontent">
         <h3>Standard Array</h3>
@@ -203,6 +206,16 @@
     <div id="proficiencies-section" class="section" data-title="Proficiencies">
       Select proficiencies (TODO)<br>
       Other proficiencies (TODO: give option to select from valid options)
+      <div class="table">
+        <div class="table-column">
+          <h3>Already Selected:</h3>
+        </div>
+        <div class="table-column">
+          <h3>Remaining: <span id= "remaingProficiencies">0</span></h3>
+        </div>
+      </div>
+
+
     </div>
     <div id="languages-section" class="section" data-title="Languages">
       Select languages (TODO)<br>

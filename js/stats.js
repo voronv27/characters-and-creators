@@ -55,9 +55,11 @@ function assignStats() {
     const aStat = assignedStats[e];
     if (aStat.text != "Select Stat") {
       $(`#${aStat.text}`).val(aStat.value);
-      char["stats"][aStat.text] = aStat.value;
+      char["stats"][aStat.text] = parseInt(aStat.value);
     }
   });
+  console.log(char["stats"]);
+  console.log(char);
 }
 
 function displayAssignedStats(stats) {
@@ -66,8 +68,10 @@ function displayAssignedStats(stats) {
   for (s in stats) {
     stat = stats[s];
     html += `<b>${statNames[s]}: ${stat}</b><br>`;
+    char["stats"][statNames[s]] = stat;
   }
-  html += "<br><button class='colorTheme' onclick='assignStats();'>Assssign Stats</button><br><br>";
+  console.log(char["stats"]);
+  console.log(char);
   $("#generated-stats").html(html);
 }
 
@@ -155,14 +159,14 @@ function acceptStats() {
 }
 
 function displayRecommendedStandardStats(primaryId, secondaryId) {
-  console.log("displaying recommended standard stats");
-  console.log(primaryId);
-  console.log(secondaryId);
+  //console.log("displaying recommended standard stats");
+  //console.log(primaryId);  debug purposes
+  //console.log(secondaryId);
   var divElement = document.getElementById("stat-suggestion4");
   var html = "";
   var standardOrder = { "Strength": 0, "Dexterity": 0, "Constitution": 0, "Intelligence": 0, "Wisdom": 0, "Charisma": 0 };
   var availableNumbers = [13,12,10,8];  //remaining stat values to assign after assigning the primary and secondary stats
-  var stats = [   //order of importance of stats for the recommended standard array distribution, with the most important stat last
+  const stats = [   //order of importance of stats for the recommended standard array distribution, with the most important stat last
   "Charisma",
   "Intelligence",
   "Wisdom",
@@ -179,12 +183,55 @@ function displayRecommendedStandardStats(primaryId, secondaryId) {
     }
   }
   for (let s in standardOrder) {
-    if (s == "Charisma") {
-      html += `<h2 style="flex-grow: 1"><b>${s}: ${standardOrder[s]}</b></h2>`;
-    } else {
-      html += `<h2 style="flex-grow: 1"><b>${s}: ${standardOrder[s]}, </b></h2>`;
-    }
+    html += `<h2 style="flex-grow: 1"><b>${s}: ${standardOrder[s]}</b></h2>`;
+    char["stats"][s]= standardOrder[s];
   }
   $('#stat-suggestion4').html(html);
 
+//console.log(char["stats"]);
+//console.log(char);
+
+}
+
+function assignPointBuy(str, dex, con, int, wis, cha, store) {// assigning stats from the point buy tab
+  let remainingPoints = document.getElementById(store);
+  if (parseInt(remainingPoints.innerText)==0) { 
+    const strNumber = parseInt(document.getElementById(str).innerText);
+    const dexNumber = parseInt(document.getElementById(dex).innerText);
+    const conNumber = parseInt(document.getElementById(con).innerText);
+    const intNumber = parseInt(document.getElementById(int).innerText);
+    const wisNumber = parseInt(document.getElementById(wis).innerText);
+    const chaNumber = parseInt(document.getElementById(cha).innerText);
+    //console.log(strNumber, dexNumber, conNumber, intNumber, wisNumber, chaNumber);
+    //console.log(char);
+    //console.log(char["stats"]);
+    char["stats"][str] = (strNumber);
+    char["stats"][dex] = (dexNumber);
+    char["stats"][con] = (conNumber);
+    char["stats"][int] = (intNumber);
+    char["stats"][wis] = (wisNumber);
+    char["stats"][cha] = (chaNumber);
+  } else {
+    console.log("Hold on, you still have points left: " + parseInt(remainingPoints.innerText));
+  }
+
+}
+
+
+function assignCustom(str, dex, con, int, wis, cha) {
+  const strNumber = parseInt(document.getElementById(str).value);
+  const dexNumber = parseInt(document.getElementById(dex).value);
+  const conNumber = parseInt(document.getElementById(con).value);
+  const intNumber = parseInt(document.getElementById(int).value);
+  const wisNumber = parseInt(document.getElementById(wis).value);
+  const chaNumber = parseInt(document.getElementById(cha).value);
+
+  char["stats"][str] = (strNumber);
+  char["stats"][dex] = (dexNumber);
+  char["stats"][con] = (conNumber);
+  char["stats"][int] = (intNumber);
+  char["stats"][wis] = (wisNumber);
+  char["stats"][cha] = (chaNumber);
+  console.log(char["stats"]);
+  console.log(char);
 }
