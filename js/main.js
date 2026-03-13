@@ -19,11 +19,9 @@ let specificInfo;
 let genInfo; // this is the actual dictionary with general info
 let specInfo; // this is the actual dictionary with specific info
 
+let languages;
 let primaryStat;
 let secondaryStat;
-let languages = {"Common":{"type":"Exotic", "typical_speakers":["People"]},
-                 "Undercommon":{"type": "Normal", "typical_speakers":["Underpeople"]},
-                 "Amogi":{"type": "Amogus", "typical_speakers":["Amongi"]}} //note: placeholder, still need to add functionality
 
 $("#enter-name").change(function () {
   char["name"] = $(this).val();
