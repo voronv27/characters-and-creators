@@ -14,10 +14,6 @@ const comp = {
       </div>`,
     func: function (comp) {
       comp.click(function (event) {
-        if ($(event.target).hasClass('select')) {
-          // don't collapse if clicked on level select
-          return;
-        }
         $(this).closest(".acc").children().not(this).addClass("hidden");
         $(this).toggleClass("hidden");
       });
@@ -27,62 +23,58 @@ classCont: {
       html: `
         <div id="new">
           <div class="desc"></div>
-          <button>More Info</button>
+          <button class="more-info">More Info</button>
           <button class="select-class">Select Class</button>
-          <label for="select-level-" class="select-level">Select level:</label>
-          <select id="select-level-" class="select">
-            <option selected="selected">1</option>`
-        + [...Array(19).keys()].map(i => i + 2).reduce(
-          (opts, newOpt) => opts + `<option>${newOpt}</option>\n`, "") +
-        ` </select>
         </div>`,
       func: function (comp) {
+        comp.children(".more-info").click(function (e) {
+          e.stopPropagation();
+          const dropdown = $(this).closest(".acc-item");
+          const className = dropdown.find(".title").first().text();
+          openPopup(`class-more-info-popup-${className}`, className);
+        });
         comp.children(".select-class").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
           const className = dropdown.find(".title").first().text();
-          const classLevel = dropdown.find(".select option:selected").text();
-          char.class[className] = classLevel;
-          console.log(`class ${className}, level ${classLevel}`);
-
           openPopup('class-select-popup', className);
+        });
+    }
+  },
+  selectedClassCont: {
+    html: `
+        <div id="new">
+          <div class="desc"></div>
+          <button class="more-info">More Info</button>
+          <button class="select-class">Update Class</button>
+          <button class="remove-class">Remove Class</button>
+        </div>`,
+      func: function (comp) {
+        comp.children(".more-info").click(function (e) {
+          e.stopPropagation();
+          const dropdown = $(this).closest(".acc-item");
+          const className = dropdown.find(".title").first().text().split(" ")[0];
+          openPopup(`class-more-info-popup-${className}`, className);
+        });
+        comp.children(".select-class").click(function (e) {
+          e.stopPropagation();
+          const dropdown = $(this).closest(".acc-item");
+          const className = dropdown.find(".title").first().text().split(" ")[0];
+          openPopup('class-select-popup', className);
+        });
+        comp.children(".remove-class").click(function (e) {
+          e.stopPropagation();
+          const dropdown = $(this).closest(".acc-item");
+          const className = dropdown.find(".title").first().text().split(" ")[0];
+          $(`#acc-item-${className}-selected`).remove();
 
-          // create the the class dropdowns
-          var selectedClasses = "";
-          var primaryClass = "";
-          var maxLevel = 0;
-          for (c in char.class) {
-            if (char.class[c] > maxLevel) {
-              maxLevel = char.class[c];
-              primaryClass = c;
-            }
-
-            //console.log(`${c} ${char.class[c]}<br>\n`);
-            selectedClasses += `${c} ${char.class[c]}<br>\n`;
-
-            // to change anything about this item--look up jquery method to modify newDropDown in desired way
-            const newDropdown = dropdown.clone();
-            const newDropdownId = dropdown.attr('id') + '-selected';
-            newDropdown.find(".select-class").remove();
-            newDropdown.attr('id', newDropdownId);
-            selectedClasses += newDropdown[0].outerHTML;
-          }
-
-          //console.log(selectedClasses);
-          char["primaryClass"] = primaryClass;
-          $("#chosen-class").html(selectedClasses);
-          $("#primary-class").html(primaryClass);
-          
-
+          // TODO: need to reselect primary class in char
+          delete char["class"][className];
           // reset specificInfo because we changed class
           specificInfo = null;
-          $("#stat-suggestion1").show();
-          $("#stat-suggestion2").show();
-          $("#stat-suggestion3").show();
-          $("#stat-suggestion4").show();
-        })
-      }
-    },
+        });
+    }
+  },
   raceCont: {
     html: `
       <div id="new">
@@ -153,6 +145,22 @@ classCont: {
       </div>
       `,
     func: null
+  },
+  moreInfo: {
+    html: `
+      <div id="new" style="display:none;">
+        <div class="desc">
+        </div>
+        <button class="select-class">Select Class</button>
+      </div>
+      `,
+    func: function (comp) {
+      comp.children(".select-class").click(function (e) {
+        e.stopPropagation();
+        const className = $("#popup-title").text();
+        openPopup("class-select-popup", className);
+      });
+    }
   }
 };
 
@@ -163,6 +171,11 @@ var currentPopup;
 function openPopup(contentId, title) {
   popupWindow.show();
   popupTitle.text(title);
+
+  // if there's some existing popup open, hide it
+  if (currentPopup) {
+    currentPopup.hide();
+  }
   currentPopup = $(`#${contentId}`);
   currentPopup.show();
 }
