@@ -8,15 +8,13 @@ const P_A = "Parent After";
 const S_B = "Sibling Before";
 const S_A = "Sibling After";
 
-//Variables
-let genInfo;
-
 // Components creation that requires backend
 async function initComps() {
   genInfo = await generalInfo.then((resp) => resp.json());
-  //Class Accordion
+  //Class Accordion and searchbar
   $("#class-acc").empty();
   Object.keys(genInfo["classes"]).forEach(key => {
+    // accordion
     let acc = initComp("accItem", "#class-acc");
     acc.find(".title").text(key);
     acc.attr("id", "acc-item-" + key);
@@ -27,6 +25,34 @@ async function initComps() {
     classCont.find(".desc").html(htmlOutput);
     acc.find(".select-level").attr("for", "select-level-" + key);
     acc.find(".select").attr("id", "select-level-" + key);
+
+    // dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key);
+      filterItems();
+    });
+  });
+  // create an item for custom class as well
+  let acc = initComp("accItem", "#class-acc");
+  let key = "Custom";
+  let nameInput = document.createElement("input");
+  nameInput.type = "text";
+  nameInput.placeholder = "Custom Class";
+  acc.find(".title").append(nameInput);
+  acc.attr("id", "acc-item-" + key);
+  acc.find(".icon-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
+  let classCont = initComp("classCont", "#acc-item-" + key + " .cont");
+  acc.find(".select-level").attr("for", "select-level-" + key);
+  acc.find(".select").attr("id", "select-level-" + key);
+
+  // dropdown
+  let dropdownItem = initComp("dropdownItem", "#searchbar-dropdown");
+  dropdownItem.text(key);
+  dropdownItem.click(function () {
+    updateSearchBar(key);
+    filterItems();
   });
 
   $("#race-acc").empty();
