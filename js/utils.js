@@ -63,6 +63,21 @@ const comp = {
       })
     }
   },
+  langCont: {
+    html: `
+      <div id="new">
+        <label for="select-language-" class="select-language">Select language:</label>
+        <select id="select-language-" class="select">
+          <option selected="selected">1</option>`
+          + [...Array(genInfo["languages"]).keys()] +
+      ` </select>
+        <div class="desc"></div>
+      </div>`,
+      func: function (comp) {
+
+      }
+
+  },
   raceCont: {
     html: `
       <div id="new">

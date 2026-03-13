@@ -41,7 +41,7 @@ async function initComps() {
   });
 
   $("#background-acc").empty();
-  Object.keys(genInfo["backgrounds"]).forEach(key => {
+  Object.keys(genInfo["backgrounds"]).forEach(key => {// http://127.0.0.1:3000/createCharacter.html#race
     let acc = initComp("accItem", "#background-acc");
     acc.find(".title").text(key);
     const keyId = key.replaceAll(" ", "-");
@@ -51,6 +51,15 @@ async function initComps() {
     bgCont.find(".desc").html(bgDesc);
   });
 
+  $("#language-acc").empty();
+  Object.keys(genInfo["languages"]).forEach(key => {
+    let acc = initComp("accItem", "#language-acc");
+    acc.find(".title").text(key);
+    //const keyId = key.relplaceAll(" ", "-");
+    //acc.attr("id", "acc-item-" + keyId);
+    //let langCont = intiComp();
+
+  });
   $("#spellcards-acc").empty();
   Object.keys(genInfo["spells"]).forEach(key => {
     let spellcard = initComp("spellcard", "#spellcards-acc");
@@ -127,6 +136,8 @@ function initComp(key, existing, rel,) {
       $(existing).append(comp[key]["html"]);
       break;
   }
+      
+  //$(existing).append(comp[key]["html"]);
   let added = $("#new").removeAttr("id");
   if (comp[key].func) {
     comp[key].func(added);
