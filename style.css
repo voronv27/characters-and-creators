@@ -16,6 +16,7 @@
 
   --dim: rgb(0 0 0 / 0.7); /* 70% opacity black */
   --dark-white: rgb(230, 230, 230);
+  --light-black: rgb(42, 40, 40);
 }
 
 @font-face {
@@ -70,7 +71,12 @@ a {
 a:hover {
   color: var(--active-dark);
 }
-
+.gitLink {
+  color: var(--bg);
+}
+.gitLink:hover {
+  color: var(--light-black);
+}  
 nav{
   display: flex;
   position: sticky;

@@ -66,7 +66,6 @@ classCont: {
             newDropdown.attr('id', newDropdownId);
             selectedClasses += newDropdown[0].outerHTML;
           }
-
           //console.log(selectedClasses);
           char["primaryClass"] = primaryClass;
           $("#chosen-class").html(selectedClasses);
@@ -81,7 +80,26 @@ classCont: {
           $("#stat-suggestion4").show();
         })
       }
-    },
+    }, 
+  langCont: {
+    html: `
+      <div id="new">
+        <label for="select-language-" class="select-language">Select language:</label>
+        <select id="select-language-" class="select">
+          <option selected="selected"></option>
+       </select>
+        <div class="desc"></div>
+      </div>`,
+      func: function (comp) {
+
+        const langDropdown = comp.find("#select-language-");
+
+        langDropdown.append();
+        genInfo["languages"].keys().foreach(lang => {
+          langDropdown.append(lang);
+        });
+      }
+  },
   raceCont: {
     html: `
       <div id="new">
