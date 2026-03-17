@@ -267,9 +267,11 @@ function closePopup() {
 
 // show/hide searchbar dropdown when clicking inside/outside
 // searchbar container
+let sectionId = $(".section.selected").attr("id");
 const searchbarContainer = $("#searchbar-container")[0];
 const searchbarDropdown = $("#searchbar-dropdown");
 $(document).on("click", function (e) {
+  console.log(sectionId);
   if ($.contains(searchbarContainer, e.target)) {
     searchbarDropdown.show();
   } else {
