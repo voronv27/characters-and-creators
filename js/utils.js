@@ -48,6 +48,10 @@ classCont: {
             const customClassName = dropdown.find("input").first().val();
             openPopup('class-select-popup', `(Custom Class) ${customClassName}`);
           }
+          // show valid dropdown options
+          $("#select-subclass option").hide();
+          $("#select-subclass option[value='None']").show();
+          $(`#select-subclass option[value='${className}']`).show();
         });
     }
   },
@@ -85,6 +89,11 @@ classCont: {
             className = className.split(" ")[0];
           }
           openPopup('class-select-popup', className);
+
+          // show valid dropdown options
+          $("#select-subclass option").hide();
+          $("#select-subclass option[value='None']").show();
+          $(`#select-subclass option[value='${className}']`).show();
         });
         comp.children(".remove-class").click(function (e) {
           e.stopPropagation();
@@ -132,6 +141,12 @@ classCont: {
           specificInfo = null;
         });
     }
+  },
+  subclassDesc: {
+    html: `
+      <span id=new class="cont" style="display:none;">
+      </span>`,
+    func: null
   },
   langCont: {
     html: `
@@ -236,6 +251,11 @@ classCont: {
         e.stopPropagation();
         const className = $("#popup-title").text();
         openPopup("class-select-popup", className);
+
+        // show valid dropdown options
+        $("#select-subclass option").hide();
+        $("#select-subclass option[value='None']").show();
+        $(`#select-subclass option[value='${className}']`).show();
       });
     }
   }

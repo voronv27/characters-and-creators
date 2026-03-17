@@ -39,7 +39,25 @@ async function createClassComps(key) {
     moreInfoPopup.find(".desc").html(htmlOutput);
   }
 
-  // dropdown
+  // populate subclasses in the select class popup
+  if (key != "Custom") {
+    const subclassDropdown = $("#select-subclass");
+    for (let i of genInfo["classes"][key]["archetypes"]) {
+      const subclassName = i["name"];
+
+      // populate dropdown
+      const selOpt = new Option(subclassName, key);
+      selOpt.style.display = "none";
+      subclassDropdown.append(selOpt);
+
+      // populate descs
+      let subclassDesc = initComp("subclassDesc", "#subclass-desc");
+      subclassDesc.attr("id", subclassName.replaceAll(" ", "-"));
+      subclassDesc.text(i["desc"]);
+    }
+  }
+
+  // searchbar dropdown
   let dropdownItem = initComp("dropdownItem", "#searchbar-dropdown");
   dropdownItem.text(key);
   dropdownItem.click(function () {
@@ -66,6 +84,16 @@ async function initComps() {
     const selOpt = new Option(i, i);
     levelDropdown.append(selOpt);
   }
+
+  // set up the subclass dropdown to change the displayed subclass text
+  const subclassDropdown = $("#select-subclass");
+  const subclassDescs = $("#subclass-desc");
+  subclassDropdown.on('change', function() {
+    subclassDescs.find("span").hide();
+    const subclass = $(this).find("option:selected").text();
+    subclassDescs.find(`#${subclass.replaceAll(" ", "-")}`).show();
+  })
+  
   
   $("#race-acc").empty();
   Object.keys(genInfo["races"]).forEach(key => {
