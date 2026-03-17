@@ -32,7 +32,7 @@ async function createClassComps(key) {
   let moreInfoPopup = initComp("moreInfo", "#popup-inner-content");
   moreInfoPopup.attr("id", `class-more-info-popup-${key}`);
   if (key == "Custom") {
-    moreInfoPopup.find(".desc").text("No info available for custom classes.");
+    moreInfoPopup.find(".desc").html("<br>No info available for custom classes.<br><br>");
   } else {
     converter = new showdown.Converter();
     htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
@@ -202,12 +202,29 @@ function selectClass() {
       primaryClass = c;
     }
     
+    var isCustom = false;
+    if (c.includes("Custom")) {
+      isCustom = true;
+    }
+
     const acc = initComp("accItem", "#chosen-class");
     acc.find(".title").text(`${c} ${char.class[c]}`);
     acc.attr("id", "acc-item-" + c + "-selected");
-    acc.find(".icon-img").attr("src", `assets/images/${c.toLowerCase()}.png`);
-    let classCont = initComp("selectedClassCont", "#acc-item-" + c + "-selected .cont");
-    classCont.find(".desc").text(genInfo["classes"][c]["short_desc"]);
+    let classCont;
+    if (isCustom) {
+      acc.attr("id", "acc-item-Custom-selected");
+      acc.find(".icon-img").attr("src", 'assets/images/custom.png');
+      classCont = initComp("selectedClassCont", "#acc-item-Custom-selected .cont");
+    } else {
+      acc.find(".icon-img").attr("src", `assets/images/${c.toLowerCase()}.png`);
+      classCont = initComp("selectedClassCont", "#acc-item-" + c + "-selected .cont");
+    }
+    
+    if (isCustom) {
+      classCont.find(".desc").text("Your own custom class.");
+    } else {
+      classCont.find(".desc").text(genInfo["classes"][c]["short_desc"]);
+    }
     chosenClass.append(acc);
   }
 
