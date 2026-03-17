@@ -314,8 +314,40 @@ function updateSearchBar(text) {
 
 
 function updateProficiencies() {
-  char["proficiencies"] = [];//these should not bet initailized here, placeholder until i figure out when they get stored/whatever
-  char["expertise"] = [];
-  char["proficiencyOverlap"] = 0;
-
+  console.log("Updating proficiencies...");
+  console.log(specInfo["proficiencies"]);
+  let classDict = specInfo["proficiencies"]["class"];
+  let raceDict = specInfo["proficiencies"]["race"];
+  let bgDict = specInfo["proficiencies"]["background"];
+  let className = char["primaryClass"];
+  let race = char["race"];
+  let background = char["background"];
+  let profHtml = "";
+  if (classDict != null) {
+    for (k in classDict) {
+      console.log("class dict key: ", k);
+      console.log("class dict value: ", classDict[k]);
+      if (classDict[k] != "None" && classDict[k] != null && k != "skills") {
+        profHtml += `${classDict[k]}: <b>${className}</b><br>`;
+        for (kk in classDict[k]) {
+          console.log("class dict subkey: ", kk);
+          console.log("class dict subvalue: ", classDict[k][kk]);
+          let temp = className + ":" + k;
+          char["proficiencies"][temp] = kk;
+        }
+      }
+    }
+  }
+  if (raceDict != null) {
+    for (k in raceDict) {
+      profHtml += `<b>${raceDict[k]}:</b> ${k}<br>`;
+    }
+  }
+  if (bgDict != null) {
+    for (k in bgDict) {
+      profHtml += `<b>${bgDict[k]}:</b> ${k}<br>`;
+    }
+  }
+  console.log(char["proficiencies"]);
+  document.getElementById("appliedProficiencies").innerHTML = profHtml;
 }

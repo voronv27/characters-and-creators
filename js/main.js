@@ -8,7 +8,7 @@ let char = {
   race: null,
   background: null,
   stats: {},
-  proficiencies: [],
+  proficiencies: {},
   expertise: [],
   proficiencyOverlap: 0
 };
@@ -48,10 +48,12 @@ function initApiData() {
 }
 
 function specificApiData() {
+  console.log(char.primaryClass);
+  console.log("Fetching API data");
   var fetchRequired = false;
   // TODO: more than primary class, subclass, subrace
   var paramUrl = `${URL}/specific-info?`;
-  if (char.primaryClass) {
+  if (char.primaryClass && char.primaryClass != "Custom") {
     paramUrl += `class=${char.primaryClass}`;
     fetchRequired = true;
   }
@@ -84,9 +86,7 @@ function updateSpecInfo() {
   $("#rec-stats").html(recStats);
   $("#primary-stat").html(primaryDisplay);
   $("#secondary-stat").html(secondaryDisplay);
-  console.log("88888888***8**888*");
-  console.log(specInfo["proficiencies"]);
-  console.log("88888888***8**888*");
+  updateProficiencies();
   displayRecommendedStandardStats(specInfo["preferred-stats"][0], specInfo["preferred-stats"][1]);
 
 }
