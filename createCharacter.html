@@ -43,16 +43,21 @@
         <div id="popup-inner-content">
           <!--place your popup content inside here-->
           <div id="class-select-popup" style="display: none;">
-            TODO--this is where the class selection will actually take place.<br>
-            Level: TODO<br>
-            Subclass: TODO<br>
-            Selected Subclass Details:<br>
+            <h3>
+              <label for="select-level-" class="select-level">Level:</label>
+              <select id="select-level-" class="select">
+                <option selected="selected">1</option> 
+              </select>
+            </h3>
+            <h3>
+              <label for="select-subclass" class="select-subclass">Subclass:</label>
+              <select id="select-subclass" class="select">
+                <option selected="selected">TODO</option> 
+              </select>
+            </h3>
+            <h3>Selected Subclass Details:</h3>
             TODO<br>
             <button class="select-class" onclick="selectClass();">Add Class</button>
-            <label for="select-level-" class="select-level">Select level:</label>
-            <select id="select-level-" class="select">
-              <option selected="selected">1</option> 
-           </select>
           </div>
         </div>
       </div>

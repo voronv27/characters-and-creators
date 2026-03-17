@@ -67,8 +67,35 @@ classCont: {
           const dropdown = $(this).closest(".acc-item");
           const className = dropdown.find(".title").first().text().split(" ")[0];
           $(`#acc-item-${className}-selected`).remove();
-        // TODO: need to reselect primary class in char
+
+          // remove this class from char
           delete char["class"][className];
+
+          // remove if was primaryClass
+          if (char["primaryClass"] == className) {
+            var primaryClass = null;
+            var maxLevel = 0;
+            for (c in char.class) {
+              if (char.class[c] > maxLevel) {
+                maxLevel = char.class[c];
+                primaryClass = c;
+              }
+            }
+            char["primaryClass"] = primaryClass;
+
+            $("#primary-class").html(primaryClass);
+            if (primaryClass) {
+              $("#stat-suggestion1").show();
+              $("#stat-suggestion2").show();
+              $("#stat-suggestion3").show();
+              $("#stat-suggestion4").show();
+            } else {
+              $("#stat-suggestion1").hide();
+              $("#stat-suggestion2").hide();
+              $("#stat-suggestion3").hide();
+              $("#stat-suggestion4").hide();
+            }
+          }
           // reset specificInfo because we changed class
           specificInfo = null;
         });
