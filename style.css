@@ -786,7 +786,7 @@ then add an empty div with the fill class above footer*/
 }
 
 .table-column {
-  border: 1px solid var(--active);
+  border: 10px solid var(--active);
   padding: 8px;
   flex-grow: 1;
 }

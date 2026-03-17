@@ -187,6 +187,9 @@ function initComp(key, existing, rel,) {
 function selectClass() {
   var className = $("#popup-title").text().split(") ");
   className = className[className.length - 1].replaceAll(" ", "_");
+  if (className == "") {
+    className = "Custom";
+  }
   const dropdown = $("#select-level-");
   const classLevel = dropdown.find("option:selected").text();
   char.class[className] = classLevel;

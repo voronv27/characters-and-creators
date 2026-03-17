@@ -8,6 +8,9 @@ let char = {
   race: null,
   background: null,
   stats: {},
+  proficiencies: {},
+  expertise: [],
+  proficiencyOverlap: 0
 };
 
 // Constants
@@ -45,10 +48,12 @@ function initApiData() {
 }
 
 function specificApiData() {
+  console.log(char.primaryClass);
+  console.log("Fetching API data");
   var fetchRequired = false;
   // TODO: more than primary class, subclass, subrace
   var paramUrl = `${URL}/specific-info?`;
-  if (char.primaryClass) {
+  if (char.primaryClass && char.primaryClass != "Custom") {
     paramUrl += `class=${char.primaryClass}`;
     fetchRequired = true;
   }
@@ -81,7 +86,9 @@ function updateSpecInfo() {
   $("#rec-stats").html(recStats);
   $("#primary-stat").html(primaryDisplay);
   $("#secondary-stat").html(secondaryDisplay);
+  updateProficiencies();
   displayRecommendedStandardStats(specInfo["preferred-stats"][0], specInfo["preferred-stats"][1]);
+
 }
 
 function getRaceDesc(data, subrace = "") {
@@ -92,6 +99,7 @@ function getRaceDesc(data, subrace = "") {
   const languages = converter.makeHtml(data["languages"]);
   const vision = converter.makeHtml(data["vision"]);
   const traits = converter.makeHtml(data["traits"]);
+  
 
   var desc = `<b>Key Race Features:</b><br>
   ${size}
