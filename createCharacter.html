@@ -75,10 +75,10 @@
             </div>
 
             <div class="column-contents">
-              <div id="searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
+              <div id="searchbar-container-class">
+                <input type="text" id="searchbar-class" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-class-dropdown-container">
+                  <div id="searchbar-class-dropdown"></div>
                 </div>
               </div>
               <div id="class-acc" class="acc">
@@ -106,9 +106,9 @@
       <div id="chosen-race">None</div>
       <div class="column-contents">
               <div id="searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
+                <input type="text" id="searchbar-race" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-race-dropdown-container">
+                  <div id="searchbar-race-dropdown"></div>
                 </div>
               </div>
             </div>
@@ -124,9 +124,9 @@
       <div id="chosen-background">None</div>
       <div class="column-contents">
               <div id="searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
+                <input type="text" id="searchbar-background" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-background-dropdown-container">
+                  <div id="searchbar-background-dropdown"></div>
                 </div>
               </div>
             </div>
@@ -233,13 +233,13 @@
       Other proficiencies (TODO: give option to select from valid options)-->
       <div id="chosen-proficiency">None</div>
       <div class="column-contents">
-        <div id="searchbar-container">
-          <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
-          <div id="searchbar-dropdown-container">
-            <div id="searchbar-dropdown"></div>
-          </div>
-        </div>
-      </div>
+              <div id="searchbar-container">
+                <input type="text" id="searchbar-proficiency" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-proficiency-dropdown-container">
+                  <div id="searchbar-proficiency-dropdown"></div>
+                </div>
+              </div>
+            </div>
       <div id="profiency-acc" class="acc">
         <div class="acc-item">
           <div class="title">Loading...</div>
@@ -284,7 +284,7 @@
             </div>
             <div class="table-column" id = "saves">
               <h2>Saves</h2>
-              Strength: <input type="checkbox" id="strengthSave" name="strengthSave" value="Strength Save"><br>
+              Strength: <input type="checkbox" id="strengthSave" name="strengthSave" value="Strength Save" disabled><br>
               Dexterity: <input type="checkbox" id="dexteritySave" name="dexteritySave" value="Dexterity Save"><br>
               Constitution: <input type="checkbox" id="constitutionSave" name="constitutionSave" value="Constitution Save"><br>
               Intelligence: <input type="checkbox" id="intelligenceSave" name="intelligenceSave" value="Intelligence Save"><br>
@@ -357,10 +357,10 @@
       Other language:
       <div id="chosen-languages">None</div>
       <div class="column-contents">
-              <div id="searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
+              <div id="searchbar-language-container">
+                <input type="text" id="searchbar-language" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-language-dropdown-container">
+                  <div id="searchbar-language-dropdown"></div>
                 </div>
               </div>
             </div>
@@ -382,10 +382,10 @@
       For now, here are all available spells for all classes:
       <!--NOTE: it may be good to filter by spell source-->
       <div class="column-contents">
-              <div id="searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
+              <div id="searchbar-spell-container">
+                <input type="text" id="searchbar-spell" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-spell-dropdown-container">
+                  <div id="searchbar-spell-dropdown"></div>
                 </div>
               </div>
             </div>
@@ -800,7 +800,7 @@
 </div>
 </div>
 </div>
-<p>Github repo: <bg href="https://github.com/voronv27/characters-and-creators">voronv/characters-and-creators</bg></p>
+<p>Github repo: <a class="gitLink" href="https://github.com/voronv27/characters-and-creators">voronv/characters-and-creators</a></p>
 
 </body>
 </html>

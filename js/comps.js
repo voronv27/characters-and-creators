@@ -32,7 +32,7 @@ async function createClassComps(key) {
   let moreInfoPopup = initComp("moreInfo", "#popup-inner-content");
   moreInfoPopup.attr("id", `class-more-info-popup-${key}`);
   if (key == "Custom") {
-    moreInfoPopup.find(".desc").text("No info available for custom classes.");
+    moreInfoPopup.find(".desc").html("<br>No info available for custom classes.<br><br>");
   } else {
     converter = new showdown.Converter();
     htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
@@ -185,7 +185,8 @@ function initComp(key, existing, rel,) {
 
 // clicking the select-class button moves the class over to selected classes
 function selectClass() {
-  const className = $("#popup-title").text();
+  var className = $("#popup-title").text().split(") ");
+  className = className[className.length - 1].replaceAll(" ", "_");
   const dropdown = $("#select-level-");
   const classLevel = dropdown.find("option:selected").text();
   char.class[className] = classLevel;
@@ -202,12 +203,30 @@ function selectClass() {
       primaryClass = c;
     }
     
+    var isCustom = false;
+    if (!(c in genInfo["classes"])) {
+      isCustom = true;
+    }
+
     const acc = initComp("accItem", "#chosen-class");
-    acc.find(".title").text(`${c} ${char.class[c]}`);
+    if (isCustom) {
+      acc.find(".title").text(`(Custom Class) ${c.replaceAll("_", " ")} ${char.class[c]}`);
+    } else {
+      acc.find(".title").text(`${c} ${char.class[c]}`);
+    }
     acc.attr("id", "acc-item-" + c + "-selected");
-    acc.find(".icon-img").attr("src", `assets/images/${c.toLowerCase()}.png`);
+    if (isCustom) {
+      acc.find(".icon-img").attr("src", 'assets/images/custom.png');
+    } else {
+      acc.find(".icon-img").attr("src", `assets/images/${c.toLowerCase()}.png`);
+    }
     let classCont = initComp("selectedClassCont", "#acc-item-" + c + "-selected .cont");
-    classCont.find(".desc").text(genInfo["classes"][c]["short_desc"]);
+    
+    if (isCustom) {
+      classCont.find(".desc").text("Your own custom class.");
+    } else {
+      classCont.find(".desc").text(genInfo["classes"][c]["short_desc"]);
+    }
     chosenClass.append(acc);
   }
 
