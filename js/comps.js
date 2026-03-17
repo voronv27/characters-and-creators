@@ -203,11 +203,11 @@ function selectClass() {
     }
     
     const acc = initComp("accItem", "#chosen-class");
-    acc.find(".title").text(`${className} ${classLevel}`);
-    acc.attr("id", "acc-item-" + className + "-selected");
-    acc.find(".icon-img").attr("src", `assets/images/${className.toLowerCase()}.png`);
-    let classCont = initComp("selectedClassCont", "#acc-item-" + className + "-selected .cont");
-    classCont.find(".desc").text(genInfo["classes"][className]["short_desc"]);
+    acc.find(".title").text(`${c} ${char.class[c]}`);
+    acc.attr("id", "acc-item-" + c + "-selected");
+    acc.find(".icon-img").attr("src", `assets/images/${c.toLowerCase()}.png`);
+    let classCont = initComp("selectedClassCont", "#acc-item-" + c + "-selected .cont");
+    classCont.find(".desc").text(genInfo["classes"][c]["short_desc"]);
     chosenClass.append(acc);
   }
 
