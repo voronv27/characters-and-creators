@@ -35,7 +35,7 @@ classCont: {
             openPopup(`class-more-info-popup-${className}`, className);
           } else {
             const customClassName = dropdown.find("input").first().val();
-            openPopup('class-more-info-popup-Custom', `${customClassName} (Custom Class)`);
+            openPopup('class-more-info-popup-Custom', `(Custom Class) ${customClassName}`);
           }
         });
         comp.children(".select-class").click(function (e) {
@@ -46,7 +46,7 @@ classCont: {
             openPopup('class-select-popup', className);
           } else {
             const customClassName = dropdown.find("input").first().val();
-            openPopup('class-select-popup', `${customClassName} (Custom Class)`);
+            openPopup('class-select-popup', `(Custom Class) ${customClassName}`);
           }
         });
     }
@@ -65,8 +65,9 @@ classCont: {
           const dropdown = $(this).closest(".acc-item");
           var className = dropdown.find(".title").first().text();
           if (className.includes("Custom")) {
-            className = className.split(")")[0] + ")";
-            openPopup('class-more-info-popup-Custom', className);
+            className = className.split(") ")[1];
+            className = className.split(" ").slice(0, -1).join(" ");
+            openPopup('class-more-info-popup-Custom', `(Custom Class) ${className}`);
           } else {
             className = className.split(" ")[0];
             openPopup(`class-more-info-popup-${className}`, className);
@@ -77,7 +78,9 @@ classCont: {
           const dropdown = $(this).closest(".acc-item");
           var className = dropdown.find(".title").first().text();
           if (className.includes("Custom")) {
-            className = className.split(")")[0] + ")";
+            className = className.split(") ")[1];
+            className = className.split(" ").slice(0, -1).join(" ");
+            className = `(Custom Class) ${className}`;
           } else {
             className = className.split(" ")[0];
           }
@@ -88,8 +91,11 @@ classCont: {
           const dropdown = $(this).closest(".acc-item");
           var className = dropdown.find(".title").first().text();
           if (className.includes("Custom")) {
-            className = "Custom";
-          } else {
+            className = className.split(") ")[1];
+            className = className.split(" ").slice(0, -1).join(" ");
+            className = className.replace(" ", "_");
+          }
+          else {
             className = className.split(" ")[0];
           }
           $(`#acc-item-${className}-selected`).remove();

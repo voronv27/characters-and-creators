@@ -185,7 +185,8 @@ function initComp(key, existing, rel,) {
 
 // clicking the select-class button moves the class over to selected classes
 function selectClass() {
-  const className = $("#popup-title").text();
+  var className = $("#popup-title").text().split(") ");
+  className = className[className.length - 1].replaceAll(" ", "_");
   const dropdown = $("#select-level-");
   const classLevel = dropdown.find("option:selected").text();
   char.class[className] = classLevel;
@@ -203,22 +204,23 @@ function selectClass() {
     }
     
     var isCustom = false;
-    if (c.includes("Custom")) {
+    if (!(c in genInfo["classes"])) {
       isCustom = true;
     }
 
     const acc = initComp("accItem", "#chosen-class");
-    acc.find(".title").text(`${c} ${char.class[c]}`);
-    acc.attr("id", "acc-item-" + c + "-selected");
-    let classCont;
     if (isCustom) {
-      acc.attr("id", "acc-item-Custom-selected");
+      acc.find(".title").text(`(Custom Class) ${c.replaceAll("_", " ")} ${char.class[c]}`);
+    } else {
+      acc.find(".title").text(`${c} ${char.class[c]}`);
+    }
+    acc.attr("id", "acc-item-" + c + "-selected");
+    if (isCustom) {
       acc.find(".icon-img").attr("src", 'assets/images/custom.png');
-      classCont = initComp("selectedClassCont", "#acc-item-Custom-selected .cont");
     } else {
       acc.find(".icon-img").attr("src", `assets/images/${c.toLowerCase()}.png`);
-      classCont = initComp("selectedClassCont", "#acc-item-" + c + "-selected .cont");
     }
+    let classCont = initComp("selectedClassCont", "#acc-item-" + c + "-selected .cont");
     
     if (isCustom) {
       classCont.find(".desc").text("Your own custom class.");
