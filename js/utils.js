@@ -31,13 +31,23 @@ classCont: {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
           const className = dropdown.find(".title").first().text();
-          openPopup(`class-more-info-popup-${className}`, className);
+          if (className) {
+            openPopup(`class-more-info-popup-${className}`, className);
+          } else {
+            const customClassName = dropdown.find("input").first().val();
+            openPopup('class-more-info-popup-Custom', `(Custom Class) ${customClassName}`);
+          }
         });
         comp.children(".select-class").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
           const className = dropdown.find(".title").first().text();
-          openPopup('class-select-popup', className);
+          if (className) {
+            openPopup('class-select-popup', className);
+          } else {
+            const customClassName = dropdown.find("input").first().val();
+            openPopup('class-select-popup', `(Custom Class) ${customClassName}`);
+          }
         });
     }
   },
@@ -53,19 +63,41 @@ classCont: {
         comp.children(".more-info").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
-          const className = dropdown.find(".title").first().text().split(" ")[0];
-          openPopup(`class-more-info-popup-${className}`, className);
+          var className = dropdown.find(".title").first().text();
+          if (className.includes("Custom")) {
+            className = className.split(") ")[1];
+            className = className.split(" ").slice(0, -1).join(" ");
+            openPopup('class-more-info-popup-Custom', `(Custom Class) ${className}`);
+          } else {
+            className = className.split(" ")[0];
+            openPopup(`class-more-info-popup-${className}`, className);
+          }
         });
         comp.children(".select-class").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
-          const className = dropdown.find(".title").first().text().split(" ")[0];
+          var className = dropdown.find(".title").first().text();
+          if (className.includes("Custom")) {
+            className = className.split(") ")[1];
+            className = className.split(" ").slice(0, -1).join(" ");
+            className = `(Custom Class) ${className}`;
+          } else {
+            className = className.split(" ")[0];
+          }
           openPopup('class-select-popup', className);
         });
         comp.children(".remove-class").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
-          const className = dropdown.find(".title").first().text().split(" ")[0];
+          var className = dropdown.find(".title").first().text();
+          if (className.includes("Custom")) {
+            className = className.split(") ")[1];
+            className = className.split(" ").slice(0, -1).join(" ");
+            className = className.replace(" ", "_");
+          }
+          else {
+            className = className.split(" ")[0];
+          }
           $(`#acc-item-${className}-selected`).remove();
 
           // remove this class from char
