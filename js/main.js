@@ -8,6 +8,9 @@ let char = {
   race: null,
   background: null,
   stats: {},
+  proficiencies: [],
+  expertise: [],
+  proficiencyOverlap: 0
 };
 
 // Constants
@@ -81,7 +84,11 @@ function updateSpecInfo() {
   $("#rec-stats").html(recStats);
   $("#primary-stat").html(primaryDisplay);
   $("#secondary-stat").html(secondaryDisplay);
+  console.log("88888888***8**888*");
+  console.log(specInfo["proficiencies"]);
+  console.log("88888888***8**888*");
   displayRecommendedStandardStats(specInfo["preferred-stats"][0], specInfo["preferred-stats"][1]);
+
 }
 
 function getRaceDesc(data, subrace = "") {
@@ -92,6 +99,7 @@ function getRaceDesc(data, subrace = "") {
   const languages = converter.makeHtml(data["languages"]);
   const vision = converter.makeHtml(data["vision"]);
   const traits = converter.makeHtml(data["traits"]);
+  
 
   var desc = `<b>Key Race Features:</b><br>
   ${size}

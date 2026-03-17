@@ -278,3 +278,12 @@ function updateSearchBar(text) {
   const searchbar = $("#searchbar");
   searchbar.val(text);
 }
+
+
+
+function updateProficiencies() {
+  char["proficiencies"] = [];//these should not bet initailized here, placeholder until i figure out when they get stored/whatever
+  char["expertise"] = [];
+  char["proficiencyOverlap"] = 0;
+
+}
