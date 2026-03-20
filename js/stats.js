@@ -235,3 +235,22 @@ function assignCustom(str, dex, con, int, wis, cha) {
   console.log(char["stats"]);
   console.log(char);
 }
+
+function displayCustomStatSuggestion() {
+  var html = `<h2><b>As you are making a custom class, you get to choose which stats from the standard array:</b></h2><br><br>`;
+  var stats = [15, 14, 13, 12, 10, 8];
+  const statOpts = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+  var html = `<div><b>Standard Array:</b><br></div><div style="flex-direction: column; gap: 10px;">`
+  for (s in stats) {
+    stat = stats[s];
+    html += `<b>${stat} </b>
+            <select id="select-stat-${s}" class="select-stat">
+            <option selected disabled hidden value=${stat}>Select Stat</option>`
+      + statOpts.reduce(
+        (opts, newOpt) => opts + `<option value=${stat}>${newOpt}</option>\n`, "") +
+      " </select><br>"
+  }
+  html += "</div><br><br>";
+  html += "<button onclick='assignStats();'>Assign Stats</button><br><br>";
+  $('#stat-suggestion4').html(html);
+}

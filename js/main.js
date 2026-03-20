@@ -83,12 +83,15 @@ function updateSpecInfo() {
   const recStats = "<b>" + specInfo["preferred-stats"].join("</b> and <b>") + "</b>";
   const primaryDisplay = "<b>" + specInfo["preferred-stats"][0] + "</b>";
   const secondaryDisplay = "<b>" + specInfo["preferred-stats"][1] + "</b>";
-  $("#rec-stats").html(recStats);
-  $("#primary-stat").html(primaryDisplay);
-  $("#secondary-stat").html(secondaryDisplay);
-  updateProficiencies();
-  displayRecommendedStandardStats(specInfo["preferred-stats"][0], specInfo["preferred-stats"][1]);
-
+  if (char["primaryClass"] == "Custom") {
+    
+  } else {
+    $("#rec-stats").html(recStats);
+    $("#primary-stat").html(primaryDisplay);
+    $("#secondary-stat").html(secondaryDisplay);
+    updateProficiencies();
+    displayRecommendedStandardStats(specInfo["preferred-stats"][0], specInfo["preferred-stats"][1]);
+  }
 }
 
 function getRaceDesc(data, subrace = "") {
