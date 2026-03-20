@@ -110,10 +110,10 @@
       Selected race:
       <div id="chosen-race">None</div>
       <div class="column-contents">
-              <div id="searchbar-race-container">
-                <input type="text" id="searchbar-race" oninput="filterItemsRace(event)" placeholder="Search for items...">
-                <div id="searchbar-race-dropdown-container">
-                  <div id="searchbar-race-dropdown"></div>
+              <div id="searchbar-container">
+                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown"></div>
                 </div>
               </div>
             </div>
@@ -128,10 +128,10 @@
       Selected background:
       <div id="chosen-background">None</div>
       <div class="column-contents">
-              <div id="searchbar-background-container">
-                <input type="text" id="searchbar-background" oninput="filterItemsBackground(event)" placeholder="Search for items...">
-                <div id="searchbar-background-dropdown-container">
-                  <div id="searchbar-background-dropdown"></div>
+              <div id="searchbar-container">
+                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown"></div>
                 </div>
               </div>
             </div>
@@ -237,20 +237,6 @@
       <!--Select proficiencies (TODO)<br>
       Other proficiencies (TODO: give option to select from valid options)-->
       <div id="chosen-proficiency">None</div>
-      <div class="column-contents">
-              <div id="searchbar-proficiency-container">
-                <input type="text" id="searchbar-proficiency" oninput="filterItemsProficiency(event)" placeholder="Search for items...">
-                <div id="searchbar-proficiency-dropdown-container">
-                  <div id="searchbar-proficiency-dropdown"></div>
-                </div>
-              </div>
-            </div>
-      <div id="profiency-acc" class="acc">
-        <div class="acc-item">
-          <div class="title">Loading...</div>
-          <div class="cont">Loading...</div>
-        </div>
-      </div>
       <div class="table" style="align-items: start;">
         <div class="table-column" style="flex-grow: .1666666666666;">
           <h3>Already Selected:</h3>
@@ -362,10 +348,10 @@
       Other language:
       <div id="chosen-languages">None</div>
       <div class="column-contents">
-              <div id="searchbar-language-container">
-                <input type="text" id="searchbar-language" oninput="filterItemsLanguage(event)" placeholder="Search for items...">
-                <div id="searchbar-language-dropdown-container">
-                  <div id="searchbar-language-dropdown"></div>
+              <div id="-searchbar-container">
+                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown"></div>
                 </div>
               </div>
             </div>
@@ -387,10 +373,10 @@
       For now, here are all available spells for all classes:
       <!--NOTE: it may be good to filter by spell source-->
       <div class="column-contents">
-              <div id="searchbar-spell-container">
-                <input type="text" id="searchbar-spell" oninput="filterItemsSpell(event)" placeholder="Search for items...">
-                <div id="searchbar-spell-dropdown-container">
-                  <div id="searchbar-spell-dropdown"></div>
+              <div id="searchbar-container">
+                <input type="text" id="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown"></div>
                 </div>
               </div>
             </div>

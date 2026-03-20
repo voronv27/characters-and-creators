@@ -303,11 +303,21 @@ $(document).on("click", function (e) {
 });
 
 // upon searchbar input, display classes matching search value
+//race-acc, background-acc, language-acc, spellcards-acc
 function filterItems() {
     var input, filter, classAcc, accItem, i, txtValue;
     input = document.getElementById("searchbar");
     filter = input.value.toUpperCase();
-    acc = document.getElementById("class-acc");
+    if(sectionNum == 1){
+    acc = document.getElementById("class-acc");}
+    if(sectionNum == 2){
+      acc = document.getElementById("race-acc");}
+    if(sectionNum == 3){
+      acc = document.getElementById("background-acc");}
+    if(sectionNum == 6){
+      acc = document.getElementById("language-acc");}
+    if(sectionNum == 8){
+      acc = document.getElementById("spellcards-acc");}
     accItem = acc.getElementsByClassName("acc-item");
     
     var dropdown = document.getElementById("searchbar-dropdown");
@@ -334,225 +344,6 @@ function filterItems() {
 function updateSearchBar(text) {
   const searchbar = $("#searchbar");
   searchbar.val(text);
-}
-
-//RACE
-const searchbarContainerRace = $("#searchbar-race-container")[0];
-const searchbarDropdownRace = $("#searchbar-race-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerRace, e.target)) {
-    searchbarDropdownRace.show();
-  } else {
-    searchbarDropdownRace.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsRace() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-race");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-race-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
-}
-
-// updates the text in a searchbar with the provided value
-function updateSearchBarRace(text) {
-  const searchbarRace = $("#searchbar-race");
-  searchbarRace.val(text);
-}
-
-//BACKGROUND
-const searchbarContainerBackground = $("#searchbar-background-container")[0];
-const searchbarDropdownBackground = $("#searchbar-background-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerBackground, e.target)) {
-    searchbarDropdownBackground.show();
-  } else {
-    searchbarDropdownBackground.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsBackground() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-background");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-background-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
-}
-
-// updates the text in a searchbar with the provided value
-function updateSearchBarBackground(text) {
-  const searchbarBackground = $("#searchbar-background");
-  searchbarBackground.val(text);
-}
-
-//PROFICIENCY
-const searchbarContainerProficiency = $("#searchbar-proficiency-container")[0];
-const searchbarDropdownProficiency = $("#searchbar-proficiency-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerProficiency, e.target)) {
-    searchbarDropdownProficiency.show();
-  } else {
-    searchbarDropdownProficiency.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsProficiency() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-proficiency");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-proficiency-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
-}
-
-// updates the text in a searchbar with the provided value
-function updateSearchBarProficiency(text) {
-  const searchbarProficiency = $("#searchbar-proficiency");
-  searchbarProficiency.val(text);
-}
-
-//LANGUAGE
-const searchbarContainerLanguage = $("#searchbar-language-container")[0];
-const searchbarDropdownLanguage = $("#searchbar-language-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerLanguage, e.target)) {
-    searchbarDropdownLanguage.show();
-  } else {
-    searchbarDropdownLanguage.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsLanguage() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-language");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-language-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
-}
-
-// updates the text in a searchbar with the provided value
-function updateSearchBarLanguage(text) {
-  const searchbarLanguage = $("#searchbar-language");
-  searchbarLanguage.val(text);
-}
-
-//SPELL
-const searchbarContainerSpell = $("#searchbar-spell-container")[0];
-const searchbarDropdownSpell = $("#searchbar-spell-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerSpell, e.target)) {
-    searchbarDropdownSpell.show();
-  } else {
-    searchbarDropdownSpell.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsSpell() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-spell");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-spell-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
 }
 
 // updates the text in a searchbar with the provided value
