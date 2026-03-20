@@ -64,7 +64,7 @@ async function createClassComps(key) {
   dropdownItem.text(key);
   dropdownItem.click(function () {
     updateSearchBar(key);
-    filterItems();
+    filterItems('class');
   });
 }
 
