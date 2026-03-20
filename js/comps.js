@@ -53,7 +53,9 @@ async function createClassComps(key) {
       // populate descs
       let subclassDesc = initComp("subclassDesc", "#subclass-desc");
       subclassDesc.attr("id", subclassName.replaceAll(" ", "-"));
-      subclassDesc.text(i["desc"]);
+      converter = new showdown.Converter();
+      htmlOutput = converter.makeHtml(i["desc"].replaceAll("####", "##"));
+      subclassDesc.html(htmlOutput);
     }
   }
 
@@ -220,8 +222,16 @@ function selectClass() {
   }
   const dropdown = $("#select-level-");
   const classLevel = dropdown.find("option:selected").text();
-  char.class[className] = classLevel;
-  console.log(`class ${className}, level ${classLevel}`);
+
+  const subclassDropdown = $("#select-subclass");
+  var subclass = subclassDropdown.find("option:selected").text();
+  if (subclass == "None") {
+    subclass = null;
+  }
+  char.class[className] = {
+    "level": classLevel,
+    "subclass": subclass
+  };
 
   // add acc-item to selected classes
   $("#chosen-class").html("");
@@ -229,8 +239,8 @@ function selectClass() {
   var maxLevel = 0;
   const chosenClass = $("#chosen-class");
   for (c in char.class) {
-    if (char.class[c] > maxLevel) {
-      maxLevel = char.class[c];
+    if (char.class[c]["level"] > maxLevel) {
+      maxLevel = char.class[c]["level"];
       primaryClass = c;
     }
     
@@ -241,9 +251,13 @@ function selectClass() {
 
     const acc = initComp("accItem", "#chosen-class");
     if (isCustom) {
-      acc.find(".title").text(`(Custom Class) ${c.replaceAll("_", " ")} ${char.class[c]}`);
+      acc.find(".title").text(`(Custom Class) ${c.replaceAll("_", " ")} ${char.class[c]["level"]}`);
     } else {
-      acc.find(".title").text(`${c} ${char.class[c]}`);
+      if (char.class[c]["subclass"]) {
+        acc.find(".title").html(`${c} ${char.class[c]["level"]}<br>${char.class[c]["subclass"]}`);
+      } else {
+        acc.find(".title").text(`${c} ${char.class[c]["level"]}`);
+      }
     }
     acc.attr("id", "acc-item-" + c + "-selected");
     if (isCustom) {

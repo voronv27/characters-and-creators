@@ -117,8 +117,8 @@ classCont: {
             var primaryClass = null;
             var maxLevel = 0;
             for (c in char.class) {
-              if (char.class[c] > maxLevel) {
-                maxLevel = char.class[c];
+              if (char.class[c]["level"] > maxLevel) {
+                maxLevel = char.class[c]["level"];
                 primaryClass = c;
               }
             }
