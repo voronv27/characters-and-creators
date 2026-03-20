@@ -14,7 +14,9 @@ localClassData = {
         "desc": "Masters of invention, artificers use ingenuity and magic to unlock extraordinary capabilities in objects",
         "multiClassRec": {
             "Intelligence": 13
-        }
+        },
+        "subclassLevel": 3,
+            
 
     },
     "Barbarian": {
@@ -22,28 +24,32 @@ localClassData = {
         "desc": "Barbarians are mighty warriors who are powered by primal forces of the multiverse that manifest as a Rage",
         "multiClassRec": {
             "Strength": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Bard": {
         "preferredStats": ["Charisma", "Dexterity"],
         "desc": "Bards are expert at inspiring others, soothing hurts, disheartening foes, and creating illusions",
         "multiClassRec": {
             "Charisma": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Cleric": {
         "preferredStats": ["Wisdom", "Constitution"],
         "desc": "Clerics can reach out to the divine magic of the Outer Planes and channel it to bolster people and battle foes",
         "multiClassRec": {
             "Wisdom": 13
-        }
+        },
+        "subclassLevel": 1,
         },
     "Druid": {
         "preferredStats": ["Wisdom", "Constitution"],
         "desc": "Druids call on the forces of nature, harnessing magic to heal, transform into animals, and wield elemental destruction",
         "multiClassRec": {
             "Wisdom": 13
-        }
+        },
+        "subclassLevel": 2,
         },
     "Fighter": {
         "preferredStats": ["Strength", "Constitution"],
@@ -51,7 +57,8 @@ localClassData = {
         "multiClassRec": {
             "Strength": 13,
             "Dexterity": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Monk": {
         "preferredStats": ["Dexterity", "Wisdom"],
@@ -59,7 +66,8 @@ localClassData = {
         "multiClassRec": {
             "Dexterity": 13,
             "Wisdom": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Paladin": {
         "preferredStats": ["Strength", "Charisma"],
@@ -67,7 +75,8 @@ localClassData = {
         "multiClassRec": {
             "Strength": 13,
             "Charisma": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Ranger": {
         "preferredStats": ["Dexterity", "Wisdom"],
@@ -75,28 +84,32 @@ localClassData = {
         "multiClassRec": {
             "Dexterity": 13,
             "Wisdom": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Rogue": {
         "preferredStats": ["Dexterity", "Intelligence"],
         "desc": "Rogues have a knack for finding the solution to just about any problem, prioritizing subtle strikes over brute strength",
         "multiClassRec": {
             "Dexterity": 13
-        }
+        },
+        "subclassLevel": 3,
     },
     "Sorcerer": {
         "preferredStats": ["Charisma", "Constitution"],
         "desc": "Sorcerers harness and channel the raw, roiling power of innate magic that is stamped into their very being",
         "multiClassRec": {
             "Charisma": 13
-        }
+        },
+        "subclassLevel": 1,
     },
     "Warlock": {
         "preferredStats": ["Charisma", "Constitution"],
         "desc": "Warlocks quest for knowledge that lies hidden in the fabric of the multiverse, piecing together arcane secrets to bolster their own power",
         "multiClassRec": {
             "Charisma": 13
-        }
+        },
+        "subclassLevel": 1,
     },
     "Wizard": {
         "preferredStats": ["Intelligence", "Constitution"],
@@ -104,6 +117,7 @@ localClassData = {
         "multiClassRec": {
             "Intelligence": 13
         }
+        "subclassLevel": 2,
     },
 }
 
