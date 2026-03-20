@@ -303,22 +303,11 @@ $(document).on("click", function (e) {
 });
 
 // upon searchbar input, display classes matching search value
-//race-acc, background-acc, language-acc, spellcards-acc
 function filterItems(sectionName) {
     var input, filter, classAcc, accItem, i, txtValue;
     input = document.getElementById("searchbar");
     filter = input.value.toUpperCase();
     acc = document.getElementById(sectionName + "-acc");
-    /*if(sectionNum == 1){
-    acc = document.getElementById("class-acc");}
-    if(sectionNum == 2){
-      acc = document.getElementById("race-acc");}
-    if(sectionNum == 3){
-      acc = document.getElementById("background-acc");}
-    if(sectionNum == 6){
-      acc = document.getElementById("language-acc");}
-    if(sectionNum == 8){
-      acc = document.getElementById("spellcards-acc");}*/
     accItem = acc.getElementsByClassName("acc-item");
     
     var dropdown = document.getElementById("searchbar-dropdown");
