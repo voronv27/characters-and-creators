@@ -55,6 +55,9 @@ function specificApiData() {
   var paramUrl = `${URL}/specific-info?`;
   if (char.primaryClass && char.primaryClass != "Custom") {
     paramUrl += `class=${char.primaryClass}`;
+    if (char.class[char.primaryClass]["subclass"]) {
+      paramUrl += `&subclass=${char.class[char.primaryClass]["subclass"]}`;
+    }
     fetchRequired = true;
   }
   if (char.race) {
