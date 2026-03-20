@@ -307,8 +307,8 @@ function filterItems() {
     var input, filter, classAcc, accItem, i, txtValue;
     input = document.getElementById("searchbar");
     filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
+    acc = document.getElementById("class-acc");
+    accItem = acc.getElementsByClassName("acc-item");
     
     var dropdown = document.getElementById("searchbar-dropdown");
     var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
