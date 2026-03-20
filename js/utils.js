@@ -559,7 +559,7 @@ function filterItemsSpell() {
 function updateSearchBarSpell(text) {
   const searchbarSpell = $("#searchbar-spell");
   searchbarSpell.val(text);
-
+}
 
 function updateProficiencies() {
   console.log("Updating proficiencies...");
