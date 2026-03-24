@@ -377,10 +377,13 @@ function updateProficiencies() {
               continue;
             } else {
               for (t in classDict[k][p]) {  
-                char["proficiencies"][`Tool: ${classDict[k][p][t]}`] = true;
+                char["proficiencies"]["tools"].push(classDict[k][p][t]);
                 console.log("Adding tool proficiency: ", `Tool: ${classDict[k][p][t]}`);
               }
             }
+          }
+          if (classDict[k][p] == "subclass") {
+            continue;
           }
           if (typeof(classDict[k][p]) === "number") {
             console.log("Adding proficiency overlap: ", classDict[k][p]);
@@ -394,8 +397,9 @@ function updateProficiencies() {
             }
           }
           else {
-            char["proficiencies"][k] = classDict[k][p];
+            console.log("dictionary test: ", char["proficiencies"][k]);
             console.log("Adding proficiency: ", `${k}: ${classDict[k][p]}`);
+            char["proficiencies"][`${k}`].push(classDict[k][p]);
           }
         }
         
@@ -419,14 +423,30 @@ function updateProficiencies() {
 
   if (raceDict != null) {
     for (k in raceDict) {
-      profHtml += `<b>${raceDict[k]}:</b> ${k}<br>`;
     }
   }
   if (bgDict != null) {
     for (k in bgDict) {
-      profHtml += `<b>${bgDict[k]}:</b> ${k}<br>`;
     }
   }
   console.log(char["proficiencies"]);
   document.getElementById("appliedProficiencies").innerHTML = profHtml;
+
+  for (s in char["proficiencies"]) {    //for each proficiency within the proficiency types (armors, weapons, tools, saving throws, skills), loop through and add to the html list of proficiencies
+    for (p in char["proficiencies"][s]) {
+      profHtml += `<div id = "${char["proficiencies"][s][p]}">${char["proficiencies"][s][p]}</div>`;
+    }
+
+  }
+  for (s in possibleSkills) {    //for each proficiency within the possible skills, find their corresponding checkbox and enable them for selection.
+    const checkbox = document.getElementById(possibleSkills[s]);
+    if (checkbox) {
+      checkbox.disabled = false;
+    }
+  }
+  document.getElementById("appliedProficiencies").innerHTML = profHtml;
+}
+
+function proficiencyCheckboxClicked(checkbox) { //check  how many remaining overlaps there are and if current checkbox is being checked or unchecked, then update char proficiencies and remaining overlaps accordingly
+
 }
