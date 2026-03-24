@@ -106,6 +106,14 @@ async function initComps() {
     raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
     let raceDesc = getRaceDesc(genInfo["races"][key]);
     raceCont.find(".desc").html(raceDesc);
+
+    // searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-race-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key, "searchbar-race");
+      filterItems('race');
+    });
   });
 
   $("#background-acc").empty();

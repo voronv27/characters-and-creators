@@ -373,30 +373,41 @@ function closePopup() {
 
 // show/hide searchbar dropdown when clicking inside/outside
 // searchbar container
-
-//easier way to do this: if we can pull id and just get "race" "class" etc. we can adjust the consts to match that maybe?
-//current implementation is a lazy workaround for now
-
-//CLASS
-const searchbarContainer = $("#searchbar-container")[0];
-const searchbarDropdown = $("#searchbar-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainer, e.target)) {
-    searchbarDropdown.show();
-  } else {
-    searchbarDropdown.hide();
+const searchbars = ["", "race"];
+for (const s of searchbars) {
+  var contId = "#searchbar-container";
+  var dropId = "#searchbar-dropdown";
+  if (s != "") {
+    contId = "#searchbar-" + s + "-container";
+    dropId = "#searchbar-" + s + "-dropdown";
   }
-});
+  const searchbarContainer = $(contId)[0];
+  const searchbarDropdown = $(dropId);
+  $(document).on("click", function (e) {
+    if ($.contains(searchbarContainer, e.target)) {
+      searchbarDropdown.show();
+    } else {
+      searchbarDropdown.hide();
+    }
+  });
+}
 
 // upon searchbar input, display classes matching search value
 function filterItems(sectionName) {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar");
+    var input, filter, classAcc, accItem, i, txtValue, id, dropdownId;
+    if (sectionName == "class") {
+      id = "searchbar";
+      dropdownId = "searchbar-dropdown";
+    } else {
+      id = `searchbar-${sectionName}`;
+      dropdownId = `searchbar-${sectionName}-dropdown`;
+    }
+    input = document.getElementById(id);
     filter = input.value.toUpperCase();
     acc = document.getElementById(sectionName + "-acc");
     accItem = acc.getElementsByClassName("acc-item");
     
-    var dropdown = document.getElementById("searchbar-dropdown");
+    var dropdown = document.getElementById(dropdownId);
     var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
     
     // show/hide
@@ -417,15 +428,9 @@ function filterItems(sectionName) {
 }
 
 // updates the text in a searchbar with the provided value
-function updateSearchBar(text) {
-  const searchbar = $("#searchbar");
+function updateSearchBar(text, id="searchbar") {
+  const searchbar = $(`#${id}`);
   searchbar.val(text);
-}
-
-// updates the text in a searchbar with the provided value
-function updateSearchBarSpell(text) {
-  const searchbarSpell = $("#searchbar-spell");
-  searchbarSpell.val(text);
 }
 
 function updateProficiencies() {  
