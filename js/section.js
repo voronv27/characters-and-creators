@@ -9,9 +9,12 @@ function init() {
     excludeClass: 'x',
   });
 
-  $("#character-sheet-parent")[0].addEventListener('wheel', panzoom.zoomWithWheel); //THIS IS WHAT DETERMINES SCROLL ZOOM
-
-
+//temporary workaround for panzoom: only activates upon pressing the e key.
+  document.onkeypress = function (e) {
+    e = e || window.event;
+    $("#character-sheet-parent")[0].addEventListener('wheel', panzoom.zoomWithWheel);
+  }
+  
   //Character Sheet
   $("#character-sheet").sortable({
     connectWith: '.comp, .sub-comp',
