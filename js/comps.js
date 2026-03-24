@@ -213,7 +213,7 @@ function initComp(key, existing, rel,) {
   return added;
 }
 
-// clicking the select-class button moves the class over to selected classes
+// clicking the "add class" button moves the class over to selected classes
 function selectClass() {
   var className = $("#popup-title").text().split(") ");
   className = className[className.length - 1].replaceAll(" ", "_");

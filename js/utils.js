@@ -42,10 +42,41 @@ classCont: {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
           const className = dropdown.find(".title").first().text();
+          var customClassName;
+          if (!className) {
+            customClassName = dropdown.find("input").first().val();
+          }
+
+          // reset dropdown values in popup
+          var level = 1;
+          var subclass = "None";
+          if (char.class) {
+            if (className && char.class[className]) {
+              level = char.class[className]["level"];
+              if (char.class[className]["subclass"]) {
+                subclass = char.class[className]["subclass"];
+              }
+            } else if (customClassName && char.class[customClassName]) {
+              level = char.class[customClassName]["level"];
+            }
+          }
+          $("#select-level-").val(level);
+          if (subclass != "None") {
+            $("#select-subclass option").filter(function() {
+              return $(this).text() == subclass;
+            }).prop('selected', true);
+          } else {
+            $('#select-subclass').val(subclass);
+          }
+
+          // reset subclass description
+          $('#subclass-desc .cont').hide();
+          $(`#${subclass.replaceAll(' ', '-')}`).show();
+
+          // open popup
           if (className) {
             openPopup('class-select-popup', className);
           } else {
-            const customClassName = dropdown.find("input").first().val();
             openPopup('class-select-popup', `(Custom Class) ${customClassName}`);
           }
           // show valid dropdown options
@@ -81,13 +112,41 @@ classCont: {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
           var className = dropdown.find(".title").first().text();
+          var customClassName;
           if (className.includes("Custom")) {
             className = className.split(") ")[1];
             className = className.split(" ").slice(0, -1).join(" ");
+            customClassName = className;
             className = `(Custom Class) ${className}`;
           } else {
             className = className.split(" ")[0];
           }
+          // reset dropdown values in popup
+          var level = 1;
+          var subclass = "None";
+          if (char.class) {
+            if (className && char.class[className]) {
+              level = char.class[className]["level"];
+              if (char.class[className]["subclass"]) {
+                subclass = char.class[className]["subclass"];
+              }
+            } else if (customClassName && char.class[customClassName]) {
+              level = char.class[customClassName]["level"];
+            }
+          }
+          $("#select-level-").val(level);
+          if (subclass != "None") {
+            $("#select-subclass option").filter(function() {
+              return $(this).text() == subclass;
+            }).prop('selected', true);
+          } else {
+            $('#select-subclass').val(subclass);
+          }
+
+          // reset subclass description
+          $('#subclass-desc .cont').hide();
+          $(`#${subclass.replaceAll(' ', '-')}`).show();
+
           openPopup('class-select-popup', className);
 
           // show valid dropdown options
@@ -250,6 +309,33 @@ classCont: {
       comp.children(".select-class").click(function (e) {
         e.stopPropagation();
         const className = $("#popup-title").text();
+
+        // reset dropdown values in popup
+        var level = 1;
+        var subclass = "None";
+        if (char.class) {
+          if (className && char.class[className]) {
+            level = char.class[className]["level"];
+            if (char.class[className]["subclass"]) {
+              subclass = char.class[className]["subclass"];
+            }
+          } else if (customClassName && char.class[customClassName]) {
+            level = char.class[customClassName]["level"];
+          }
+        }
+        $("#select-level-").val(level);
+        if (subclass != "None") {
+          $("#select-subclass option").filter(function() {
+            return $(this).text() == subclass;
+          }).prop('selected', true);
+        } else {
+          $('#select-subclass').val(subclass);
+        }
+
+        // reset subclass description
+        $('#subclass-desc .cont').hide();
+        $(`#${subclass.replaceAll(' ', '-')}`).show();
+
         openPopup("class-select-popup", className);
 
         // show valid dropdown options
