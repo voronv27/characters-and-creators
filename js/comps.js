@@ -64,7 +64,7 @@ async function createClassComps(key) {
   dropdownItem.text(key);
   dropdownItem.click(function () {
     updateSearchBar(key);
-    filterItems();
+    filterItems('class');
   });
 }
 
@@ -278,11 +278,18 @@ function selectClass() {
   // update primary class
   char["primaryClass"] = primaryClass;
   $("#primary-class").html(primaryClass);
-  $("#stat-suggestion1").show();
-  $("#stat-suggestion2").show();
-  $("#stat-suggestion3").show();
+  if (primaryClass == "Custom") {
+    $("#rec-stats").html("");
+    $("#primary-stat").html("");
+    $("#secondary-stat").html("");
+    $("#recommended-stats").hide();
+    displayCustomStatSuggestion();
+  } else {
+    $("#stat-suggestion1").show();
+    $("#stat-suggestion2").show();
+    $("#stat-suggestion3").show();
+  }
   $("#stat-suggestion4").show();
-
   // reset specificInfo because we changed class
   specificInfo = null;
   

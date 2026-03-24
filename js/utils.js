@@ -389,12 +389,12 @@ $(document).on("click", function (e) {
 });
 
 // upon searchbar input, display classes matching search value
-function filterItems() {
+function filterItems(sectionName) {
     var input, filter, classAcc, accItem, i, txtValue;
     input = document.getElementById("searchbar");
     filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
+    acc = document.getElementById(sectionName + "-acc");
+    accItem = acc.getElementsByClassName("acc-item");
     
     var dropdown = document.getElementById("searchbar-dropdown");
     var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
@@ -422,256 +422,87 @@ function updateSearchBar(text) {
   searchbar.val(text);
 }
 
-//RACE
-const searchbarContainerRace = $("#searchbar-race-container")[0];
-const searchbarDropdownRace = $("#searchbar-race-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerRace, e.target)) {
-    searchbarDropdownRace.show();
-  } else {
-    searchbarDropdownRace.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsRace() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-race");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-race-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
-}
-
-// updates the text in a searchbar with the provided value
-function updateSearchBarRace(text) {
-  const searchbarRace = $("#searchbar-race");
-  searchbarRace.val(text);
-}
-
-//BACKGROUND
-const searchbarContainerBackground = $("#searchbar-background-container")[0];
-const searchbarDropdownBackground = $("#searchbar-background-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerBackground, e.target)) {
-    searchbarDropdownBackground.show();
-  } else {
-    searchbarDropdownBackground.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsBackground() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-background");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-background-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
-}
-
-// updates the text in a searchbar with the provided value
-function updateSearchBarBackground(text) {
-  const searchbarBackground = $("#searchbar-background");
-  searchbarBackground.val(text);
-}
-
-//PROFICIENCY
-const searchbarContainerProficiency = $("#searchbar-proficiency-container")[0];
-const searchbarDropdownProficiency = $("#searchbar-proficiency-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerProficiency, e.target)) {
-    searchbarDropdownProficiency.show();
-  } else {
-    searchbarDropdownProficiency.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsProficiency() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-proficiency");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-proficiency-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
-}
-
-// updates the text in a searchbar with the provided value
-function updateSearchBarProficiency(text) {
-  const searchbarProficiency = $("#searchbar-proficiency");
-  searchbarProficiency.val(text);
-}
-
-//LANGUAGE
-const searchbarContainerLanguage = $("#searchbar-language-container")[0];
-const searchbarDropdownLanguage = $("#searchbar-language-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerLanguage, e.target)) {
-    searchbarDropdownLanguage.show();
-  } else {
-    searchbarDropdownLanguage.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsLanguage() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-language");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-language-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
-}
-
-// updates the text in a searchbar with the provided value
-function updateSearchBarLanguage(text) {
-  const searchbarLanguage = $("#searchbar-language");
-  searchbarLanguage.val(text);
-}
-
-//SPELL
-const searchbarContainerSpell = $("#searchbar-spell-container")[0];
-const searchbarDropdownSpell = $("#searchbar-spell-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainerSpell, e.target)) {
-    searchbarDropdownSpell.show();
-  } else {
-    searchbarDropdownSpell.hide();
-  }
-});
-
-// upon searchbar input, display classes matching search value
-function filterItemsSpell() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar-spell");
-    filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
-    
-    var dropdown = document.getElementById("searchbar-spell-dropdown");
-    var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
-    
-    // show/hide
-    for (i = 0; i < accItem.length; i++) { 
-        txtValue = $(accItem[i]).find(".title").first().text();
-        if ($(accItem[i]).has('input').length) {
-          // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
-        }
-        if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
-            accItem[i].style.display = "";
-            dropdownItems[i].style.display = "";
-        } else {
-            accItem[i].style.display = "none";
-            dropdownItems[i].style.display = "none";
-        }
-    }
-}
-
 // updates the text in a searchbar with the provided value
 function updateSearchBarSpell(text) {
   const searchbarSpell = $("#searchbar-spell");
   searchbarSpell.val(text);
 }
 
-function updateProficiencies() {
-  console.log("Updating proficiencies...");
-  console.log(specInfo["proficiencies"]);
-  let classDict = specInfo["proficiencies"]["class"];
+function updateProficiencies() {  
+  /*
+
+    General Strategy.
+    Skills are determined by following format.
+    skills ["skill1", "skill2", choice{count:2, options:["skill3", "skill4", "skill5"]}]
+    
+    check to see if dict exists for respective class/race/background.
+    if it does, loop through keys. If key is skills, add to proficiencies with format "class:skill name". If not, add to proficiencies with format "class:proficiency name".
+
+  */
+
+
+  let profHtml = "";
+  let possibleSkills = [];
+  let className = char["primaryClass"];
+  var toggleEverything = false;
+  if (char["primaryClass"] == "Custom") {
+    toggleEverything = true;
+    char["proficiencyOverlap"] = 2;
+  } else {
+    let classDict = specInfo["proficiencies"]["class"];
+    console.log("classDict: ", classDict);
+    if (classDict) {
+      for (k in classDict) {
+        console.log("key: ", k);
+        console.log("variable type: ", typeof(classDict[k])); 
+        for (p in classDict[k]) {
+          console.log("prof: ", classDict[k][p]);
+          console.log("variable type: ", typeof(classDict[k][p])); 
+          if (classDict[k][p] == "Tools") {
+            if (classDict[k][p][0] == 'None') {
+              continue;
+            } else {
+              for (t in classDict[k][p]) {  
+                char["proficiencies"][`Tool: ${classDict[k][p][t]}`] = true;
+                console.log("Adding tool proficiency: ", `Tool: ${classDict[k][p][t]}`);
+              }
+            }
+          }
+          if (typeof(classDict[k][p]) === "number") {
+            console.log("Adding proficiency overlap: ", classDict[k][p]);
+            char["proficiencyOverlap"] += classDict[k][p];
+            console.log("Updated proficiency overlap: ", char);
+          }
+          else if (typeof(classDict[k][p]) === "object") {
+            for (s in classDict[k][p]) { 
+              possibleSkills.push(classDict[k][p][s]);
+              console.log ("Adding possible skill: ", classDict[k][p][s]);
+            }
+          }
+          else {
+            char["proficiencies"][k] = classDict[k][p];
+            console.log("Adding proficiency: ", `${k}: ${classDict[k][p]}`);
+          }
+        }
+        
+      }
+    } else {
+      console.log("You are missing a proper class, and thus missing skill choices!");
+    }
+    console.log("possibleSkills: ", possibleSkills);
+    console.log("Updating proficiencies...");
+    console.log(specInfo["proficiencies"]);
+    console.log("class dict: ", classDict);
+    console.log("char dict: ", char);
+  }
+
   let raceDict = specInfo["proficiencies"]["race"];
   let bgDict = specInfo["proficiencies"]["background"];
-  let className = char["primaryClass"];
+
   let race = char["race"];
   let background = char["background"];
-  let profHtml = "";
-  if (classDict != null) {
-    for (k in classDict) {
-      console.log("class dict key: ", k);
-      console.log("class dict value: ", classDict[k]);
-      if (classDict[k] != "None" && classDict[k] != null && k != "skills") {
-        profHtml += `${classDict[k]}: <b>${className}</b><br>`;
-        for (kk in classDict[k]) {
-          console.log("class dict subkey: ", kk);
-          console.log("class dict subvalue: ", classDict[k][kk]);
-          let temp = className + ":" + k;
-          char["proficiencies"][temp] = kk;
-        }
-      }
-    }
-  }
+
+
   if (raceDict != null) {
     for (k in raceDict) {
       profHtml += `<b>${raceDict[k]}:</b> ${k}<br>`;

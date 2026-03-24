@@ -81,7 +81,7 @@
 
             <div class="column-contents">
               <div id="searchbar-container" class="searchbar-container">
-                <input type="text" id="searchbar" class="searchbar" oninput="filterItems(event)" placeholder="Search for items...">
+                <input type="text" id="searchbar" class="searchbar" oninput="filterItems('class')" placeholder="Search for items...">
                 <div id="searchbar-dropdown-container" class="searchbar-dropdown-container">
                   <div id="searchbar-dropdown" class="searchbar-dropdown"></div>
                 </div>
@@ -116,7 +116,7 @@
           </div>
           <div class="column-contents">
             <div id="searchbar-race-container" class="searchbar-container">
-              <input type="text" id="searchbar-race" class="searchbar" oninput="filterItemsRace(event)" placeholder="Search for items...">
+              <input type="text" id="searchbar-race" class="searchbar" oninput="filterItems('race')" placeholder="Search for items...">
               <div id="searchbar-race-dropdown-container" class="searchbar-dropdown-container">
                 <div id="searchbar-race-dropdown" class="searchbar-dropdown"></div>
               </div>
@@ -136,7 +136,7 @@
       <div id="chosen-background">None</div>
       <div class="column-contents">
         <div id="searchbar-background-container" class="searchbar-container">
-          <input type="text" id="searchbar-background" class="searchbar" oninput="filterItemsBackground(event)" placeholder="Search for items...">
+          <input type="text" id="searchbar-background" class="searchbar" oninput="filterItems('background')" placeholder="Search for items...">
           <div id="searchbar-background-dropdown-container" class="searchbar-dropdown-container">
             <div id="searchbar-background-dropdown" class="searchbar-dropdown"></div>
           </div>
@@ -237,27 +237,13 @@
             <br>
             <h2>Standard Array:</h2>
           </div>
-          <div id="stat-suggestion4" style="display: none;display:flex"></div>
+          <div id="stat-suggestion4" style="display: none;"></div>
       </div>  
     </div>
     <div id="proficiencies-section" class="section" data-title="Proficiencies">
       <!--Select proficiencies (TODO)<br>
       Other proficiencies (TODO: give option to select from valid options)-->
       <div id="chosen-proficiency">None</div>
-      <div class="column-contents">
-        <div id="searchbar-proficiency-container" class="searchbar-container">
-          <input type="text" id="searchbar-proficiency" class="searchbar" oninput="filterItemsProficiency(event)" placeholder="Search for items...">
-          <div id="searchbar-proficiency-dropdown-container" class="searchbar-dropdown-container">
-            <div id="searchbar-proficiency-dropdown" class="searchbar-dropdown"></div>
-          </div>
-        </div>
-      </div>
-      <div id="profiency-acc" class="acc">
-        <div class="acc-item">
-          <div class="title">Loading...</div>
-          <div class="cont">Loading...</div>
-        </div>
-      </div>
       <div class="table" style="align-items: start;">
         <div class="table-column" style="flex-grow: .1666666666666;">
           <h3>Already Selected:</h3>
@@ -370,7 +356,7 @@
       <div id="chosen-languages">None</div>
       <div class="column-contents">
         <div id="searchbar-language-container" class="searchbar-container">
-          <input type="text" id="searchbar-language" class="searchbar" oninput="filterItemsLanguage(event)" placeholder="Search for items...">
+          <input type="text" id="searchbar-language" class="searchbar" oninput="filterItems('language')" placeholder="Search for items...">
           <div id="searchbar-language-dropdown-container" class="searchbar-dropdown-container">
             <div id="searchbar-language-dropdown" class="searchbar-dropdown"></div>
           </div>
@@ -395,7 +381,7 @@
       <!--NOTE: it may be good to filter by spell source-->
       <div class="column-contents">
         <div id="searchbar-spell-container" class="searchbar-container">
-          <input type="text" id="searchbar-spell" class="searchbar" oninput="filterItemsSpell(event)" placeholder="Search for items...">
+          <input type="text" id="searchbar-spell" class="searchbar" oninput="filterItems('spellcards')" placeholder="Search for items...">
           <div id="searchbar-spell-dropdown-container" class="searchbar-dropdown-container">
             <div id="searchbar-spell-dropdown" class="searchbar-dropdown"></div>
           </div>
