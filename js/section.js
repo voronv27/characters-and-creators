@@ -9,11 +9,10 @@ function init() {
     excludeClass: 'x',
   });
 
-//temporary workaround for panzoom: only activates upon pressing the e key.
-  document.onkeypress = function (e) {
-    e = e || window.event;
-    $("#character-sheet-parent")[0].addEventListener('wheel', panzoom.zoomWithWheel);
-  }
+  $("#character-sheet-parent")[0].addEventListener('wheel', function (event) {
+  if (!event.shiftKey) return
+    panzoom.zoomWithWheel(event)
+})
   
   //Character Sheet
   $("#character-sheet").sortable({
