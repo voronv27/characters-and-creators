@@ -55,13 +55,23 @@ def getSpecificInfo():
     race = request.args.get('race', default = None)
     subrace = request.args.get('subrace', default = None)
     background = request.args.get('background', default = None)
-    
+    primaryClass = request.args.get("primary", default = None)
+
+    classes = None
+    if classname:
+        classes = classname.split(",")
+        if not primaryClass:
+            primaryClass = classes[0]
+    subclasses = ["None"] * len(classes)
+    if subclass:
+        subclasses = subclass.split(",")
     # Given class name as a parameter, return the stats that should be highest
-    data["preferred-stats"] = dataGetter.preferredStats(classname)
+    data["preferred-stats"] = dataGetter.preferredStats(primaryClass)
 
     # Given class name, background, and race as parameters, return proficiencies
-    data["proficiencies"] = dataGetter.getProficiencies(classname, race, background, subclass, subrace)
 
+    data["proficiencies"] = dataGetter.getProficiencies(classes, race, background, subclasses, subrace, primaryClass)
+    
     # Given race and subrace, return the ASI (stat increases)
     if race:
         data["asi"] = dataGetter.getAsi(race, subrace)
@@ -72,6 +82,6 @@ def getSpecificInfo():
     data["languages"] = dataGetter.getLanguages(race, background)
 
     # Given class and background, return starting equipment
-    data["equipment"] = dataGetter.getEquipment(classname, background)
+    data["equipment"] = dataGetter.getEquipment(primaryClass, background)
 
     return data

@@ -116,7 +116,7 @@ localClassData = {
         "desc": "Wizards cast spells of explosive fire, arcing lightning, subtle deception, and spectacular transformations",
         "multiClassRec": {
             "Intelligence": 13
-        }
+        },
         "subclassLevel": 2,
     },
 }
@@ -339,6 +339,7 @@ class DataGetter:
         self.spellList = None
         self.items = None
         self.languages = None
+        self.multiClass = None
         self.loadData()
     
     #checks if we have the data already, if so, loads it
@@ -358,6 +359,8 @@ class DataGetter:
                 self.items = loadData["items"]
             if ("languages" in loadData.keys()):
                 self.languages = loadData["languages"]
+            if ("multiClass" in loadData.keys()):
+                self.multiClass = loadData["multiClass"]
 
     def getItems(self):
 
@@ -449,6 +452,33 @@ class DataGetter:
             self.spells = {spell['key'].split('_')[-1]: spell for spell in spells}
         return self.spells
 
+    def getMultiClass(self):
+
+
+        possibleClasses = ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", "wizard"]
+        if not self.multiClass:
+            for pc in possibleClasses:
+
+                url = "https://www.dnd5eapi.co/api/2014/classes/" + pc + "/multi-classing"
+
+                payload = {}
+                headers = {
+                        'Accept' : 'application/json'
+                        }
+                response = requests.request("GET", url, headers=headers, data=payload)
+                print(response.text)
+
+        return 1
+
+    def getMultiClassProficiencies(self, multiClass, subclasses=None):
+
+
+
+
+
+        return 1
+
+
     # Filter out any spells not in our database and replace key with name
     def getSpellNames(self, spellList):
         if not self.spells:
@@ -464,7 +494,7 @@ class DataGetter:
             return localClassData[classname]["preferredStats"]
         return localClassData["default"]["preferredStats"]
 
-    def getClassProficiencies(self, classname, subclass=None):
+    def getClassProficiencies(self, classname, subclasses=None):
         proficiencies = {
             "weapons": None,
             "armors": None,
@@ -482,7 +512,15 @@ class DataGetter:
         proficiencies["tools"] = classData["prof_tools"].split(", ")
         proficiencies["savingThrows"] = classData["prof_saving_throws"].split(", ")
         proficiencies["skills"] = getSkills(classData["prof_skills"])
-        if subclass:
+        subclass = "None"
+        if subclasses:
+                
+            if (isinstance(subclasses, str)):
+                subclasses = [subclasses]
+            for sc in classData["archetypes"]:
+                if sc["name"] in subclasses:
+                    subclass = sc["name"]
+                    continue
             subclassData = [s for s in classData["archetypes"] if s["name"] == subclass][0]
             subclassTraits = subclassData["desc"].split("\n")
 
@@ -520,7 +558,7 @@ class DataGetter:
                 proficiencies["tools"].append(benefit["desc"])
         return proficiencies
 
-    def getProficiencies(self, classname, race, background, subclass=None, subrace=None):
+    def getProficiencies(self, classes, race, background, primaryClass, subclasses=None, subrace=None):
         proficiencies = {
             "class": None,
             "race": None,
@@ -528,8 +566,8 @@ class DataGetter:
         }
         
         # get class proficiencies
-        if classname:
-            proficiencies["class"] = self.getClassProficiencies(classname, subclass)
+        if primaryClass:
+            proficiencies["class"] = self.getClassProficiencies(primaryClass, subclass)
 
         # get race proficiencies
         if race:
@@ -538,6 +576,14 @@ class DataGetter:
         # get background proficiencies
         if background:
             proficiencies["background"] = self.getBackgroundProficiencies(background)
+
+        for multiClass in classes:
+            if (multiClass == primaryClass):
+                continue
+            multiClassData = getMultiClassProficiencies(multiClass, subclasses)
+            # TODO: Merge class proficiencies with multiclass proficiencies
+            # proficiencies["class"] = proficiencies["class"]
+
 
         return proficiencies
 
@@ -714,6 +760,7 @@ if __name__ == "__main__":
 
     languages = dataGetter.fetchLanguages()
 
+    dataGetter.getMultiClass()
     print(languages)
     for lang in languages:
         print(f"language: {lang}, type: {languages[lang]['type']}, typical speakers: {languages[lang]['typical_speakers']}")
@@ -728,3 +775,4 @@ if __name__ == "__main__":
         print() 
 
 """
+
