@@ -105,6 +105,9 @@ async function initComps() {
     acc.attr("id", "acc-item-" + key);
     let raceCont = initComp("raceCont", "#acc-item-" + key + " .cont");
     raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
+    let shortDesc = genInfo["races"][key]["alignment"].replaceAll("*", "");
+    shortDesc = shortDesc.replaceAll("_", "").replace("Alignment. ", "");
+    raceCont.find(".short-desc").text(shortDesc);
     let raceDesc = getRaceDesc(genInfo["races"][key]);
     raceCont.find(".desc").html(raceDesc);
 

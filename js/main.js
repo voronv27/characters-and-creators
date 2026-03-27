@@ -104,16 +104,13 @@ function getRaceDesc(data, subrace = "") {
   const asi = converter.makeHtml(data["asi_desc"]);
   const languages = converter.makeHtml(data["languages"]);
   const vision = converter.makeHtml(data["vision"]);
-  const traits = converter.makeHtml(data["traits"]);
-  
 
-  var desc = `<b>Key Race Features:</b><br>
+  var desc = `<h3><b>Key Race Features:</b></h3>
   ${size}
   ${speed}
   ${asi}
   ${languages}
-  ${vision}
-  ${traits}`
+  ${vision}`
   if (subrace != "") {
     var subraceDesc = "";
     const subraceData = data[subrace];

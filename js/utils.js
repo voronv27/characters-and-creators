@@ -229,9 +229,16 @@ classCont: {
   raceCont: {
     html: `
       <div id="new">
-        <button class="select-race">Select Race</button><br>
-        <img class="race-img">
-        <div class="desc race-desc"></div>
+        <div class="grid-2-col">
+          <div class="race-text-container">
+            <div class="short-desc"></div>
+            <div class="desc race-desc"></div>
+          </div>
+          <div class="race-img-container">
+            <img class="race-img">
+          </div>
+        </div>
+        <button class="select-race">Select Race</button>
       </div>
     `,
     func: function (comp) {

@@ -264,14 +264,23 @@ justify-content: center;
   border-radius: 100px !important;
 }
 
-.race-img{
-  max-width: 400px;
-  max-height: 400px;
-  float: left;
-}
-
 .race-desc{
   font-size: 15px;
+  color: black;
+}
+.short-desc {
+  font-size: 20px;
+}
+
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+}
+.grid-2-col .race-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* spellcard style */
