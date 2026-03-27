@@ -454,29 +454,56 @@ class DataGetter:
 
     def getMultiClass(self):
 
+        possibleClasses = dict()
 
-        possibleClasses = ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", "wizard"]
+        possibleClasses = {"barbarian" : "Barbarian",
+                           "bard" : "Bard",
+                           "cleric": "Cleric",
+                           "druid": "Druid",
+                           "fighter": "Fighter",
+                           "monk": "Monk",
+                           "paladin": "Paladin",
+                           "ranger": "Ranger",
+                           "rogue": "Rogue",
+                           "sorcerer": "Sorcerer",
+                           "warlock": "Warlock",
+                           "wizard": "Wizard"}
+
+
         if not self.multiClass:
-            for pc in possibleClasses:
+
+            newMultiClass = dict()
+            for pc in possibleClasses.keys():
 
                 url = "https://www.dnd5eapi.co/api/2014/classes/" + pc + "/multi-classing"
 
-                payload = {}
-                headers = {
-                        'Accept' : 'application/json'
-                        }
-                response = requests.request("GET", url, headers=headers, data=payload)
-                print(response.text)
+                response = getApiData(url)
 
-        return 1
+                print(f"\n\n\n\n\n\n DEBUG: {pc}  {json.dumps(response)}")
+
+                newMultiClass[str(possibleClasses[pc])] = response
+
+            self.multiClass = newMultiClass
+        return self.multiClass
 
     def getMultiClassProficiencies(self, multiClass, subclasses=None):
 
+        if not self.multiClass:
+            self.getMultiClass
 
+        mcProfs = set()
+        for prof in self.multiClass[multiClass]["proficiencies"]:
 
+            mcProfs.add(prof["name"])
 
+        if not subclasses:
 
-        return 1
+                return mcProfs
+
+        else:
+                mcProfs.update(self.getSubclassProficiencies(multiClass, subclasses))
+                return mcProfs
+
 
 
     # Filter out any spells not in our database and replace key with name
@@ -493,6 +520,43 @@ class DataGetter:
         if classname in localClassData:
             return localClassData[classname]["preferredStats"]
         return localClassData["default"]["preferredStats"]
+
+    # Gets proficiencies for a given subclass
+    def getSubclassProficiencies(self, classname, subclasses):
+
+        if not subclasses:
+            return []
+        if not self.classData:
+            self.getClasses()
+
+        classData = self.classData[classname]
+
+        subclass = "None"
+        if subclasses:
+
+            if (isinstance(subclasses, str)):
+                subclasses = [subclasses]
+            ever = False
+            for sc in classData["archetypes"]:
+                if sc["name"] in subclasses:
+                    subclass = sc["name"]
+                    ever = True
+                    continue
+
+            if not ever:
+                return []
+
+            subclassData = [s for s in classData["archetypes"] if s["name"] == subclass][0]
+            subclassTraits = subclassData["desc"].split("\n")
+
+            # we want to avoid flagging statements like "8 + proficiency bonus",
+            # which doesn't actually refer to proficiencies
+            profConditions = ["proficiency in", "proficiency with", "proficiency."]
+            subclassProfs = [p.strip() for p in subclassTraits if any(c in p for c in profConditions)]
+            #proficiencies["subclass"] = subclassProfs
+
+            return subclassProfs
+        return []
 
     def getClassProficiencies(self, classname, subclasses=None):
         proficiencies = {
@@ -513,8 +577,10 @@ class DataGetter:
         proficiencies["savingThrows"] = classData["prof_saving_throws"].split(", ")
         proficiencies["skills"] = getSkills(classData["prof_skills"])
         subclass = "None"
+        # NOTE
         if subclasses:
-                
+
+            """
             if (isinstance(subclasses, str)):
                 subclasses = [subclasses]
             for sc in classData["archetypes"]:
@@ -529,6 +595,8 @@ class DataGetter:
             profConditions = ["proficiency in", "proficiency with", "proficiency."]
             subclassProfs = [p.strip() for p in subclassTraits if any(c in p for c in profConditions)]
             proficiencies["subclass"] = subclassProfs
+"""
+            proficiencies["subclass"] = getSubclassProficiencies(classname, subclasses)
         return proficiencies
 
     def getRaceProficiencies(self, race, subrace=None):
@@ -583,6 +651,7 @@ class DataGetter:
             multiClassData = getMultiClassProficiencies(multiClass, subclasses)
             # TODO: Merge class proficiencies with multiclass proficiencies
             # proficiencies["class"] = proficiencies["class"]
+            #
 
 
         return proficiencies
@@ -708,6 +777,7 @@ if __name__ == "__main__":
     dataGetter = DataGetter()
 
     dataGetter.loadData()
+    """
     #dataGetter.refreshData()
     classData = dataGetter.getClasses()
     for dndClassName in classData:
@@ -760,19 +830,13 @@ if __name__ == "__main__":
 
     languages = dataGetter.fetchLanguages()
 
-    dataGetter.getMultiClass()
-    print(languages)
-    for lang in languages:
-        print(f"language: {lang}, type: {languages[lang]['type']}, typical speakers: {languages[lang]['typical_speakers']}")
-"""
-    items = dataGetter.getItems()
-    print("Item types:", list(items["armor"]["Breastplate"]))
-    print("Item types:", list(items["weapon"]["Club"]))
-    print("Item types:", list(items["magicItems"]["Worry Stone"]))
-    print()
-    for iType in items:
-        print(f"{iType}: {items[iType]}")
-        print() 
+   """
+    #dataGetter.getMultiClass()
 
-"""
+    #print(dataGetter.classData)
 
+    for cn in dataGetter.classData:
+
+        print(cn)
+    for mc in dataGetter.getMultiClass():
+        print(dataGetter.getMultiClassProficiencies(mc, "Thief"))
