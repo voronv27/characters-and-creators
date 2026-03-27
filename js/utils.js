@@ -385,7 +385,11 @@ for (const s of searchbars) {
   const searchbarDropdown = $(dropId);
   $(document).on("click", function (e) {
     if ($.contains(searchbarContainer, e.target)) {
-      searchbarDropdown.show();
+      // dropdown gets hidden if you click on a dropdown item,
+      // don't reset it to be shown
+      if ($(e.target).closest('.dropdown-item').length <= 0) {
+        searchbarDropdown.show();
+      }
     } else {
       searchbarDropdown.hide();
     }

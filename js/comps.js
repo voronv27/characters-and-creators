@@ -65,6 +65,7 @@ async function createClassComps(key) {
   dropdownItem.click(function () {
     updateSearchBar(key);
     filterItems('class');
+    $("#searchbar-dropdown").hide();
   });
 }
 
@@ -113,6 +114,7 @@ async function initComps() {
     dropdownItem.click(function () {
       updateSearchBar(key, "searchbar-race");
       filterItems('race');
+      $("#searchbar-race-dropdown").hide();
     });
   });
 
