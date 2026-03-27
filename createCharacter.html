@@ -46,7 +46,7 @@
             <h3>
               <label for="select-level-" class="select-level">Level:</label>
               <select id="select-level-" class="select">
-                <option selected="selected">1</option> 
+                <option value=1 selected="selected">1</option> 
               </select>
             </h3>
 
@@ -80,10 +80,10 @@
             </div>
 
             <div class="column-contents">
-              <div id="searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems('class')" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
+              <div id="searchbar-container" class="searchbar-container">
+                <input type="text" id="searchbar" class="searchbar" oninput="filterItems('class')" placeholder="Search for items...">
+                <div id="searchbar-dropdown-container" class="searchbar-dropdown-container">
+                  <div id="searchbar-dropdown" class="searchbar-dropdown"></div>
                 </div>
               </div>
               <div id="class-acc" class="acc">
@@ -107,20 +107,27 @@
       </div>
 
     <div id="race-section" class="section" data-title="Race">
-      Selected race:
-      <div id="chosen-race">None</div>
-      <div class="column-contents">
-              <div id="searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems('race')" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
-                </div>
+      <div class = "center-items active-dark-border">
+        <div class="column">
+          <div class="column-title">
+            Selected Race: <span class="active-text" id="chosen-race">None</span>
+            <br><br>
+            Selected Subrace: <span class="active-text" id="chosen-subrace">None</span>
+          </div>
+          <div class="column-contents">
+            <div id="searchbar-race-container" class="searchbar-container">
+              <input type="text" id="searchbar-race" class="searchbar" oninput="filterItems('race')" placeholder="Search for items...">
+              <div id="searchbar-race-dropdown-container" class="searchbar-dropdown-container">
+                <div id="searchbar-race-dropdown" class="searchbar-dropdown"></div>
               </div>
             </div>
-      <div id="race-acc" class="acc">
-        <div class="acc-item">
-          <div class="title">Loading...</div>
-          <div class="cont">Loading...</div>
+            <div id="race-acc" class="acc">
+              <div class="acc-item">
+                <div class="title">Loading...</div>
+                <div class="cont">Loading...</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -128,13 +135,13 @@
       Selected background:
       <div id="chosen-background">None</div>
       <div class="column-contents">
-              <div id="searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems('background')" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
-                </div>
-              </div>
-            </div>
+        <div id="searchbar-background-container" class="searchbar-container">
+          <input type="text" id="searchbar-background" class="searchbar" oninput="filterItems('background')" placeholder="Search for items...">
+          <div id="searchbar-background-dropdown-container" class="searchbar-dropdown-container">
+            <div id="searchbar-background-dropdown" class="searchbar-dropdown"></div>
+          </div>
+        </div>
+      </div>
       <div id="background-acc" class="acc">
         <div class="acc-item">
           <div class="title">Loading...</div>
@@ -370,13 +377,13 @@
       Other language:
       <div id="chosen-languages">None</div>
       <div class="column-contents">
-              <div id="-searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems('language')" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
-                </div>
-              </div>
-            </div>
+        <div id="searchbar-language-container" class="searchbar-container">
+          <input type="text" id="searchbar-language" class="searchbar" oninput="filterItems('language')" placeholder="Search for items...">
+          <div id="searchbar-language-dropdown-container" class="searchbar-dropdown-container">
+            <div id="searchbar-language-dropdown" class="searchbar-dropdown"></div>
+          </div>
+        </div>
+      </div>
       <div id="language-acc" class="acc">
         <div class="acc-item">
           <div class="title">Loading...</div>
@@ -395,13 +402,13 @@
       For now, here are all available spells for all classes:
       <!--NOTE: it may be good to filter by spell source-->
       <div class="column-contents">
-              <div id="searchbar-container">
-                <input type="text" id="searchbar" oninput="filterItems('spellcards')" placeholder="Search for items...">
-                <div id="searchbar-dropdown-container">
-                  <div id="searchbar-dropdown"></div>
-                </div>
-              </div>
-            </div>
+        <div id="searchbar-spell-container" class="searchbar-container">
+          <input type="text" id="searchbar-spell" class="searchbar" oninput="filterItems('spellcards')" placeholder="Search for items...">
+          <div id="searchbar-spell-dropdown-container" class="searchbar-dropdown-container">
+            <div id="searchbar-spell-dropdown" class="searchbar-dropdown"></div>
+          </div>
+        </div>
+      </div>
       <div id="spellcards-acc" class="acc">
         <div class="spellcard-item">
           <div class="title">Loading...</div>

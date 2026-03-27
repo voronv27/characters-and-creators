@@ -106,6 +106,14 @@ async function initComps() {
     raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
     let raceDesc = getRaceDesc(genInfo["races"][key]);
     raceCont.find(".desc").html(raceDesc);
+
+    // searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-race-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key, "searchbar-race");
+      filterItems('race');
+    });
   });
 
   $("#background-acc").empty();
@@ -213,7 +221,7 @@ function initComp(key, existing, rel,) {
   return added;
 }
 
-// clicking the select-class button moves the class over to selected classes
+// clicking the "add class" button moves the class over to selected classes
 function selectClass() {
   var className = $("#popup-title").text().split(") ");
   className = className[className.length - 1].replaceAll(" ", "_");
