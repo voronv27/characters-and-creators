@@ -535,9 +535,81 @@ function updateProficiencies() {
       checkbox.disabled = false;
     }
   }
+  for (s in char["proficiencies"]) {
+    let arr = char["proficiencies"][s];
+    console.log("Where am I?", s)
+    for (p in arr) {
+      console.log("char check: ", char["proficiencies"]);
+      console.log("idk: ", char["proficiencies"][s], p);
+      console.log("checking proficiency: ", s, p, char["proficiencies"][s][p]);
+      if (s!="tools") {
+        console.log("s: ", char["proficiencies"][s]);
+        const checkbox = document.getElementById(char["proficiencies"][s][p]);
+        console.log("checkbox: ", checkbox);
+        if (checkbox) {
+          checkbox.checked = true;
+          if (char["proficiencies"][s][p] == "Simple weapons" || char["proficiencies"][s][p] == "martial weapons") {
+            console.log("s: ", char["proficiencies"][s]);
+
+            checkAllthatApply(char["proficiencies"][s][p]);
+          }
+        }
+      }
+    }
+  }
   document.getElementById("appliedProficiencies").innerHTML = profHtml;
 }
 
-function proficiencyCheckboxClicked(checkbox) { //check  how many remaining overlaps there are and if current checkbox is being checked or unchecked, then update char proficiencies and remaining overlaps accordingly
+function checkAllthatApply(checkboxName) {
+  console.log("checking all that apply for: ", checkboxName);
+  console.log("s: ", char["proficiencies"][s]);
+  if (checkboxName == "Simple weapons") {
+    const simpleWeapons = ["club", "dagger", "greatclub", "handaxe", "javelin", "light hammer", "mace", "quarterstaff", "sickle", "spear"];
+    for (s in simpleWeapons) {
+      const checkbox = document.getElementById(simpleWeapons[s]);
+      if (checkbox) {
+        checkbox.checked = document.getElementById(checkboxName).checked;
+        console.log("s: ", char["proficiencies"][s]);
+
+        proficiencyCheckboxClicked(simpleWeapons[s], true);
+        console.log("s: ", char["proficiencies"][s]);
+
+      }
+    }
+        console.log("s: ", char["proficiencies"][s]);
+
+  } else if (checkboxName == "martial weapons") {
+    const martialWeapons = ["Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance", "Longsword", "Maul", "Morningstar", "Pike", "Rapier", "Scimitar", "Trident", "War pick", "Warhammer", "Whip"]; 
+    for (s in martialWeapons) {
+      const checkbox = document.getElementById(martialWeapons[s]);
+      if (checkbox) {
+        checkbox.checked = document.getElementById(checkboxName).checked;
+        proficiencyCheckboxClicked(martialWeapons[s], true);
+      }
+    }
+  }
+        console.log("s: ", char["proficiencies"][s]);
+
+}
+
+function proficiencyCheckboxClicked(checkboxName, Special=false) { //when a proficiency checkbox is clicked, add/remove that proficiency from the char's proficiency list and update the html list of proficiencies accordingly.
+  let profHtml = "";
+  console.log("checkbox clicked: ", checkboxName);
+  if (checkboxName=="Simple weapons" || checkboxName=="Martial Weapons") {
+    checkAllthatApply(checkboxName);
+  }
+  let listingID = checkboxName.replaceAll(" ", "-") + "-added";
+  if (!Special) {//special is for batch checking of simple and martial weapons, so we don't want to add the individual weapon to the proficiency list 
+    if (document.getElementById(checkboxName).checked) {  //element didn't exist before, add it to the list of proficiencies      
+      char["proficiencies"]["weapons"].push(checkboxName);
+      profHtml += `<div id = "${listingID}">${checkboxName}</div>`;
+    } else { //element existed before, remove it from the list of proficiencies
+      char["proficiencies"]["weapons"] = char["proficiencies"]["weapons"].filter(function(value, index, arr){
+        return value != checkboxName;
+      });
+      document.getElementById(listingID).remove();
+    }
+  }
+
 
 }
