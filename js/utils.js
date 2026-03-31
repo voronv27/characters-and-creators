@@ -307,9 +307,13 @@ classCont: {
   moreInfo: {
     html: `
       <div id="new" style="display:none;">
-        <div class="desc">
+        <div class="overflow-fade">
+          <div class="desc">
+          </div>
         </div>
-        <button class="select-class">Select Class</button>
+        <div class="overflow-show">
+          <button class="select-class">Select Class</button>
+        </div>
       </div>
       `,
     func: function (comp) {
