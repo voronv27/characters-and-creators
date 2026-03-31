@@ -8,7 +8,13 @@ let char = {
   race: null,
   background: null,
   stats: {},
-  proficiencies: {},
+  proficiencies: {
+    "armors": [],
+    "weapons": [],
+    "tools": [],
+    "savingThrows": [],
+    "skills": []
+  },
   expertise: [],
   proficiencyOverlap: 0
 };
