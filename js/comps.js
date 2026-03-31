@@ -147,7 +147,7 @@ async function initComps() {
     acc.find(".title").text(key);
     const keyId = key.replaceAll(" ", "-");
     acc.attr("id", "acc-item-" + keyId);
-    /*let langCont = initComp("languageCont", "#acc-item-" + keyId + " .cont");
+    /*let langCont = initComp("langCont", "#acc-item-" + keyId + " .cont");
     let langDesc = getLanguageDesc(genInfo["languages"][key]);
     langCont.find(".desc").html(bgDesc);
 
