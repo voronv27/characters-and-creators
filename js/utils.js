@@ -373,7 +373,7 @@ function closePopup() {
 
 // show/hide searchbar dropdown when clicking inside/outside
 // searchbar container
-const searchbars = ["", "race", "background", "language", "spellcards"];
+const searchbars = ["", "race"];
 for (const s of searchbars) {
   var contId = "#searchbar-container";
   var dropId = "#searchbar-dropdown";
@@ -385,11 +385,7 @@ for (const s of searchbars) {
   const searchbarDropdown = $(dropId);
   $(document).on("click", function (e) {
     if ($.contains(searchbarContainer, e.target)) {
-      // dropdown gets hidden if you click on a dropdown item,
-      // don't reset it to be shown
-      if ($(e.target).closest('.dropdown-item').length <= 0) {
-        searchbarDropdown.show();
-      }
+      searchbarDropdown.show();
     } else {
       searchbarDropdown.hide();
     }
@@ -449,7 +445,7 @@ function updateProficiencies() {
 
   */
 
-
+  let toolsEditable = false;
   let profHtml = "";
   let possibleSkills = [];
   let className = char["primaryClass"];
@@ -457,7 +453,7 @@ function updateProficiencies() {
   if (char["primaryClass"] == "Custom") {
     toggleEverything = true;
     char["proficiencyOverlap"] = 2;
-  } else {
+  } else if (className != null) {
     let classDict = specInfo["proficiencies"]["class"];
     console.log("classDict: ", classDict);
     if (classDict) {
@@ -511,17 +507,57 @@ function updateProficiencies() {
 
   let raceDict = specInfo["proficiencies"]["race"];
   let bgDict = specInfo["proficiencies"]["background"];
+  console.log("bgDict: ", bgDict);
 
   let race = char["race"];
-  let background = char["background"];
+  if (race == "Custom") {
+    toggleEverything = true;
+    char["proficiencyOverlap"] += 1;
+  } else if (race != null) {
+    console.log("raceDict: ", raceDict);
 
-
-  if (raceDict != null) {
-    for (k in raceDict) {
-    }
   }
-  if (bgDict != null) {
+  let background = char["background"];
+  if (background == "Custom") {
+    toggleEverything = true;
+    char["proficiencyOverlap"] += 1;
+  } else if (background != null) {
+    console.log("bgDict: ", bgDict); //keys are usually either skills or tools
     for (k in bgDict) {
+      console.log("key: ", k, "value: ", bgDict[k]);
+      if (k == "skills") {
+        for (p in bgDict[k]) {
+          console.log("Adding skill proficiency: ", `Background skill choice: ${bgDict[k][p]}`);
+          if (typeof(bgDict[k][p]) == "string") {
+            console.log("Adding skill proficiency: ", `Background: ${bgDict[k][p]}`);
+            if (bgDict[k][p] in char["proficiencies"]["skills"]) {
+              char["proficiencyOverlap"] += 1;
+            } else {
+              char["proficiencies"]["skills"].push(bgDict[k][p]);
+              document.getElementById(`${bgDict[k][p]}`).checked = true;
+            }
+          } else {
+            //console.log("checking dicgionary for skill choice: ", bgDict[k][p]["choice"]["count"], bgDict[k][p]["choice"]["options"]);
+            char["proficiencyOverlap"] += bgDict[k][p]["choice"]["count"];
+            for (o in bgDict[k][p]["choice"]["options"]) {
+              possibleSkills.push(bgDict[k][p]["choice"]["options"][o]);
+              //console.log("Adding possible skill: ", bgDict[k][p]["choice"]["options"][o]);
+            }
+          }
+        }
+      } else if (k == "tools") {  //this shit is imparsable so add text box showing what you have proficiency in and let every box be editable
+        char["proficiencies"]["tools"].push(bgDict[k][p]);
+        if (!toolsEditable) {
+          toolsEditable = true;
+          let toolsArray = ["cobblerTools", "cookUtensils", "glassblowerTools", "jewelerTools", "leatherworkerTools", "masonTools", "painterTools", "pottersTools", "smithTools","tinkerTools", "weaverTools", "woodcarverTools", "bagpipes","drum","dulcimer","flute", "lute","lyre", "horn", "pan flute", "shawm", "viol","diceSet", "dragonChessSet", "playingCardSet","threeDragonAnteSet", "disguiseKit", "forgeryKit", "herbalismKit","navigatorTools", "theivesTools", "poisonerKit"];
+          for (t in toolsArray) {
+            const toolCheckbox = document.getElementById(toolsArray[t]);
+            if (toolCheckbox) {
+              toolCheckbox.disabled = false;
+            }
+          }
+        }
+      }
     }
   }
   console.log(char["proficiencies"]);
@@ -543,17 +579,11 @@ function updateProficiencies() {
     let arr = char["proficiencies"][s];
     console.log("Where am I?", s)
     for (p in arr) {
-      console.log("char check: ", char["proficiencies"]);
-      console.log("idk: ", char["proficiencies"][s], p);
-      console.log("checking proficiency: ", s, p, char["proficiencies"][s][p]);
       if (s!="tools") {
-        console.log("s: ", char["proficiencies"][s]);
         const checkbox = document.getElementById(char["proficiencies"][s][p]);
-        console.log("checkbox: ", checkbox);
         if (checkbox) {
           checkbox.checked = true;
           if (char["proficiencies"][s][p] == "Simple weapons" || char["proficiencies"][s][p] == "martial weapons") {
-            console.log("s: ", char["proficiencies"][s]);
 
             checkAllthatApply(char["proficiencies"][s][p]);
           }
@@ -566,33 +596,30 @@ function updateProficiencies() {
 
 function checkAllthatApply(checkboxName) {
   console.log("checking all that apply for: ", checkboxName);
-  console.log("s: ", char["proficiencies"][s]);
+  //console.log("s: ", char["proficiencies"][s]);
   if (checkboxName == "Simple weapons") {
     const simpleWeapons = ["club", "dagger", "greatclub", "handaxe", "javelin", "light hammer", "mace", "quarterstaff", "sickle", "spear"];
-    for (s in simpleWeapons) {
-      const checkbox = document.getElementById(simpleWeapons[s]);
+    for (w in simpleWeapons) {
+      const checkbox = document.getElementById(simpleWeapons[w]);
+      //console.log("checkbox: ", checkbox);
       if (checkbox) {
         checkbox.checked = document.getElementById(checkboxName).checked;
-        console.log("s: ", char["proficiencies"][s]);
 
-        proficiencyCheckboxClicked(simpleWeapons[s], true);
-        console.log("s: ", char["proficiencies"][s]);
+        proficiencyCheckboxClicked(simpleWeapons[w], true);
 
       }
     }
-        console.log("s: ", char["proficiencies"][s]);
 
   } else if (checkboxName == "martial weapons") {
-    const martialWeapons = ["Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance", "Longsword", "Maul", "Morningstar", "Pike", "Rapier", "Scimitar", "Trident", "War pick", "Warhammer", "Whip"]; 
-    for (s in martialWeapons) {
-      const checkbox = document.getElementById(martialWeapons[s]);
+    const martialWeapons = ["battleaxe", "flail", "glaive", "greataxe", "greatsword", "halberd", "lance", "longsword", "maul", "morningstar", "pike", "rapier", "scimitar", "trident", "war pick", "warhammer", "whip", "blowgun", "hand crossbow", "heavy crossbow", "longbow", "net"]; 
+    for (w in martialWeapons) {
+      const checkbox = document.getElementById(martialWeapons[w]);
       if (checkbox) {
         checkbox.checked = document.getElementById(checkboxName).checked;
-        proficiencyCheckboxClicked(martialWeapons[s], true);
+        proficiencyCheckboxClicked(martialWeapons[w], true);
       }
     }
   }
-        console.log("s: ", char["proficiencies"][s]);
 
 }
 
