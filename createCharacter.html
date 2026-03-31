@@ -43,26 +43,30 @@
         <div id="popup-inner-content">
           <!--place your popup content inside here-->
           <div id="class-select-popup" style="display: none;">
-            <h3>
-              <label for="select-level-" class="select-level">Level:</label>
-              <select id="select-level-" class="select">
-                <option value=1 selected="selected">1</option> 
-              </select>
-            </h3>
+            <div class="overflow-fade">
+              <h3>
+                <label for="select-level-" class="select-level">Level:</label>
+                <select id="select-level-" class="select">
+                  <option value=1 selected="selected">1</option> 
+                </select>
+              </h3>
 
-            <h3>
-              <label for="select-subclass" class="select-subclass">Subclass:</label>
-              <select id="select-subclass" class="select">
-                <option selected="selected" value="None">None</option> 
-              </select>
-            </h3>
+              <h3>
+                <label for="select-subclass" class="select-subclass">Subclass:</label>
+                <select id="select-subclass" class="select">
+                  <option selected="selected" value="None">None</option> 
+                </select>
+              </h3>
 
-            <h3>Selected Subclass Details:</h3>
-            <div id="subclass-desc">
-              <span id="None" class="cont" data-class="All">No subclass selected.<br></span>
+              <h3>Selected Subclass Details:</h3>
+              <div id="subclass-desc">
+                <span id="None" class="cont" data-class="All">No subclass selected.<br></span>
+              </div>
             </div>
             
-            <button class="select-class" onclick="selectClass();">Add Class</button>
+            <div class="overflow-show">
+              <button class="select-class" onclick="selectClass();">Add Class</button>
+            </div>
           </div>
         </div>
       </div>
