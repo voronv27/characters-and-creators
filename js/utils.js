@@ -380,7 +380,7 @@ function closePopup() {
 
 // show/hide searchbar dropdown when clicking inside/outside
 // searchbar container
-const searchbars = ["", "race", "background", "language", "spellcards"];
+const searchbars = ["", "race", "background", "language", "spell"];
 for (const s of searchbars) {
   var contId = "#searchbar-container";
   var dropId = "#searchbar-dropdown";
