@@ -65,6 +65,7 @@ async function createClassComps(key) {
   dropdownItem.click(function () {
     updateSearchBar(key);
     filterItems('class');
+    $("#searchbar-dropdown").hide();
   });
 }
 
@@ -113,6 +114,7 @@ async function initComps() {
     dropdownItem.click(function () {
       updateSearchBar(key, "searchbar-race");
       filterItems('race');
+      $("#searchbar-race-dropdown").hide();
     });
   });
 
@@ -125,17 +127,39 @@ async function initComps() {
     let bgCont = initComp("backgroundCont", "#acc-item-" + keyId + " .cont");
     let bgDesc = getBackgroundDesc(genInfo["backgrounds"][key]);
     bgCont.find(".desc").html(bgDesc);
+
+    // searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-background-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key, "searchbar-background");
+      filterItems('background');
+      $("#searchbar-background-dropdown").hide();
+    });
   });
 
   $("#language-acc").empty();
   Object.keys(genInfo["languages"]).forEach(key => {
     let acc = initComp("accItem", "#language-acc");
     acc.find(".title").text(key);
-    //const keyId = key.relplaceAll(" ", "-");
-    //acc.attr("id", "acc-item-" + keyId);
-    //let langCont = intiComp();
+    const keyId = key.replaceAll(" ", "-");
+    acc.attr("id", "acc-item-" + keyId);
+    /*let langCont = initComp("languageCont", "#acc-item-" + keyId + " .cont");
+    let langDesc = getLanguageDesc(genInfo["languages"][key]);
+    langCont.find(".desc").html(bgDesc);
+
+    // searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-language-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key, "searchbar-language");
+      filterItems('language');
+      $("#searchbar-language-dropdown").hide();
+    });*/
+
 
   });
+
   $("#spellcards-acc").empty();
   Object.keys(genInfo["spells"]).forEach(key => {
     let spellcard = initComp("spellcard", "#spellcards-acc");
@@ -193,6 +217,15 @@ async function initComps() {
     var type = `Level ${level} ${school}`;
     if (level == 0) { type = `${school} Cantrip`; }
     spellcard.find(".type").text(type);
+
+    /*// searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-spellcards-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key, "searchbar-spellcards");
+      filterItems('spellcards');
+      $("#searchbar-spellcards-dropdown").hide();
+    });*/
   });
 }
 

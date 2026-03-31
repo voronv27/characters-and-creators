@@ -373,7 +373,7 @@ function closePopup() {
 
 // show/hide searchbar dropdown when clicking inside/outside
 // searchbar container
-const searchbars = ["", "race"];
+const searchbars = ["", "race", "background", "language", "spellcards"];
 for (const s of searchbars) {
   var contId = "#searchbar-container";
   var dropId = "#searchbar-dropdown";
@@ -385,7 +385,11 @@ for (const s of searchbars) {
   const searchbarDropdown = $(dropId);
   $(document).on("click", function (e) {
     if ($.contains(searchbarContainer, e.target)) {
-      searchbarDropdown.show();
+      // dropdown gets hidden if you click on a dropdown item,
+      // don't reset it to be shown
+      if ($(e.target).closest('.dropdown-item').length <= 0) {
+        searchbarDropdown.show();
+      }
     } else {
       searchbarDropdown.hide();
     }
