@@ -651,7 +651,7 @@ then add an empty div with the fill class above footer*/
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 50; /* make sure it's on top */
+  z-index: 150; /* make sure it's on top */
 }
 #popup-content {
   /* the actual popup window */
