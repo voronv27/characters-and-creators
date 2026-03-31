@@ -43,6 +43,8 @@ def getGeneralInfo():
 
     data["languages"] = dataGetter.fetchLanguages()
 
+    data["multiclass"] = dataGetter.getMultiClass()
+
     return data
 
 @app.route('/specific-info')
@@ -70,8 +72,8 @@ def getSpecificInfo():
 
     # Given class name, background, and race as parameters, return proficiencies
 
-    data["proficiencies"] = dataGetter.getProficiencies(classes, race, background, subclasses, subrace, primaryClass)
-    
+
+    data["proficiencies"] = dataGetter.getProficiencies(classes, race, background, primaryClass, subclasses, subrace)
     # Given race and subrace, return the ASI (stat increases)
     if race:
         data["asi"] = dataGetter.getAsi(race, subrace)

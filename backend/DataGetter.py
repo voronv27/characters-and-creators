@@ -489,12 +489,19 @@ class DataGetter:
     def getMultiClassProficiencies(self, multiClass, subclasses=None):
 
         if not self.multiClass:
-            self.getMultiClass
+            self.getMultiClass()
 
         mcProfs = set()
-        for prof in self.multiClass[multiClass]["proficiencies"]:
+        print("here are all the classes:")
+        print(multiClass)
+        print(self.multiClass[multiClass]["proficiencies"])
 
-            mcProfs.add(prof["name"])
+        if ( self.multiClass[multiClass]["proficiencies"]):
+            print(self.multiClass[multiClass]["proficiencies"])
+            for prof in self.multiClass[multiClass]["proficiencies"]:
+                print(prof)
+                print("Can freedom be gained in chains?")
+                mcProfs.add(prof["name"])
 
         if not subclasses:
 
@@ -596,7 +603,7 @@ class DataGetter:
             subclassProfs = [p.strip() for p in subclassTraits if any(c in p for c in profConditions)]
             proficiencies["subclass"] = subclassProfs
 """
-            proficiencies["subclass"] = getSubclassProficiencies(classname, subclasses)
+            proficiencies["subclass"] = self.getSubclassProficiencies(classname, subclasses)
         return proficiencies
 
     def getRaceProficiencies(self, race, subrace=None):
@@ -631,11 +638,12 @@ class DataGetter:
             "class": None,
             "race": None,
             "background": None,
+            "multiclass": set(),
         }
         
         # get class proficiencies
         if primaryClass:
-            proficiencies["class"] = self.getClassProficiencies(primaryClass, subclass)
+            proficiencies["class"] = self.getClassProficiencies(primaryClass, subclasses)
 
         # get race proficiencies
         if race:
@@ -648,11 +656,15 @@ class DataGetter:
         for multiClass in classes:
             if (multiClass == primaryClass):
                 continue
-            multiClassData = getMultiClassProficiencies(multiClass, subclasses)
+            multiClassData = self.getMultiClassProficiencies(multiClass, subclasses)
             # TODO: Merge class proficiencies with multiclass proficiencies
             # proficiencies["class"] = proficiencies["class"]
             #
+            print(multiClassData)
+            print("This is the world we live in, of death and desolation")
+            proficiencies["multiclass"].update(multiClassData)
 
+        proficiencies["multiclass"] = list(proficiencies["multiclass"])
 
         return proficiencies
 
@@ -830,13 +842,15 @@ if __name__ == "__main__":
 
     languages = dataGetter.fetchLanguages()
 
-   """
+    """
+
     #dataGetter.getMultiClass()
 
     #print(dataGetter.classData)
 
     for cn in dataGetter.classData:
-
         print(cn)
-    for mc in dataGetter.getMultiClass():
-        print(dataGetter.getMultiClassProficiencies(mc, "Thief"))
+    #for mc in dataGetter.getMultiClass():
+    #    print(dataGetter.getMultiClassProficiencies(mc, "Thief"))
+
+    print(dataGetter.getProficiencies(["Bard", "Monk"], "Human", "Artisan", "Bard", "College of Lore"))
