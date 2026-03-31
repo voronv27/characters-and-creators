@@ -699,10 +699,14 @@ then add an empty div with the fill class above footer*/
 }
 #popup-inner-content {
   flex-grow: 1;
+  height: 90%;
+}
+#popup-inner-content > div {
   padding: 25px;
   overflow-y: auto; /*allows for scroll */
   padding-top: 0;
   margin-top: 20px; /* use margin instead of padding so it stays during scroll */
+  height: calc(100% - 45px); /* 10% for the header bar - 45px for padding */
 }
 
 .bg-active {
