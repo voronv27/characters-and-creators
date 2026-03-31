@@ -163,9 +163,9 @@ async function initComps() {
 
   });
 
-  $("#spellcards-acc").empty();
+  $("#spell-acc").empty();
   Object.keys(genInfo["spells"]).forEach(key => {
-    let spellcard = initComp("spellcard", "#spellcards-acc");
+    let spellcard = initComp("spellcard", "#spell-acc");
 
     // TODO: move to function
     const spellInfo = genInfo["spells"][key];
@@ -221,14 +221,14 @@ async function initComps() {
     if (level == 0) { type = `${school} Cantrip`; }
     spellcard.find(".type").text(type);
 
-    /*// searchbar dropdown
-    let dropdownItem = initComp("dropdownItem", "#searchbar-spellcards-dropdown");
+    // searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-spell-dropdown");
     dropdownItem.text(key);
     dropdownItem.click(function () {
-      updateSearchBar(key, "searchbar-spellcards");
+      updateSearchBar(key, "searchbar-spell");
       filterItems('spellcards');
-      $("#searchbar-spellcards-dropdown").hide();
-    });*/
+      $("#searchbar-spell-dropdown").hide();
+    });
   });
 }
 
