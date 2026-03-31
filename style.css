@@ -724,6 +724,14 @@ then add an empty div with the fill class above footer*/
   flex-grow: 1;
 }
 
+/* currently doesnt properly work. meant to keep the text button constant */
+#selectables {
+  position: static;
+  overflow: auto;
+  display: flex;
+  float: left;
+}
+
 /* Style the tab */
 .tab {
   overflow: hidden;
