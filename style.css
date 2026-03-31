@@ -89,6 +89,10 @@ nav{
   border-radius: 50px;
 }
 
+#section-nav {
+  z-index: 100;
+}
+
 #section-title{
   flex-grow: 1;
   font-size: 2em;
@@ -274,13 +278,20 @@ justify-content: center;
 
 .grid-2-col {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 100%;
+  grid-template-columns: 2fr 1fr;
 }
-.grid-2-col .race-img {
+.grid-2-col .race-img-container {
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+.grid-2-col .race-img-container .race-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  display: block;
+  position: absolute;
+  z-index: 0;
 }
 
 /* spellcard style */
