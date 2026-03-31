@@ -642,6 +642,37 @@ then add an empty div with the fill class above footer*/
   gap: 2px;
 }
 
+/* utility class for a scrollable container with
+  a gradient + always-visible elements at the bottom
+
+  TO USE:
+  create a parent container with flex style
+    * class fl will add the flex style to the element,
+      or you can add display: flex and flex-direction: column
+    * container MUST have a fixed height
+  add overflow-fade class on the scrollable container
+  create a div to contain all elements you want to be
+  visible at the bottom and apply overflow-show class
+  to that div
+*/
+.overflow-fade {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+.overflow-show {
+  position: relative;
+}
+.overflow-show::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(transparent, white);
+  pointer-events: none;
+}
+
 /* styling for popup window */
 #popup-window {
   /* darkens the rest of the screen */
@@ -702,11 +733,17 @@ then add an empty div with the fill class above footer*/
   height: 90%;
 }
 #popup-inner-content > div {
-  padding: 25px;
+  padding: 15px 25px;
   overflow-y: auto; /*allows for scroll */
   padding-top: 0;
   margin-top: 20px; /* use margin instead of padding so it stays during scroll */
-  height: calc(100% - 45px); /* 10% for the header bar - 45px for padding */
+  height: calc(100% - 35px); /* 10% for the header bar - 35px for padding */
+  display: flex;
+  flex-direction: column;
+}
+#popup-inner-content > div > button {
+  width: 150px;
+  min-width: fit-content;
 }
 
 .bg-active {
