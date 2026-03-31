@@ -221,7 +221,7 @@ html .section{
 
 .acc-item .cont{
   max-height: 80vh;
-  overflow: scroll;
+  overflow-y: auto;
   box-sizing: border-box;
   padding: 10px;
   transition: max-height 0.2s , padding 0.2s ;
