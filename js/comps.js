@@ -119,6 +119,15 @@ async function initComps() {
       filterItems('race');
       $("#searchbar-race-dropdown").hide();
     });
+
+    // create the more info popup
+    let moreInfoPopup = initComp("moreInfo", "#popup-inner-content");
+    moreInfoPopup.attr("id", `race-more-info-popup-${key}`);
+    converter = new showdown.Converter();
+    htmlOutput = converter.makeHtml(genInfo["races"][key]["desc"]);
+    moreInfoPopup.find(".desc").html(htmlOutput);
+    var selectBtn = moreInfoPopup.find(".select-btn");
+    selectBtn.text("Select Race");
   });
 
   $("#background-acc").empty();

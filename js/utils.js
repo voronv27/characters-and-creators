@@ -24,7 +24,7 @@ classCont: {
         <div id="new">
           <div class="desc"></div>
           <button class="more-info">More Info</button>
-          <button class="select-class">Select Class</button>
+          <button class="select-btn">Select Class</button>
         </div>`,
       func: function (comp) {
         comp.children(".more-info").click(function (e) {
@@ -38,7 +38,7 @@ classCont: {
             openPopup('class-more-info-popup-Custom', `(Custom Class) ${customClassName}`);
           }
         });
-        comp.children(".select-class").click(function (e) {
+        comp.children(".select-btn").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
           const className = dropdown.find(".title").first().text();
@@ -91,7 +91,7 @@ classCont: {
         <div id="new">
           <div class="desc"></div>
           <button class="more-info">More Info</button>
-          <button class="select-class">Update Class</button>
+          <button class="select-btn">Update Class</button>
           <button class="remove-class">Remove Class</button>
         </div>`,
       func: function (comp) {
@@ -108,7 +108,7 @@ classCont: {
             openPopup(`class-more-info-popup-${className}`, className);
           }
         });
-        comp.children(".select-class").click(function (e) {
+        comp.children(".select-btn").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
           var className = dropdown.find(".title").first().text();
@@ -238,10 +238,22 @@ classCont: {
             <img class="race-img">
           </div>
         </div>
+        <button class="more-info">More Info</button>
         <button class="select-race">Select Race</button>
       </div>
     `,
     func: function (comp) {
+      comp.children(".more-info").click(function (e) {
+          e.stopPropagation();
+          const dropdown = $(this).closest(".acc-item");
+          const raceName = dropdown.find(".title").first().text();
+          if (raceName) {
+            openPopup(`race-more-info-popup-${raceName}`, raceName);
+          } else {
+            const customRaceName = dropdown.find("input").first().val();
+            openPopup('race-more-info-popup-Custom', `(Custom Race) ${customRaceName}`);
+          }
+        });
       comp.children(".select-race").click(function (e) {
         e.stopPropagation();
         const raceName = $(this).closest(".acc-item").find(".title").first().text();
@@ -312,12 +324,12 @@ classCont: {
           </div>
         </div>
         <div class="overflow-show">
-          <button class="select-class">Select Class</button>
+          <button class="select-btn">Select Class</button>
         </div>
       </div>
       `,
     func: function (comp) {
-      comp.children(".select-class").click(function (e) {
+      comp.children(".select-btn").click(function (e) {
         e.stopPropagation();
         const className = $("#popup-title").text();
 

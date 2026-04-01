@@ -97,35 +97,16 @@ function updateSpecInfo() {
   }
 }
 
-function getRaceDesc(data, subrace = "") {
+function getRaceDesc(data) {
   let converter = new showdown.Converter();
-  const size = converter.makeHtml(data["size"]);
   const speed = converter.makeHtml(data["speed_desc"]);
   const asi = converter.makeHtml(data["asi_desc"]);
-  const languages = converter.makeHtml(data["languages"]);
   const vision = converter.makeHtml(data["vision"]);
 
   var desc = `<h3><b>Key Race Features:</b></h3>
-  ${size}
   ${speed}
   ${asi}
-  ${languages}
   ${vision}`
-  if (subrace != "") {
-    var subraceDesc = "";
-    const subraceData = data[subrace];
-    const subraceAsi = converter.makeHtml(subraceData["asi_desc"]);
-    const subraceTraits = converter.makeHtml(subraceData["traits"]);
-    if (subraceAsi) {
-      subraceDesc += `${subraceAsi}`;
-    }
-    if (subraceTraits) {
-      subraceDesc += `${subraceTraits}`;
-    }
-    if (subraceDesc.length) {
-      desc += `<br><b>Selected Subrace Features:</b><br>${subraceDesc}`;
-    }
-  }
   return desc;
 }
 
