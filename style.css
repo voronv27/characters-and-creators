@@ -62,6 +62,8 @@ body{
   color: var(--text);
   min-height: 100vh;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -85,6 +87,10 @@ nav{
   background-color: var(--border);
   padding: 10px;
   border-radius: 50px;
+}
+
+#section-nav {
+  z-index: 100;
 }
 
 #section-title{
@@ -215,7 +221,7 @@ html .section{
 
 .acc-item .cont{
   max-height: 80vh;
-  overflow: scroll;
+  overflow-y: auto;
   box-sizing: border-box;
   padding: 10px;
   transition: max-height 0.2s , padding 0.2s ;
@@ -262,14 +268,30 @@ justify-content: center;
   border-radius: 100px !important;
 }
 
-.race-img{
-  max-width: 400px;
-  max-height: 400px;
-  float: left;
-}
-
 .race-desc{
   font-size: 15px;
+  color: black;
+}
+.short-desc {
+  font-size: 20px;
+}
+
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+.grid-2-col .race-img-container {
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+.grid-2-col .race-img-container .race-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  position: absolute;
+  z-index: 0;
 }
 
 /* spellcard style */
@@ -564,6 +586,7 @@ grid-row: 1 / span 6;
 .active-dark-border {
   border: 5px solid var(--active-dark);
 }
+
 .column { /*when using the center items class, create new div with column class to create individual columns that divide the overarching container*/
   flex: 1;
 }
@@ -578,6 +601,10 @@ grid-row: 1 / span 6;
   background-color: white;
   color: var(--bg);
   padding: 10px;
+}
+.column-title .active-text {
+  color: var(--active);
+  padding-left: 5px;
 }
 .column-contents {
   padding: 20px;
@@ -615,6 +642,37 @@ then add an empty div with the fill class above footer*/
   gap: 2px;
 }
 
+/* utility class for a scrollable container with
+  a gradient + always-visible elements at the bottom
+
+  TO USE:
+  create a parent container with flex style
+    * class fl will add the flex style to the element,
+      or you can add display: flex and flex-direction: column
+    * container MUST have a fixed height
+  add overflow-fade class on the scrollable container
+  create a div to contain all elements you want to be
+  visible at the bottom and apply overflow-show class
+  to that div
+*/
+.overflow-fade {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+.overflow-show {
+  position: relative;
+}
+.overflow-show::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(transparent, white);
+  pointer-events: none;
+}
+
 /* styling for popup window */
 #popup-window {
   /* darkens the rest of the screen */
@@ -624,7 +682,7 @@ then add an empty div with the fill class above footer*/
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 50; /* make sure it's on top */
+  z-index: 150; /* make sure it's on top */
 }
 #popup-content {
   /* the actual popup window */
@@ -672,10 +730,20 @@ then add an empty div with the fill class above footer*/
 }
 #popup-inner-content {
   flex-grow: 1;
-  padding: 25px;
+  height: 90%;
+}
+#popup-inner-content > div {
+  padding: 15px 25px;
   overflow-y: auto; /*allows for scroll */
   padding-top: 0;
   margin-top: 20px; /* use margin instead of padding so it stays during scroll */
+  height: calc(100% - 35px); /* 10% for the header bar - 35px for padding */
+  display: flex;
+  flex-direction: column;
+}
+#popup-inner-content > div > button {
+  width: 150px;
+  min-width: fit-content;
 }
 
 .bg-active {
@@ -684,6 +752,9 @@ then add an empty div with the fill class above footer*/
 
 .wrapper {
   padding-top: 10px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .padded {
@@ -691,6 +762,7 @@ then add an empty div with the fill class above footer*/
 }
 #sections {
   background-color: var(--active);
+  flex-grow: 1;
 }
 
 /* Style the tab */
@@ -734,18 +806,25 @@ then add an empty div with the fill class above footer*/
   border-top: none;
 }
 
-/* Style the searchbar */
-#searchbar-container {
+/* Style the searchbars */
+.searchbar-container {
   display: grid;
   padding-bottom: 20px;
 }
-#searchbar, .dropdown-item {
+/* due to css priorities, these need to be done by
+id and not class */
+#searchbar,
+#searchbar-race,
+#searchbar-background,
+#searchbar-language,
+#searchbar-spell,
+.dropdown-item {
   border: 2px solid var(--active-text);
   background-color: var(--active);
   color: var(--active-text);
   padding: 5px;
 }
-#searchbar::placeholder {
+.searchbar::placeholder {
   color: var(--dark-white);
 }
 .dropdown-item {
@@ -758,10 +837,10 @@ then add an empty div with the fill class above footer*/
 .dropdown-item:first-child {
   border-top: 2px solid var(--active);
 }
-#searchbar-dropdown-container {
+.searchbar-dropdown-container {
   position: relative;
 }
-#searchbar-dropdown {
+.searchbar-dropdown {
   display: none;
   position: absolute;
   top: 0;
@@ -773,7 +852,7 @@ then add an empty div with the fill class above footer*/
   background-color: var(--dark-white);
 }
 
-.textFormater {
+.textFormatter {
     padding: 6px 12px;
 }
 
@@ -786,7 +865,7 @@ then add an empty div with the fill class above footer*/
 }
 
 .table-column {
-  border: 1px solid var(--active);
+  border: 10px solid var(--active);
   padding: 8px;
   flex-grow: 1;
 }

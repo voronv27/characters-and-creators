@@ -32,19 +32,40 @@ async function createClassComps(key) {
   let moreInfoPopup = initComp("moreInfo", "#popup-inner-content");
   moreInfoPopup.attr("id", `class-more-info-popup-${key}`);
   if (key == "Custom") {
-    moreInfoPopup.find(".desc").text("No info available for custom classes.");
+    moreInfoPopup.find(".desc").html("<br>No info available for custom classes.<br><br>");
   } else {
     converter = new showdown.Converter();
     htmlOutput = converter.makeHtml(genInfo["classes"][key]["desc"]);
     moreInfoPopup.find(".desc").html(htmlOutput);
   }
 
-  // dropdown
+  // populate subclasses in the select class popup
+  if (key != "Custom") {
+    const subclassDropdown = $("#select-subclass");
+    for (let i of genInfo["classes"][key]["archetypes"]) {
+      const subclassName = i["name"];
+
+      // populate dropdown
+      const selOpt = new Option(subclassName, key);
+      selOpt.style.display = "none";
+      subclassDropdown.append(selOpt);
+
+      // populate descs
+      let subclassDesc = initComp("subclassDesc", "#subclass-desc");
+      subclassDesc.attr("id", subclassName.replaceAll(" ", "-"));
+      converter = new showdown.Converter();
+      htmlOutput = converter.makeHtml(i["desc"].replaceAll("####", "##"));
+      subclassDesc.html(htmlOutput);
+    }
+  }
+
+  // searchbar dropdown
   let dropdownItem = initComp("dropdownItem", "#searchbar-dropdown");
   dropdownItem.text(key);
   dropdownItem.click(function () {
     updateSearchBar(key);
-    filterItems();
+    filterItems('class');
+    $("#searchbar-dropdown").hide();
   });
 }
 
@@ -66,6 +87,16 @@ async function initComps() {
     const selOpt = new Option(i, i);
     levelDropdown.append(selOpt);
   }
+
+  // set up the subclass dropdown to change the displayed subclass text
+  const subclassDropdown = $("#select-subclass");
+  const subclassDescs = $("#subclass-desc");
+  subclassDropdown.on('change', function() {
+    subclassDescs.find("span").hide();
+    const subclass = $(this).find("option:selected").text();
+    subclassDescs.find(`#${subclass.replaceAll(" ", "-")}`).show();
+  })
+  
   
   $("#race-acc").empty();
   Object.keys(genInfo["races"]).forEach(key => {
@@ -74,8 +105,20 @@ async function initComps() {
     acc.attr("id", "acc-item-" + key);
     let raceCont = initComp("raceCont", "#acc-item-" + key + " .cont");
     raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
+    let shortDesc = genInfo["races"][key]["alignment"].replaceAll("*", "");
+    shortDesc = shortDesc.replaceAll("_", "").replace("Alignment. ", "");
+    raceCont.find(".short-desc").text(shortDesc);
     let raceDesc = getRaceDesc(genInfo["races"][key]);
     raceCont.find(".desc").html(raceDesc);
+
+    // searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-race-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key, "searchbar-race");
+      filterItems('race');
+      $("#searchbar-race-dropdown").hide();
+    });
   });
 
   $("#background-acc").empty();
@@ -87,20 +130,42 @@ async function initComps() {
     let bgCont = initComp("backgroundCont", "#acc-item-" + keyId + " .cont");
     let bgDesc = getBackgroundDesc(genInfo["backgrounds"][key]);
     bgCont.find(".desc").html(bgDesc);
+
+    // searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-background-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key, "searchbar-background");
+      filterItems('background');
+      $("#searchbar-background-dropdown").hide();
+    });
   });
 
   $("#language-acc").empty();
   Object.keys(genInfo["languages"]).forEach(key => {
     let acc = initComp("accItem", "#language-acc");
     acc.find(".title").text(key);
-    //const keyId = key.relplaceAll(" ", "-");
-    //acc.attr("id", "acc-item-" + keyId);
-    //let langCont = intiComp();
+    const keyId = key.replaceAll(" ", "-");
+    acc.attr("id", "acc-item-" + keyId);
+    /*let langCont = initComp("langCont", "#acc-item-" + keyId + " .cont");
+    let langDesc = getLanguageDesc(genInfo["languages"][key]);
+    langCont.find(".desc").html(bgDesc);
+
+    // searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-language-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key, "searchbar-language");
+      filterItems('language');
+      $("#searchbar-language-dropdown").hide();
+    });*/
+
 
   });
-  $("#spellcards-acc").empty();
+
+  $("#spell-acc").empty();
   Object.keys(genInfo["spells"]).forEach(key => {
-    let spellcard = initComp("spellcard", "#spellcards-acc");
+    let spellcard = initComp("spellcard", "#spell-acc");
 
     // TODO: move to function
     const spellInfo = genInfo["spells"][key];
@@ -155,6 +220,15 @@ async function initComps() {
     var type = `Level ${level} ${school}`;
     if (level == 0) { type = `${school} Cantrip`; }
     spellcard.find(".type").text(type);
+
+    // searchbar dropdown
+    let dropdownItem = initComp("dropdownItem", "#searchbar-spell-dropdown");
+    dropdownItem.text(key);
+    dropdownItem.click(function () {
+      updateSearchBar(key, "searchbar-spell");
+      filterItems('spellcards');
+      $("#searchbar-spell-dropdown").hide();
+    });
   });
 }
 
@@ -183,13 +257,25 @@ function initComp(key, existing, rel,) {
   return added;
 }
 
-// clicking the select-class button moves the class over to selected classes
+// clicking the "add class" button moves the class over to selected classes
 function selectClass() {
-  const className = $("#popup-title").text();
+  var className = $("#popup-title").text().split(") ");
+  className = className[className.length - 1].replaceAll(" ", "_");
+  if (className == "") {
+    className = "Custom";
+  }
   const dropdown = $("#select-level-");
   const classLevel = dropdown.find("option:selected").text();
-  char.class[className] = classLevel;
-  console.log(`class ${className}, level ${classLevel}`);
+
+  const subclassDropdown = $("#select-subclass");
+  var subclass = subclassDropdown.find("option:selected").text();
+  if (subclass == "None") {
+    subclass = null;
+  }
+  char.class[className] = {
+    "level": classLevel,
+    "subclass": subclass
+  };
 
   // add acc-item to selected classes
   $("#chosen-class").html("");
@@ -197,28 +283,57 @@ function selectClass() {
   var maxLevel = 0;
   const chosenClass = $("#chosen-class");
   for (c in char.class) {
-    if (char.class[c] > maxLevel) {
-      maxLevel = char.class[c];
+    if (char.class[c]["level"] > maxLevel) {
+      maxLevel = char.class[c]["level"];
       primaryClass = c;
     }
     
+    var isCustom = false;
+    if (!(c in genInfo["classes"])) {
+      isCustom = true;
+    }
+
     const acc = initComp("accItem", "#chosen-class");
-    acc.find(".title").text(`${c} ${char.class[c]}`);
+    if (isCustom) {
+      acc.find(".title").text(`(Custom Class) ${c.replaceAll("_", " ")} ${char.class[c]["level"]}`);
+    } else {
+      if (char.class[c]["subclass"]) {
+        acc.find(".title").html(`${c} ${char.class[c]["level"]}<br>${char.class[c]["subclass"]}`);
+      } else {
+        acc.find(".title").text(`${c} ${char.class[c]["level"]}`);
+      }
+    }
     acc.attr("id", "acc-item-" + c + "-selected");
-    acc.find(".icon-img").attr("src", `assets/images/${c.toLowerCase()}.png`);
+    if (isCustom) {
+      acc.find(".icon-img").attr("src", 'assets/images/custom.png');
+    } else {
+      acc.find(".icon-img").attr("src", `assets/images/${c.toLowerCase()}.png`);
+    }
     let classCont = initComp("selectedClassCont", "#acc-item-" + c + "-selected .cont");
-    classCont.find(".desc").text(genInfo["classes"][c]["short_desc"]);
+    
+    if (isCustom) {
+      classCont.find(".desc").text("Your own custom class.");
+    } else {
+      classCont.find(".desc").text(genInfo["classes"][c]["short_desc"]);
+    }
     chosenClass.append(acc);
   }
 
   // update primary class
   char["primaryClass"] = primaryClass;
   $("#primary-class").html(primaryClass);
-  $("#stat-suggestion1").show();
-  $("#stat-suggestion2").show();
-  $("#stat-suggestion3").show();
+  if (primaryClass == "Custom") {
+    $("#rec-stats").html("");
+    $("#primary-stat").html("");
+    $("#secondary-stat").html("");
+    $("#recommended-stats").hide();
+    displayCustomStatSuggestion();
+  } else {
+    $("#stat-suggestion1").show();
+    $("#stat-suggestion2").show();
+    $("#stat-suggestion3").show();
+  }
   $("#stat-suggestion4").show();
-
   // reset specificInfo because we changed class
   specificInfo = null;
   

@@ -31,13 +31,58 @@ classCont: {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
           const className = dropdown.find(".title").first().text();
-          openPopup(`class-more-info-popup-${className}`, className);
+          if (className) {
+            openPopup(`class-more-info-popup-${className}`, className);
+          } else {
+            const customClassName = dropdown.find("input").first().val();
+            openPopup('class-more-info-popup-Custom', `(Custom Class) ${customClassName}`);
+          }
         });
         comp.children(".select-class").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
           const className = dropdown.find(".title").first().text();
-          openPopup('class-select-popup', className);
+          var customClassName;
+          if (!className) {
+            customClassName = dropdown.find("input").first().val();
+          }
+
+          // reset dropdown values in popup
+          var level = 1;
+          var subclass = "None";
+          if (char.class) {
+            if (className && char.class[className]) {
+              level = char.class[className]["level"];
+              if (char.class[className]["subclass"]) {
+                subclass = char.class[className]["subclass"];
+              }
+            } else if (customClassName && char.class[customClassName]) {
+              level = char.class[customClassName]["level"];
+            }
+          }
+          $("#select-level-").val(level);
+          if (subclass != "None") {
+            $("#select-subclass option").filter(function() {
+              return $(this).text() == subclass;
+            }).prop('selected', true);
+          } else {
+            $('#select-subclass').val(subclass);
+          }
+
+          // reset subclass description
+          $('#subclass-desc .cont').hide();
+          $(`#${subclass.replaceAll(' ', '-')}`).show();
+
+          // open popup
+          if (className) {
+            openPopup('class-select-popup', className);
+          } else {
+            openPopup('class-select-popup', `(Custom Class) ${customClassName}`);
+          }
+          // show valid dropdown options
+          $("#select-subclass option").hide();
+          $("#select-subclass option[value='None']").show();
+          $(`#select-subclass option[value='${className}']`).show();
         });
     }
   },
@@ -53,19 +98,74 @@ classCont: {
         comp.children(".more-info").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
-          const className = dropdown.find(".title").first().text().split(" ")[0];
-          openPopup(`class-more-info-popup-${className}`, className);
+          var className = dropdown.find(".title").first().text();
+          if (className.includes("Custom")) {
+            className = className.split(") ")[1];
+            className = className.split(" ").slice(0, -1).join(" ");
+            openPopup('class-more-info-popup-Custom', `(Custom Class) ${className}`);
+          } else {
+            className = className.split(" ")[0];
+            openPopup(`class-more-info-popup-${className}`, className);
+          }
         });
         comp.children(".select-class").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
-          const className = dropdown.find(".title").first().text().split(" ")[0];
+          var className = dropdown.find(".title").first().text();
+          var customClassName;
+          if (className.includes("Custom")) {
+            className = className.split(") ")[1];
+            className = className.split(" ").slice(0, -1).join(" ");
+            customClassName = className;
+            className = `(Custom Class) ${className}`;
+          } else {
+            className = className.split(" ")[0];
+          }
+          // reset dropdown values in popup
+          var level = 1;
+          var subclass = "None";
+          if (char.class) {
+            if (className && char.class[className]) {
+              level = char.class[className]["level"];
+              if (char.class[className]["subclass"]) {
+                subclass = char.class[className]["subclass"];
+              }
+            } else if (customClassName && char.class[customClassName]) {
+              level = char.class[customClassName]["level"];
+            }
+          }
+          $("#select-level-").val(level);
+          if (subclass != "None") {
+            $("#select-subclass option").filter(function() {
+              return $(this).text() == subclass;
+            }).prop('selected', true);
+          } else {
+            $('#select-subclass').val(subclass);
+          }
+
+          // reset subclass description
+          $('#subclass-desc .cont').hide();
+          $(`#${subclass.replaceAll(' ', '-')}`).show();
+
           openPopup('class-select-popup', className);
+
+          // show valid dropdown options
+          $("#select-subclass option").hide();
+          $("#select-subclass option[value='None']").show();
+          $(`#select-subclass option[value='${className}']`).show();
         });
         comp.children(".remove-class").click(function (e) {
           e.stopPropagation();
           const dropdown = $(this).closest(".acc-item");
-          const className = dropdown.find(".title").first().text().split(" ")[0];
+          var className = dropdown.find(".title").first().text();
+          if (className.includes("Custom")) {
+            className = className.split(") ")[1];
+            className = className.split(" ").slice(0, -1).join(" ");
+            className = className.replace(" ", "_");
+          }
+          else {
+            className = className.split(" ")[0];
+          }
           $(`#acc-item-${className}-selected`).remove();
 
           // remove this class from char
@@ -76,8 +176,8 @@ classCont: {
             var primaryClass = null;
             var maxLevel = 0;
             for (c in char.class) {
-              if (char.class[c] > maxLevel) {
-                maxLevel = char.class[c];
+              if (char.class[c]["level"] > maxLevel) {
+                maxLevel = char.class[c]["level"];
                 primaryClass = c;
               }
             }
@@ -101,6 +201,12 @@ classCont: {
         });
     }
   },
+  subclassDesc: {
+    html: `
+      <span id=new class="cont" style="display:none;">
+      </span>`,
+    func: null
+  },
   langCont: {
     html: `
       <div id="new">
@@ -123,9 +229,16 @@ classCont: {
   raceCont: {
     html: `
       <div id="new">
-        <button class="select-race">Select Race</button><br>
-        <img class="race-img">
-        <div class="desc race-desc"></div>
+        <div class="grid-2-col">
+          <div class="race-text-container">
+            <div class="short-desc"></div>
+            <div class="desc race-desc"></div>
+          </div>
+          <div class="race-img-container">
+            <img class="race-img">
+          </div>
+        </div>
+        <button class="select-race">Select Race</button>
       </div>
     `,
     func: function (comp) {
@@ -194,16 +307,52 @@ classCont: {
   moreInfo: {
     html: `
       <div id="new" style="display:none;">
-        <div class="desc">
+        <div class="overflow-fade">
+          <div class="desc">
+          </div>
         </div>
-        <button class="select-class">Select Class</button>
+        <div class="overflow-show">
+          <button class="select-class">Select Class</button>
+        </div>
       </div>
       `,
     func: function (comp) {
       comp.children(".select-class").click(function (e) {
         e.stopPropagation();
         const className = $("#popup-title").text();
+
+        // reset dropdown values in popup
+        var level = 1;
+        var subclass = "None";
+        if (char.class) {
+          if (className && char.class[className]) {
+            level = char.class[className]["level"];
+            if (char.class[className]["subclass"]) {
+              subclass = char.class[className]["subclass"];
+            }
+          } else if (customClassName && char.class[customClassName]) {
+            level = char.class[customClassName]["level"];
+          }
+        }
+        $("#select-level-").val(level);
+        if (subclass != "None") {
+          $("#select-subclass option").filter(function() {
+            return $(this).text() == subclass;
+          }).prop('selected', true);
+        } else {
+          $('#select-subclass').val(subclass);
+        }
+
+        // reset subclass description
+        $('#subclass-desc .cont').hide();
+        $(`#${subclass.replaceAll(' ', '-')}`).show();
+
         openPopup("class-select-popup", className);
+
+        // show valid dropdown options
+        $("#select-subclass option").hide();
+        $("#select-subclass option[value='None']").show();
+        $(`#select-subclass option[value='${className}']`).show();
       });
     }
   }
@@ -235,25 +384,41 @@ function closePopup() {
 
 // show/hide searchbar dropdown when clicking inside/outside
 // searchbar container
-const searchbarContainer = $("#searchbar-container")[0];
-const searchbarDropdown = $("#searchbar-dropdown");
-$(document).on("click", function (e) {
-  if ($.contains(searchbarContainer, e.target)) {
-    searchbarDropdown.show();
-  } else {
-    searchbarDropdown.hide();
+const searchbars = ["", "race", "background", "language", "spell"];
+for (const s of searchbars) {
+  var contId = "#searchbar-container";
+  var dropId = "#searchbar-dropdown";
+  if (s != "") {
+    contId = "#searchbar-" + s + "-container";
+    dropId = "#searchbar-" + s + "-dropdown";
   }
-});
+  const searchbarContainer = $(contId)[0];
+  const searchbarDropdown = $(dropId);
+  $(document).on("click", function (e) {
+    if ($.contains(searchbarContainer, e.target)) {
+      searchbarDropdown.show();
+    } else {
+      searchbarDropdown.hide();
+    }
+  });
+}
 
 // upon searchbar input, display classes matching search value
-function filterItems() {
-    var input, filter, classAcc, accItem, i, txtValue;
-    input = document.getElementById("searchbar");
+function filterItems(sectionName) {
+    var input, filter, classAcc, accItem, i, txtValue, id, dropdownId;
+    if (sectionName == "class") {
+      id = "searchbar";
+      dropdownId = "searchbar-dropdown";
+    } else {
+      id = `searchbar-${sectionName}`;
+      dropdownId = `searchbar-${sectionName}-dropdown`;
+    }
+    input = document.getElementById(id);
     filter = input.value.toUpperCase();
-    classAcc = document.getElementById("class-acc");
-    accItem = classAcc.getElementsByClassName("acc-item");
+    acc = document.getElementById(sectionName + "-acc");
+    accItem = acc.getElementsByClassName("acc-item");
     
-    var dropdown = document.getElementById("searchbar-dropdown");
+    var dropdown = document.getElementById(dropdownId);
     var dropdownItems = dropdown.getElementsByClassName("dropdown-item");
     
     // show/hide
@@ -274,7 +439,219 @@ function filterItems() {
 }
 
 // updates the text in a searchbar with the provided value
-function updateSearchBar(text) {
-  const searchbar = $("#searchbar");
+function updateSearchBar(text, id="searchbar") {
+  const searchbar = $(`#${id}`);
   searchbar.val(text);
+}
+
+function updateProficiencies() {  
+  /*
+
+    General Strategy.
+    Skills are determined by following format.
+    skills ["skill1", "skill2", choice{count:2, options:["skill3", "skill4", "skill5"]}]
+    
+    check to see if dict exists for respective class/race/background.
+    if it does, loop through keys. If key is skills, add to proficiencies with format "class:skill name". If not, add to proficiencies with format "class:proficiency name".
+
+  */
+
+  let toolsEditable = false;
+  let profHtml = "";
+  let possibleSkills = [];
+  let className = char["primaryClass"];
+  var toggleEverything = false;
+  if (char["primaryClass"] == "Custom") {
+    toggleEverything = true;
+    char["proficiencyOverlap"] = 2;
+  } else if (className != null) {
+    let classDict = specInfo["proficiencies"]["class"];
+    console.log("classDict: ", classDict);
+    if (classDict) {
+      for (k in classDict) {
+        console.log("key: ", k);
+        console.log("variable type: ", typeof(classDict[k])); 
+        for (p in classDict[k]) {
+          console.log("prof: ", classDict[k][p]);
+          console.log("variable type: ", typeof(classDict[k][p])); 
+          if (classDict[k][p] == "Tools") {
+            if (classDict[k][p][0] == 'None') {
+              continue;
+            } else {
+              for (t in classDict[k][p]) {  
+                char["proficiencies"]["tools"].push(classDict[k][p][t]);
+                console.log("Adding tool proficiency: ", `Tool: ${classDict[k][p][t]}`);
+              }
+            }
+          }
+          if (classDict[k][p] == "subclass") {
+            continue;
+          }
+          if (typeof(classDict[k][p]) === "number") {
+            console.log("Adding proficiency overlap: ", classDict[k][p]);
+            char["proficiencyOverlap"] += classDict[k][p];
+            console.log("Updated proficiency overlap: ", char);
+          }
+          else if (typeof(classDict[k][p]) === "object") {
+            for (s in classDict[k][p]) { 
+              possibleSkills.push(classDict[k][p][s]);
+              console.log ("Adding possible skill: ", classDict[k][p][s]);
+            }
+          }
+          else {
+            console.log("dictionary test: ", char["proficiencies"][k]);
+            console.log("Adding proficiency: ", `${k}: ${classDict[k][p]}`);
+            char["proficiencies"][`${k}`].push(classDict[k][p]);
+          }
+        }
+        
+      }
+    } else {
+      console.log("You are missing a proper class, and thus missing skill choices!");
+    }
+    console.log("possibleSkills: ", possibleSkills);
+    console.log("Updating proficiencies...");
+    console.log(specInfo["proficiencies"]);
+    console.log("class dict: ", classDict);
+    console.log("char dict: ", char);
+  }
+
+  let raceDict = specInfo["proficiencies"]["race"];
+  let bgDict = specInfo["proficiencies"]["background"];
+  console.log("bgDict: ", bgDict);
+
+  let race = char["race"];
+  if (race == "Custom") {
+    toggleEverything = true;
+    char["proficiencyOverlap"] += 1;
+  } else if (race != null) {
+    console.log("raceDict: ", raceDict);
+
+  }
+  let background = char["background"];
+  if (background == "Custom") {
+    toggleEverything = true;
+    char["proficiencyOverlap"] += 1;
+  } else if (background != null) {
+    console.log("bgDict: ", bgDict); //keys are usually either skills or tools
+    for (k in bgDict) {
+      console.log("key: ", k, "value: ", bgDict[k]);
+      if (k == "skills") {
+        for (p in bgDict[k]) {
+          console.log("Adding skill proficiency: ", `Background skill choice: ${bgDict[k][p]}`);
+          if (typeof(bgDict[k][p]) == "string") {
+            console.log("Adding skill proficiency: ", `Background: ${bgDict[k][p]}`);
+            if (bgDict[k][p] in char["proficiencies"]["skills"]) {
+              char["proficiencyOverlap"] += 1;
+            } else {
+              char["proficiencies"]["skills"].push(bgDict[k][p]);
+              document.getElementById(`${bgDict[k][p]}`).checked = true;
+            }
+          } else {
+            //console.log("checking dicgionary for skill choice: ", bgDict[k][p]["choice"]["count"], bgDict[k][p]["choice"]["options"]);
+            char["proficiencyOverlap"] += bgDict[k][p]["choice"]["count"];
+            for (o in bgDict[k][p]["choice"]["options"]) {
+              possibleSkills.push(bgDict[k][p]["choice"]["options"][o]);
+              //console.log("Adding possible skill: ", bgDict[k][p]["choice"]["options"][o]);
+            }
+          }
+        }
+      } else if (k == "tools") {  //this shit is imparsable so add text box showing what you have proficiency in and let every box be editable
+        char["proficiencies"]["tools"].push(bgDict[k][p]);
+        if (!toolsEditable) {
+          toolsEditable = true;
+          let toolsArray = ["cobblerTools", "cookUtensils", "glassblowerTools", "jewelerTools", "leatherworkerTools", "masonTools", "painterTools", "pottersTools", "smithTools","tinkerTools", "weaverTools", "woodcarverTools", "bagpipes","drum","dulcimer","flute", "lute","lyre", "horn", "pan flute", "shawm", "viol","diceSet", "dragonChessSet", "playingCardSet","threeDragonAnteSet", "disguiseKit", "forgeryKit", "herbalismKit","navigatorTools", "theivesTools", "poisonerKit"];
+          for (t in toolsArray) {
+            const toolCheckbox = document.getElementById(toolsArray[t]);
+            if (toolCheckbox) {
+              toolCheckbox.disabled = false;
+            }
+          }
+        }
+      }
+    }
+  }
+  console.log(char["proficiencies"]);
+  document.getElementById("appliedProficiencies").innerHTML = profHtml;
+
+  for (s in char["proficiencies"]) {    //for each proficiency within the proficiency types (armors, weapons, tools, saving throws, skills), loop through and add to the html list of proficiencies
+    for (p in char["proficiencies"][s]) {
+      profHtml += `<div id = "${char["proficiencies"][s][p]}">${char["proficiencies"][s][p]}</div>`;
+    }
+
+  }
+  for (s in possibleSkills) {    //for each proficiency within the possible skills, find their corresponding checkbox and enable them for selection.
+    const checkbox = document.getElementById(possibleSkills[s]);
+    if (checkbox) {
+      checkbox.disabled = false;
+    }
+  }
+  for (s in char["proficiencies"]) {
+    let arr = char["proficiencies"][s];
+    console.log("Where am I?", s)
+    for (p in arr) {
+      if (s!="tools") {
+        const checkbox = document.getElementById(char["proficiencies"][s][p]);
+        if (checkbox) {
+          checkbox.checked = true;
+          if (char["proficiencies"][s][p] == "Simple weapons" || char["proficiencies"][s][p] == "martial weapons") {
+
+            checkAllthatApply(char["proficiencies"][s][p]);
+          }
+        }
+      }
+    }
+  }
+  document.getElementById("appliedProficiencies").innerHTML = profHtml;
+}
+
+function checkAllthatApply(checkboxName) {
+  console.log("checking all that apply for: ", checkboxName);
+  //console.log("s: ", char["proficiencies"][s]);
+  if (checkboxName == "Simple weapons") {
+    const simpleWeapons = ["club", "dagger", "greatclub", "handaxe", "javelin", "light hammer", "mace", "quarterstaff", "sickle", "spear"];
+    for (w in simpleWeapons) {
+      const checkbox = document.getElementById(simpleWeapons[w]);
+      //console.log("checkbox: ", checkbox);
+      if (checkbox) {
+        checkbox.checked = document.getElementById(checkboxName).checked;
+
+        proficiencyCheckboxClicked(simpleWeapons[w], true);
+
+      }
+    }
+
+  } else if (checkboxName == "martial weapons") {
+    const martialWeapons = ["battleaxe", "flail", "glaive", "greataxe", "greatsword", "halberd", "lance", "longsword", "maul", "morningstar", "pike", "rapier", "scimitar", "trident", "war pick", "warhammer", "whip", "blowgun", "hand crossbow", "heavy crossbow", "longbow", "net"]; 
+    for (w in martialWeapons) {
+      const checkbox = document.getElementById(martialWeapons[w]);
+      if (checkbox) {
+        checkbox.checked = document.getElementById(checkboxName).checked;
+        proficiencyCheckboxClicked(martialWeapons[w], true);
+      }
+    }
+  }
+
+}
+
+function proficiencyCheckboxClicked(checkboxName, Special=false) { //when a proficiency checkbox is clicked, add/remove that proficiency from the char's proficiency list and update the html list of proficiencies accordingly.
+  let profHtml = "";
+  console.log("checkbox clicked: ", checkboxName);
+  if (checkboxName=="Simple weapons" || checkboxName=="Martial Weapons") {
+    checkAllthatApply(checkboxName);
+  }
+  let listingID = checkboxName.replaceAll(" ", "-") + "-added";
+  if (!Special) {//special is for batch checking of simple and martial weapons, so we don't want to add the individual weapon to the proficiency list 
+    if (document.getElementById(checkboxName).checked) {  //element didn't exist before, add it to the list of proficiencies      
+      char["proficiencies"]["weapons"].push(checkboxName);
+      profHtml += `<div id = "${listingID}">${checkboxName}</div>`;
+    } else { //element existed before, remove it from the list of proficiencies
+      char["proficiencies"]["weapons"] = char["proficiencies"]["weapons"].filter(function(value, index, arr){
+        return value != checkboxName;
+      });
+      document.getElementById(listingID).remove();
+    }
+  }
+
+
 }

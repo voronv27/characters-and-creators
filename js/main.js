@@ -8,6 +8,15 @@ let char = {
   race: null,
   background: null,
   stats: {},
+  proficiencies: {
+    "armors": [],
+    "weapons": [],
+    "tools": [],
+    "savingThrows": [],
+    "skills": []
+  },
+  expertise: [],
+  proficiencyOverlap: 0
 };
 
 // Constants
@@ -45,11 +54,16 @@ function initApiData() {
 }
 
 function specificApiData() {
+  console.log(char.primaryClass);
+  console.log("Fetching API data");
   var fetchRequired = false;
   // TODO: more than primary class, subclass, subrace
   var paramUrl = `${URL}/specific-info?`;
-  if (char.primaryClass) {
+  if (char.primaryClass && char.primaryClass != "Custom") {
     paramUrl += `class=${char.primaryClass}`;
+    if (char.class[char.primaryClass]["subclass"]) {
+      paramUrl += `&subclass=${char.class[char.primaryClass]["subclass"]}`;
+    }
     fetchRequired = true;
   }
   if (char.race) {
@@ -78,10 +92,15 @@ function updateSpecInfo() {
   const recStats = "<b>" + specInfo["preferred-stats"].join("</b> and <b>") + "</b>";
   const primaryDisplay = "<b>" + specInfo["preferred-stats"][0] + "</b>";
   const secondaryDisplay = "<b>" + specInfo["preferred-stats"][1] + "</b>";
-  $("#rec-stats").html(recStats);
-  $("#primary-stat").html(primaryDisplay);
-  $("#secondary-stat").html(secondaryDisplay);
-  displayRecommendedStandardStats(specInfo["preferred-stats"][0], specInfo["preferred-stats"][1]);
+  if (char["primaryClass"] == "Custom") {
+    
+  } else {
+    $("#rec-stats").html(recStats);
+    $("#primary-stat").html(primaryDisplay);
+    $("#secondary-stat").html(secondaryDisplay);
+    updateProficiencies();
+    displayRecommendedStandardStats(specInfo["preferred-stats"][0], specInfo["preferred-stats"][1]);
+  }
 }
 
 function getRaceDesc(data, subrace = "") {
@@ -91,15 +110,13 @@ function getRaceDesc(data, subrace = "") {
   const asi = converter.makeHtml(data["asi_desc"]);
   const languages = converter.makeHtml(data["languages"]);
   const vision = converter.makeHtml(data["vision"]);
-  const traits = converter.makeHtml(data["traits"]);
 
-  var desc = `<b>Key Race Features:</b><br>
+  var desc = `<h3><b>Key Race Features:</b></h3>
   ${size}
   ${speed}
   ${asi}
   ${languages}
-  ${vision}
-  ${traits}`
+  ${vision}`
   if (subrace != "") {
     var subraceDesc = "";
     const subraceData = data[subrace];
