@@ -160,25 +160,30 @@
       </div>
     </div>
     <div id="backgrounds-section" class="section" data-title="Background">
-      Selected background:
-      <div id="chosen-background">None</div>
-      <div class="column-contents">
-        <div id="searchbar-background-container" class="searchbar-container">
-          <input type="text" id="searchbar-background" class="searchbar" oninput="filterItems('background')" placeholder="Search for items...">
-          <div id="searchbar-background-dropdown-container" class="searchbar-dropdown-container">
-            <div id="searchbar-background-dropdown" class="searchbar-dropdown"></div>
+      <div class = "center-items active-dark-border">
+        <div class="column">
+          <div class="column-title">
+            Selected Background: <span class="active-text" id="chosen-background">None</span>
           </div>
-        </div>
-      </div>
-      <div id="background-acc" class="acc">
-        <div class="acc-item">
-          <div class="title">Loading...</div>
-          <div class="cont">Loading...</div>
-        </div>
+          <div class="column-contents">
+            <div id="searchbar-background-container" class="searchbar-container">
+              <input type="text" id="searchbar-background" class="searchbar" oninput="filterItems('background')" placeholder="Search for items...">
+              <div id="searchbar-background-dropdown-container" class="searchbar-dropdown-container">
+                <div id="searchbar-background-dropdown" class="searchbar-dropdown"></div>
+              </div>
+            </div>
+            <div id="background-acc" class="acc">
+              <div class="acc-item">
+                <div class="title">Loading...</div>
+                <div class="cont">Loading...</div>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
+    </div>
     <div id="stats-section" class="section" data-title="Stats">
-      <div class="textFormater">
+      <div class="textFormatter">
         There are 6 main abilities in D&D, and your stats represent your character's skill level for that ability<br>
         Player stats are usually restricted from 3-20, with possible creature stats ranging from 1-30.<br>
         
@@ -217,30 +222,30 @@
           </div>
         
           <div class="gen-stats">
-              <button onclick="increment('Strength', 'score')">Increment</button>
-              <button onclick="increment('Dexterity', 'score')">Increment</button>
-              <button onclick="increment('Constitution', 'score')">Increment</button>
-              <button onclick="increment('Intelligence', 'score')">Increment</button>
-              <button onclick="increment('Wisdom', 'score')">Increment</button>
-              <button onclick="increment('Charisma', 'score')">Increment</button>
+              <button onclick="increment('StrengthPB', 'score')">Increment</button>
+              <button onclick="increment('DexterityPB', 'score')">Increment</button>
+              <button onclick="increment('ConstitutionPB', 'score')">Increment</button>
+              <button onclick="increment('IntelligencePB', 'score')">Increment</button>
+              <button onclick="increment('WisdomPB', 'score')">Increment</button>
+              <button onclick="increment('CharismaPB', 'score')">Increment</button>
           </div>
           <div class="gen-stats">
-              <h2>Strength: <span id='Strength'>8&ensp;</span></h2>
-              <h2>Dexterity: <span id="Dexterity">8&ensp;</span></h2>
-              <h2>Constitution: <span id='Constitution'>8&ensp;</span></h2>
-              <h2>Intelligence: <span id='Intelligence'>8&ensp;</span></h2>
-              <h2>Wisdom: <span id='Wisdom'>8&ensp;</span></h2>
-              <h2>Charisma: <span id='Charisma'>8&ensp;</span></h2>
+              <h2>Strength: <span id='StrengthPB'>8&ensp;</span></h2>
+              <h2>Dexterity: <span id="DexterityPB">8&ensp;</span></h2>
+              <h2>Constitution: <span id='ConstitutionPB'>8&ensp;</span></h2>
+              <h2>Intelligence: <span id='IntelligencePB'>8&ensp;</span></h2>
+              <h2>Wisdom: <span id='WisdomPB'>8&ensp;</span></h2>
+              <h2>Charisma: <span id='CharismaPB'>8&ensp;</span></h2>
           </div>
           <div class="gen-stats">
-              <button onclick="decrement('Strength','score')">Decrement</button>
-              <button onclick="decrement('Dexterity','score')">Decrement</button>
-              <button onclick="decrement('Constitution','score')">Decrement</button>
-              <button onclick="decrement('Intelligence','score')">Decrement</button>
-              <button onclick="decrement('Wisdom','score')">Decrement</button>
-              <button onclick="decrement('Charisma','score')">Decrement</button>
+              <button onclick="decrement('StrengthPB','score')">Decrement</button>
+              <button onclick="decrement('DexterityPB','score')">Decrement</button>
+              <button onclick="decrement('ConstitutionPB','score')">Decrement</button>
+              <button onclick="decrement('IntelligencePB','score')">Decrement</button>
+              <button onclick="decrement('WisdomPB','score')">Decrement</button>
+              <button onclick="decrement('CharismaPB','score')">Decrement</button>
             </div>
-        <button onclick='assignPointBuy("Strength","Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "score");'>Assign Stats</button><br><br>
+        <button onclick='assignPointBuy("StrengthPB","DexterityPB", "ConstitutionPB", "IntelligencePB", "WisdomPB", "CharismaPB", "score");'>Assign Stats</button><br><br>
       </div>
 
       <div id="Custom Stats" class="tabcontent">
@@ -285,89 +290,124 @@
             <div class="table-column" id = "skills">
               <h2>Skills</h2>
               <h3>Strength Based:</h3>
-              Athletics: <input type="checkbox" id="athletics" name="athletics" value="Athletics"><br>
+              Athletics: <input type="checkbox" id="Athletics" name="Athletics" value="Athletics" disabled><br>
               <h3>Dexterity Based:</h3>
-              Acrobatics: <input type="checkbox" id="acrobatics" name="acrobatics" value="Acrobatics"><br>
-              Sleight of Hand: <input type="checkbox" id="sleightOfHand" name="sleightOfHand" value="Sleight of Hand"><br>
-              Stealth: <input type="checkbox" id="stealth" name="stealth" value="Stealth"><br>
+              Acrobatics: <input type="checkbox" id="Acrobatics" name="Acrobatics" value="Acrobatics" disabled><br>
+              Sleight of Hand: <input type="checkbox" id="Sleight of Hand" name="Sleight of Hand" value="Sleight of Hand" disabled><br>
+              Stealth: <input type="checkbox" id="Stealth" name="Stealth" value="Stealth" disabled><br>
               <h3>Intelligence Based:</h3>
-              Arcana: <input type="checkbox" id="arcana" name="arcana" value="Arcana"><br>
-              History: <input type="checkbox" id="history" name="history" value="History"><br>
-              Investigation: <input type="checkbox" id="investigation" name="investigation" value="Investigation"><br>
-              Nature: <input type="checkbox" id="nature" name="nature" value="Nature"><br>
-              Religion: <input type="checkbox" id="religion" name="religion" value="Religion"><br>
+              Arcana: <input type="checkbox" id="Arcana" name="Arcana" value="Arcana" disabled><br>
+              History: <input type="checkbox" id="History" name="History" value="History" disabled><br>
+              Investigation: <input type="checkbox" id="Investigation" name="Investigation" value="Investigation" disabled><br>
+              Nature: <input type="checkbox" id="Nature" name="Nature" value="Nature" disabled><br>
+              Religion: <input type="checkbox" id="Religion" name="Religion" value="Religion" disabled><br>
               <h3>Wisdom Based:</h3>
-              Animal Handling: <input type="checkbox" id="animalHandling" name="animalHandling" value="Animal Handling"><br>
-              Insight: <input type="checkbox" id="insight" name="insight" value="Insight"><br>
-              Medicine: <input type="checkbox" id="medicine" name="medicine" value="Medicine"><br>
-              Perception: <input type="checkbox" id="perception" name="perception" value="Perception"><br>
-              Survival: <input type="checkbox" id="survival" name="survival" value="Survival"><br>
+              Animal Handling: <input type="checkbox" id="Animal Handling" name="animalHandling" value="Animal Handling" disabled><br>
+              Insight: <input type="checkbox" id="Insight" name="Insight" value="Insight" disabled><br>
+              Medicine: <input type="checkbox" id="Medicine" name="Medicine" value="Medicine" disabled><br>
+              Perception: <input type="checkbox" id="Perception" name="Perception" value="Perception" disabled><br>
+              Survival: <input type="checkbox" id="Survival" name="Survival" value="Survival" disabled><br>
               <h3>Charisma Based:</h3>
-              Deception: <input type="checkbox" id="deception" name="deception" value="Deception"><br>
-              Intimidation: <input type="checkbox" id="intimidation" name="intimidation" value="Intimidation"><br>
-              Performance: <input type="checkbox" id="performance" name="performance" value="Performance"><br>
-              Persuasion: <input type="checkbox" id="persuasion" name="persuasion" value="Persuasion"><br>  
+              Deception: <input type="checkbox" id="Deception" name="Deception" value="Deception" disabled><br>
+              Intimidation: <input type="checkbox" id="Intimidation" name="Intimidation" value="Intimidation" disabled><br>
+              Performance: <input type="checkbox" id="Performance" name="Performance" value="Performance" disabled><br>
+              Persuasion: <input type="checkbox" id="Persuasion" name="Persuasion" value="Persuasion" disabled><br>  
             </div>
             <div class="table-column" id = "saves">
               <h2>Saves</h2>
-              Strength: <input type="checkbox" id="strengthSave" name="strengthSave" value="Strength Save" disabled><br>
-              Dexterity: <input type="checkbox" id="dexteritySave" name="dexteritySave" value="Dexterity Save"><br>
-              Constitution: <input type="checkbox" id="constitutionSave" name="constitutionSave" value="Constitution Save"><br>
-              Intelligence: <input type="checkbox" id="intelligenceSave" name="intelligenceSave" value="Intelligence Save"><br>
-              Wisdom: <input type="checkbox" id="wisdomSave" name="wisdomSave" value="Wisdom Save"><br>
-              Charisma: <input type="checkbox" id="charismaSave" name="charismaSave" value="Charisma Save"><br>
+              Strength: <input type="checkbox" id="Strength" name="strengthSave" value="Strength Save" disabled><br>
+              Dexterity: <input type="checkbox" id="Dexterity" name="dexteritySave" value="Dexterity Save" disabled><br>
+              Constitution: <input type="checkbox" id="Constitution" name="constitutionSave" value="Constitution Save" disabled><br>
+              Intelligence: <input type="checkbox" id="Intelligence" name="intelligenceSave" value="Intelligence Save" disabled><br>
+              Wisdom: <input type="checkbox" id="Wisdom" name="wisdomSave" value="Wisdom Save" disabled><br>
+              Charisma: <input type="checkbox" id="Charisma" name="charismaSave" value="Charisma Save" disabled><br>
             </div>
             <div class="table-column" id = "tools">
               <h2>Tools:</h2>
-              <input type="checkbox" id="alchemistSupplies" name="alchemistSupplies" value="Alchemist's Supplies">
-              <label for="alchemistSupplies">Alchemist's Supplies</label><br>
-              <input type="checkbox" id="brewerSupplies" name="brewerSupplies" value="Brewer's Supplies">
-              <label for="brewerSupplies">Brewer's Supplies</label><br>
-              <input type="checkbox" id="calligrapherSupplies" name="calligrapherSupplies" value="Calligrapher's Supplies">
-              <label for="calligrapherSupplies">Calligrapher's Supplies</label><br>
-              <input type="checkbox" id="carpenterTools" name="carpenterTools" value="Carpenter's Tools">
-              <label for="carpenterTools">Carpenter's Tools</label><br>
-              <input type="checkbox" id="cartographerTools" name="cartographerTools" value="Cartographer's Tools">
-              <label for="cartographerTools">Cartographer's Tools</label><br>
-              <input type="checkbox" id="cobblerTools" name="cobblerTools" value="Cobbler's Tools">
-              <label for="cobblerTools">Cobbler's Tools</label><br>
-              <input type="checkbox" id="cookUtensils" name="cookUtensils" value="Cook's Utensils">
-              <label for="cookUtensils">Cook's Utensils</label><br>
-              <input type="checkbox" id="glassblowerTools" name="glassblowerTools" value="Glassblower's Tools">
-              <label for="glassblowerTools">Glassblower's Tools</label><br>
-              <input type="checkbox" id="jewelerTools" name="jewelerTools" value= "Jeweler's Tools">
-              <label for="jewelerTools">Jeweler's Tools</label><br>
-              <input type="checkbox" id="leatherworkerTools" name="leatherworkerTools" value="Leatherworker's Tools">
-              <label for="leatherworkerTools">Leatherworker's Tools</label><br>
-              <input type="checkbox" id="masonTools" name="masonTools" value="Mason's Tools">
-              <label for="masonTools">Mason's Tools</label><br>
-              <input type="checkbox" id="painterSupplies" name="painterSupplies" value="Painter's Supplies">
-              <label for="painterSupplies">Painter's Supplies</label><br>
-              <input type="checkbox" id="potterTools" name="potterTools" value="Potter's Tools">
-              <label for="potterTools">Potter's Tools</label><br>
-              <input type="checkbox" id="smithTools" name="smithTools" value="Smith's Tools">
-              <label for="smithTools">Smith's Tools</label><br>
-              <input type="checkbox" id="tinkerTools" name="tinkerTools" value="Tinker's Tools">
-              <label for="tinkerTools">Tinker's Tools</label><br>
-              <input type="checkbox" id="weaverTools" name="weaverTools" value="Weaver's Tools">
-              <label for="weaverTools">Weaver's Tools</label><br>
-              <input type="checkbox" id="woodcarverTools" name="woodcarverTools" value="Woodcarver's Tools">
-              <label for="woodcarverTools">Woodcarver's Tools</label><br>
+              Alchemist's Supplies: <input type="checkbox" id="alchemistSupplies" name="alchemistSupplies" value="Alchemist's Supplies" disabled><br>
+              Brewer's Supplies: <input type="checkbox" id="brewerSupplies" name="brewerSupplies" value="Brewer's Supplies" disabled><br>
+              Calligrapher's Supplies: <input type="checkbox" id="calligrapherSupplies" name="calligrapherSupplies" value="Calligrapher's Supplies" disabled><br>
+              Carpenter's Tools: <input type="checkbox" id="carpenterTools" name="carpenterTools" value="Carpenter's Tools" disabled><br>
+              Cartographer's Tools: <input type="checkbox" id="cartographerTools" name="cartographerTools" value="Cartographer's Tools" disabled  ><br>
+              Cobbler's Tools: <input type="checkbox" id="cobblerTools" name="cobblerTools" value="Cobbler's Tools" disabled><br>
+              Cook's Utensils: <input type="checkbox" id="cookUtensils" name="cookUtensils" value="Cook's Utensils" disabled><br>
+              Glassblower's Tools: <input type="checkbox" id="glassblowerTools" name="glassblowerTools" value="Glassblower's Tools" disabled><br>
+              Jeweler's Tools: <input type="checkbox" id="jewelerTools" name="jewelerTools" value= "Jeweler's Tools" disabled><br>
+              Leatherworker's Tools: <input type="checkbox" id="leatherworkerTools" name="leatherworkerTools" value="Leatherworker's Tools" disabled><br>
+              Mason's Tools: <input type="checkbox" id="masonTools" name="masonTools" value="Mason's Tools" disabled><br>
+              Painter's Supplies: <input type="checkbox" id="painterSupplies" name="painterSupplies" value="Painter's Supplies" disabled><br>
+              Potter's Tools: <input type="checkbox" id="potterTools" name="potterTools" value="Potter's Tools" disabled><br>
+              Smith's Tools: <input type="checkbox" id="smithTools" name="smithTools" value="Smith's Tools" disabled><br>
+              Tinker's Tools: <input type="checkbox" id="tinkerTools" name="tinkerTools" value="Tinker's Tools" disabled><br>
+              Weaver's Tools: <input type="checkbox" id="weaverTools" name="weaverTools" value="Weaver's Tools" disabled><br>
+              Woodcarver's Tools: <input type="checkbox" id="woodcarverTools" name="woodcarverTools" value="Woodcarver's Tools" disabled><br>
+              <h2>Musical Instruments</h2>
+              Bagpipes: <input type="checkbox" id="bagpipes" name="bagpipes" value="Bagpipes" disabled><br>
+              Drum: <input type="checkbox" id="drum" name="drum" value="Drum" disabled><br>
+              Dulcimer: <input type="checkbox" id="dulcimer" name="dulcimer" value="Dulcimer" disabled><br>
+              Flute: <input type="checkbox" id="flute" name="flute" value="Flute" disabled><br>
+              Lute: <input type="checkbox" id="lute" name="lute" value="Lute" disabled><br>
+              Lyre: <input type="checkbox" id="lyre" name="lyre" value="Lyre" disabled><br>
+              Horn: <input type="checkbox" id="horn" name="horn" value="Horn" disabled><br>
+              Pan Flute: <input type="checkbox" id="pan flute" name="panFlute" value="Pan Flute" disabled><br>
+              Shawm: <input type="checkbox" id="shawm" name="shawm" value="Shawm" disabled><br>
+              Viol: <input type="checkbox" id="viol" name="viol" value="Viol" disabled><br>
+              <h2>Gaming Sets</h2>
+              Dice Set: <input type="checkbox" id="diceSet" name="diceSet" value="Dice Set" disabled><br>
+              Dragonchess Set: <input type="checkbox" id="dragonchessSet" name="dragonchessSet" value="Dragonchess Set" disabled><br>
+              Playing Card Set: <input type="checkbox" id="playingCardSet" name="playingCardSet" value="Playing Card Set" disabled><br>
+              Three-Dragon Ante Set: <input type="checkbox" id="threeDragonAnteSet" name="threeDragonAnteSet" value="Three-Dragon Ante Set" disabled><br>
+              <h2>Miscellaneous</h2>
+              Disguise Kit: <input type="checkbox" id="disguiseKit" name="disguiseKit" value="Disguise Kit" disabled><br>
+              Forgery Kit: <input type="checkbox" id="forgeryKit" name="forgeryKit" value="Forgery Kit" disabled><br>
+              Herbalism Kit: <input type="checkbox" id="herbalismKit" name  ="herbalismKit" value="Herbalism Kit" disabled><br>
+              Navigator's Tools: <input type="checkbox" id="navigatorTools" name="navigatorTools" value="Navigator's Tools" disabled><br>
+              Poisoner's Kit: <input type="checkbox" id="poisonerKit" name="poisonerKit" value="Poisoner's Kit" disabled><br>
+              Thieves' Tools: <input type="checkbox" id="thievesTools" name="thievesTools" value="Thieves' Tools" disabled><br>
             </div>
             <div class = "table-column" id="equipment">
               <h2>Equipments:</h2>
-              <input type="checkbox" id="lightArmor" name="lightArmor" value="Light Armor">
-              <label for="lightArmor">Light Armor</label><br>
-              <input type="checkbox" id="mediumArmor" name="mediumArmor" value="Medium Armor">
-              <label for="mediumArmor">Medium Armor</label><br>
-              <input type="checkbox" id="heavyArmor" name="heavyArmor" value="Heavy Armor">
-              <label for="heavyArmor">Heavy Armor</label><br>
-              <input type="checkbox" id="shields" name="shields" value="Shields">
-              <label for="shields">Shields</label><br>
-              <input type="checkbox" id="simpleWeapons" name="simpleWeapons" value="Simple Weapons">
-              <label for="simpleWeapons">Simple Weapons</label><br>
-              <input type="checkbox" id="martialWeapons" name="martialWeapons" value="Martial Weapons">
-              <label for="martialWeapons">Martial Weapons</label><br>
+              Light Armor: <input type="checkbox" id="Light armor" name="lightArmor" value="Light Armor" disabled><br>
+              Medium Armor: <input type="checkbox" id="medium armor" name="mediumArmor" value="Medium Armor" disabled><br>
+              Heavy Armor: <input type="checkbox" id="heavy armor" name="heavyArmor" value="Heavy Armor" disabled><br>
+              Shields: <input type="checkbox" id="shields" name="shields" value="Shields" disabled><br>
+              <h3>Simple Weapons: <input type="checkbox" id="Simple weapons" name="simpleWeapons" value="Simple Weapons" disabled onclick="proficiencyCheckboxClicked('Simple weapons')"><br></h3>
+              Club: <input type = "checkbox" id="club" name="club" value="Club" disabled><br>
+              Dagger: <input type = "checkbox" id="dagger" name="dagger" value="Dagger" disabled><br>
+              Greatclub: <input type = "checkbox" id="greatclub" name="greatclub" value="Greatclub" disabled><br>
+              Handaxe: <input type = "checkbox" id="handaxe" name="handaxe" value="Handaxe" disabled><br>
+              Javelin: <input type = "checkbox" id="javelin" name="javelin" value="Javelin" disabled><br>
+              Light Hammer: <input type = "checkbox" id="lightHammer" name="lightHammer" value="Light Hammer" disabled><br>
+              Mace: <input type = "checkbox" id="mace" name="mace" value="Mace" disabled><br>
+              Quarterstaff: <input type = "checkbox" id="quarterstaff" name="quarterstaff" value="Quarterstaff" disabled><br>
+              Sickle: <input type = "checkbox" id="sickle" name="sickle" value="Sickle" disabled><br>
+              Spear: <input type = "checkbox" id="spear" name="spear" value="Spear" disabled><br>
+              <h3>Martial Weapons: <input type="checkbox" id="martial weapons" name="martialWeapons" value="Martial Weapons" disabled><br></h3>
+              <div id="martial-weapons-container"> 
+                Battleaxe: <input type="checkbox" id="battleaxe" name="battleaxe" value="Battleaxe" disabled><br> 
+                Flail: <input type="checkbox" id="flail" name="flail" value="Flail" disabled><br>
+                Glaive: <input type="checkbox" id="glaive" name="glaive" value="Glaive" disabled><br>
+                Greataxe: <input type="checkbox" id="greataxe" name="greataxe" value="Greataxe" disabled><br>
+                Greatsword: <input type="checkbox" id="greatsword" name="greatsword" value="Greatsword" disabled><br>
+                Halberd: <input type="checkbox" id="halberd" name="halberd" value="Halberd" disabled><br>
+                Lance: <input type="checkbox" id="lance" name="lance" value="Lance" disabled><br>
+                Longsword: <input type="checkbox" id="longsword" name="longsword" value="Longsword" disabled><br>
+                Maul: <input type="checkbox" id="maul" name="maul" value="Maul" disabled><br>
+                Morningstar: <input type="checkbox" id="morningstar" name="morningstar" value="Morningstar" disabled><br>
+                Pike: <input type="checkbox" id="pike" name="pike" value="Pike" disabled><br>
+                Rapier: <input type="checkbox" id="rapier" name="rapier" value="Rapier" disabled><br>
+                Scimitar: <input type="checkbox" id="scimitar" name="scimitar" value="Scimitar" disabled><br>
+                Shortsword: <input type="checkbox" id="shortsword" name="shortsword" value="Shortsword" disabled><br>
+                Trident: <input type="checkbox" id="trident" name="trident" value="Trident" disabled><br>
+                War Pick: <input type="checkbox" id="war pick" name="warPick" value="War Pick" disabled><br>
+                Warhammer: <input type="checkbox" id="warhammer" name="warhammer" value="Warhammer" disabled><br>
+                Whip: <input type="checkbox" id="whip" name="whip" value="Whip" disabled><br>
+                Blowgun: <input type="checkbox" id="blowgun" name="blowgun" value="Blowgun" disabled><br>
+                Hand Crossbow: <input type="checkbox" id="hand crossbow" name="handCrossbow" value="Hand Crossbow" disabled><br>
+                Heavy Crossbow: <input type="checkbox" id="heavy crossbow" name="heavyCrossbow" value="Heavy Crossbow" disabled><br>
+                Longbow: <input type="checkbox" id="longbow" name="longbow" value="Longbow" disabled><br>
+                Net: <input type="checkbox" id="net" name="net" value="Net" disabled><br>
+              </div>
             </div>
             <div class = "table-column" id="otherProficiencies">
               <h2>Other Proficiencies:</h2>

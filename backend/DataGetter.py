@@ -14,7 +14,9 @@ localClassData = {
         "desc": "Masters of invention, artificers use ingenuity and magic to unlock extraordinary capabilities in objects",
         "multiClassRec": {
             "Intelligence": 13
-        }
+        },
+        "subclassLevel": 3,
+            
 
     },
     "Barbarian": {
@@ -22,28 +24,32 @@ localClassData = {
         "desc": "Barbarians are mighty warriors who are powered by primal forces of the multiverse that manifest as a Rage",
         "multiClassRec": {
             "Strength": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Bard": {
         "preferredStats": ["Charisma", "Dexterity"],
         "desc": "Bards are expert at inspiring others, soothing hurts, disheartening foes, and creating illusions",
         "multiClassRec": {
             "Charisma": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Cleric": {
         "preferredStats": ["Wisdom", "Constitution"],
         "desc": "Clerics can reach out to the divine magic of the Outer Planes and channel it to bolster people and battle foes",
         "multiClassRec": {
             "Wisdom": 13
-        }
+        },
+        "subclassLevel": 1,
         },
     "Druid": {
         "preferredStats": ["Wisdom", "Constitution"],
         "desc": "Druids call on the forces of nature, harnessing magic to heal, transform into animals, and wield elemental destruction",
         "multiClassRec": {
             "Wisdom": 13
-        }
+        },
+        "subclassLevel": 2,
         },
     "Fighter": {
         "preferredStats": ["Strength", "Constitution"],
@@ -51,7 +57,8 @@ localClassData = {
         "multiClassRec": {
             "Strength": 13,
             "Dexterity": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Monk": {
         "preferredStats": ["Dexterity", "Wisdom"],
@@ -59,7 +66,8 @@ localClassData = {
         "multiClassRec": {
             "Dexterity": 13,
             "Wisdom": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Paladin": {
         "preferredStats": ["Strength", "Charisma"],
@@ -67,7 +75,8 @@ localClassData = {
         "multiClassRec": {
             "Strength": 13,
             "Charisma": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Ranger": {
         "preferredStats": ["Dexterity", "Wisdom"],
@@ -75,35 +84,40 @@ localClassData = {
         "multiClassRec": {
             "Dexterity": 13,
             "Wisdom": 13
-        }
+        },
+        "subclassLevel": 3,
         },
     "Rogue": {
         "preferredStats": ["Dexterity", "Intelligence"],
         "desc": "Rogues have a knack for finding the solution to just about any problem, prioritizing subtle strikes over brute strength",
         "multiClassRec": {
             "Dexterity": 13
-        }
+        },
+        "subclassLevel": 3,
     },
     "Sorcerer": {
         "preferredStats": ["Charisma", "Constitution"],
         "desc": "Sorcerers harness and channel the raw, roiling power of innate magic that is stamped into their very being",
         "multiClassRec": {
             "Charisma": 13
-        }
+        },
+        "subclassLevel": 1,
     },
     "Warlock": {
         "preferredStats": ["Charisma", "Constitution"],
         "desc": "Warlocks quest for knowledge that lies hidden in the fabric of the multiverse, piecing together arcane secrets to bolster their own power",
         "multiClassRec": {
             "Charisma": 13
-        }
+        },
+        "subclassLevel": 1,
     },
     "Wizard": {
         "preferredStats": ["Intelligence", "Constitution"],
         "desc": "Wizards cast spells of explosive fire, arcing lightning, subtle deception, and spectacular transformations",
         "multiClassRec": {
             "Intelligence": 13
-        }
+        },
+        "subclassLevel": 2,
     },
 }
 
@@ -325,6 +339,7 @@ class DataGetter:
         self.spellList = None
         self.items = None
         self.languages = None
+        self.multiClass = None
         self.loadData()
     
     #checks if we have the data already, if so, loads it
@@ -344,6 +359,8 @@ class DataGetter:
                 self.items = loadData["items"]
             if ("languages" in loadData.keys()):
                 self.languages = loadData["languages"]
+            if ("multiClass" in loadData.keys()):
+                self.multiClass = loadData["multiClass"]
 
     def getItems(self):
 
@@ -435,6 +452,67 @@ class DataGetter:
             self.spells = {spell['key'].split('_')[-1]: spell for spell in spells}
         return self.spells
 
+    def getMultiClass(self):
+
+        possibleClasses = dict()
+
+        possibleClasses = {"barbarian" : "Barbarian",
+                           "bard" : "Bard",
+                           "cleric": "Cleric",
+                           "druid": "Druid",
+                           "fighter": "Fighter",
+                           "monk": "Monk",
+                           "paladin": "Paladin",
+                           "ranger": "Ranger",
+                           "rogue": "Rogue",
+                           "sorcerer": "Sorcerer",
+                           "warlock": "Warlock",
+                           "wizard": "Wizard"}
+
+
+        if not self.multiClass:
+
+            newMultiClass = dict()
+            for pc in possibleClasses.keys():
+
+                url = "https://www.dnd5eapi.co/api/2014/classes/" + pc + "/multi-classing"
+
+                response = getApiData(url)
+
+                print(f"\n\n\n\n\n\n DEBUG: {pc}  {json.dumps(response)}")
+
+                newMultiClass[str(possibleClasses[pc])] = response
+
+            self.multiClass = newMultiClass
+        return self.multiClass
+
+    def getMultiClassProficiencies(self, multiClass, subclasses=None):
+
+        if not self.multiClass:
+            self.getMultiClass()
+
+        mcProfs = set()
+        print("here are all the classes:")
+        print(multiClass)
+        print(self.multiClass[multiClass]["proficiencies"])
+
+        if ( self.multiClass[multiClass]["proficiencies"]):
+            print(self.multiClass[multiClass]["proficiencies"])
+            for prof in self.multiClass[multiClass]["proficiencies"]:
+                print(prof)
+                print("Can freedom be gained in chains?")
+                mcProfs.add(prof["name"])
+
+        if not subclasses:
+
+                return mcProfs
+
+        else:
+                mcProfs.update(self.getSubclassProficiencies(multiClass, subclasses))
+                return mcProfs
+
+
+
     # Filter out any spells not in our database and replace key with name
     def getSpellNames(self, spellList):
         if not self.spells:
@@ -450,7 +528,44 @@ class DataGetter:
             return localClassData[classname]["preferredStats"]
         return localClassData["default"]["preferredStats"]
 
-    def getClassProficiencies(self, classname, subclass=None):
+    # Gets proficiencies for a given subclass
+    def getSubclassProficiencies(self, classname, subclasses):
+
+        if not subclasses:
+            return []
+        if not self.classData:
+            self.getClasses()
+
+        classData = self.classData[classname]
+
+        subclass = "None"
+        if subclasses:
+
+            if (isinstance(subclasses, str)):
+                subclasses = [subclasses]
+            ever = False
+            for sc in classData["archetypes"]:
+                if sc["name"] in subclasses:
+                    subclass = sc["name"]
+                    ever = True
+                    continue
+
+            if not ever:
+                return []
+
+            subclassData = [s for s in classData["archetypes"] if s["name"] == subclass][0]
+            subclassTraits = subclassData["desc"].split("\n")
+
+            # we want to avoid flagging statements like "8 + proficiency bonus",
+            # which doesn't actually refer to proficiencies
+            profConditions = ["proficiency in", "proficiency with", "proficiency."]
+            subclassProfs = [p.strip() for p in subclassTraits if any(c in p for c in profConditions)]
+            #proficiencies["subclass"] = subclassProfs
+
+            return subclassProfs
+        return []
+
+    def getClassProficiencies(self, classname, subclasses=None):
         proficiencies = {
             "weapons": None,
             "armors": None,
@@ -468,7 +583,17 @@ class DataGetter:
         proficiencies["tools"] = classData["prof_tools"].split(", ")
         proficiencies["savingThrows"] = classData["prof_saving_throws"].split(", ")
         proficiencies["skills"] = getSkills(classData["prof_skills"])
-        if subclass:
+        subclass = "None"
+        # NOTE
+        if subclasses:
+
+            """
+            if (isinstance(subclasses, str)):
+                subclasses = [subclasses]
+            for sc in classData["archetypes"]:
+                if sc["name"] in subclasses:
+                    subclass = sc["name"]
+                    continue
             subclassData = [s for s in classData["archetypes"] if s["name"] == subclass][0]
             subclassTraits = subclassData["desc"].split("\n")
 
@@ -477,6 +602,8 @@ class DataGetter:
             profConditions = ["proficiency in", "proficiency with", "proficiency."]
             subclassProfs = [p.strip() for p in subclassTraits if any(c in p for c in profConditions)]
             proficiencies["subclass"] = subclassProfs
+"""
+            proficiencies["subclass"] = self.getSubclassProficiencies(classname, subclasses)
         return proficiencies
 
     def getRaceProficiencies(self, race, subrace=None):
@@ -506,16 +633,17 @@ class DataGetter:
                 proficiencies["tools"].append(benefit["desc"])
         return proficiencies
 
-    def getProficiencies(self, classname, race, background, subclass=None, subrace=None):
+    def getProficiencies(self, classes, race, background, primaryClass, subclasses=None, subrace=None):
         proficiencies = {
             "class": None,
             "race": None,
             "background": None,
+            "multiclass": set(),
         }
         
         # get class proficiencies
-        if classname:
-            proficiencies["class"] = self.getClassProficiencies(classname, subclass)
+        if primaryClass:
+            proficiencies["class"] = self.getClassProficiencies(primaryClass, subclasses)
 
         # get race proficiencies
         if race:
@@ -524,6 +652,19 @@ class DataGetter:
         # get background proficiencies
         if background:
             proficiencies["background"] = self.getBackgroundProficiencies(background)
+
+        for multiClass in classes:
+            if (multiClass == primaryClass):
+                continue
+            multiClassData = self.getMultiClassProficiencies(multiClass, subclasses)
+            # TODO: Merge class proficiencies with multiclass proficiencies
+            # proficiencies["class"] = proficiencies["class"]
+            #
+            print(multiClassData)
+            print("This is the world we live in, of death and desolation")
+            proficiencies["multiclass"].update(multiClassData)
+
+        proficiencies["multiclass"] = list(proficiencies["multiclass"])
 
         return proficiencies
 
@@ -648,6 +789,7 @@ if __name__ == "__main__":
     dataGetter = DataGetter()
 
     dataGetter.loadData()
+    """
     #dataGetter.refreshData()
     classData = dataGetter.getClasses()
     for dndClassName in classData:
@@ -700,17 +842,15 @@ if __name__ == "__main__":
 
     languages = dataGetter.fetchLanguages()
 
-    print(languages)
-    for lang in languages:
-        print(f"language: {lang}, type: {languages[lang]['type']}, typical speakers: {languages[lang]['typical_speakers']}")
-"""
-    items = dataGetter.getItems()
-    print("Item types:", list(items["armor"]["Breastplate"]))
-    print("Item types:", list(items["weapon"]["Club"]))
-    print("Item types:", list(items["magicItems"]["Worry Stone"]))
-    print()
-    for iType in items:
-        print(f"{iType}: {items[iType]}")
-        print() 
+    """
 
-"""
+    #dataGetter.getMultiClass()
+
+    #print(dataGetter.classData)
+
+    for cn in dataGetter.classData:
+        print(cn)
+    #for mc in dataGetter.getMultiClass():
+    #    print(dataGetter.getMultiClassProficiencies(mc, "Thief"))
+
+    print(dataGetter.getProficiencies(["Bard", "Monk"], "Human", "Artisan", "Bard", "College of Lore"))
