@@ -20,7 +20,8 @@ let char = {
 };
 
 // Constants
-const URL = "https://voronv.pythonanywhere.com"
+// const URL = "https://voronv.pythonanywhere.com"
+const URL = "http://127.0.0.1:5000"
 
 // Variables
 let generalInfo;

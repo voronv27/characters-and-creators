@@ -422,6 +422,8 @@ class DataGetter:
             for classname in self.classData:
                 if classname in localClassData:
                     self.classData[classname]["short_desc"] = localClassData[classname]["desc"]
+                    self.classData[classname]["multiClassRec"] = localClassData[classname]["multiClassRec"]
+                    self.classData[classname]["subclasslevel"] = localClassData[classname]["subclasslevel"]
                 if classname in self.spellList:
                     self.classData[classname]["spells"] = self.getSpellNames(self.spellList[classname])
                 else:
