@@ -38,6 +38,7 @@ returns:
             "adventuringGear": adventuring_gear_data,
             "equipmentPacks": equipment_pack_data,
             "tools": tools_data
+	}
   },
   "languages" : {
       "language_name": {
@@ -45,7 +46,9 @@ returns:
         "typical_speakers": What races typically speak the language
       }
   }
-}
+  "multiclass": {
+	"multiclass_name":multiclass_data 
+	}
 }
 
 class_data format:
@@ -169,6 +172,15 @@ spell_data format:
 	"concentration": true/false
 }
 
+# note: within the data there are _id's given by the api being used to get data, we will ignore these here since they #       are not used within our code. Simply note that at each level of depth there is an id
+multiclass_data format
+{
+    "prerequisites": [{ability_score, minimum_score}],
+    "proficiencies": list of proficiencies,
+    "proficiency_choices": list of proficiency choices //TODO: Add these to overall multiclassing proficiencies,
+}
+
+
 
 magic_items_data format
 {
@@ -291,7 +303,8 @@ proficiencies_data format:
 {
 	"background": proficiences from background,
 	"class": proficiencies from class,
-	"race": proficiences from race
+	"race": proficiences from race,
+	"multiclass": proficiencies from multiclassing
 }
 
 proficiences from class format:
@@ -356,6 +369,7 @@ ex: "/specific-info?class=Bard&subclass=College of Lore"["proficiencies"] return
     ]
   },
   "race": null
+  "multiclass": []
 }
 
 proficiencies from race format:
@@ -398,6 +412,7 @@ ex: "/specific-info?race=Elf&subrace=High Elf"["proficiencies"] returns
       "skills": []
     }
   }
+  "multiclass": []
 }
 
 proficiencies for background format:
@@ -434,7 +449,70 @@ ex: "/specific-info?background=Elemental Warden"["proficiencies"] returns
     ]
   },
   "class": null,
-  "race": null
+  "race": null,
+  "multiclass": []
+
+proficiencies for multiclassing format:
+
+{
+	[proficiences] -> array of all proficiences obtained via multiclassing
+}
+
+ex: "/specific-info?class=Bard,Barbarian&primaryClass=Bard&subclasses=College of Lore"
+
+{
+   "background": null,
+   "class": {
+    "armors": [
+      "Light armor"
+    ],
+    "savingThrows": [
+      "Dexterity",
+      "Charisma"
+    ],
+    "skills": {
+      "count": 3,
+      "options": [
+        "Athletics",
+        "Acrobatics",
+        "Sleight of Hand",
+        "Stealth",
+        "Arcana",
+        "History",
+        "Investigation",
+        "Nature",
+        "Religion",
+        "Animal Handling",
+        "Insight",
+        "Medicine",
+        "Perception",
+        "Survival",
+        "Deception",
+        "Intimidation",
+        "Performance",
+        "Persuasion"
+      ]
+    },
+    "subclass": [
+      "When you join the College of Lore at 3rd level, you gain proficiency with three skills of your choice."
+    ],
+    "tools": [
+      "Three musical instruments of your choice"
+    ],
+    "weapons": [
+      "Simple weapons",
+      "hand crossbows",
+      "longswords",
+      "rapiers",
+      "shortswords"
+    ]
+  },
+   "race": null,
+   "multiclass": 
+	0: "Martial Weapons"
+	1: "Shields"
+	2: "Simple Weapons"
+}
 
 ----------------------------------------------------------------------------------------------------------------
 
