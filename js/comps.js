@@ -121,11 +121,11 @@ async function initComps() {
     });
 
     // create the more info popup
-    let moreInfoPopup = initComp("moreInfo", "#popup-inner-content");
+    let moreInfoPopup = initComp("moreInfoRace", "#popup-inner-content");
     moreInfoPopup.attr("id", `race-more-info-popup-${key}`);
     converter = new showdown.Converter();
     htmlOutput = converter.makeHtml(genInfo["races"][key]["desc"]);
-    moreInfoPopup.find(".desc").html(htmlOutput);
+    moreInfoPopup.find(".desc").html(getRaceMoreInfo(genInfo["races"][key]));
     var selectBtn = moreInfoPopup.find(".select-btn");
     selectBtn.text("Select Race");
   });
@@ -346,6 +346,37 @@ function selectClass() {
   // reset specificInfo because we changed class
   specificInfo = null;
   
+  // close the popup
+  closePopup();
+}
+
+function selectRace() {
+  var raceName = $("#popup-title").text().split(") ");
+  raceName = raceName[raceName.length - 1].replaceAll(" ", "_");
+  if (raceName == "") {
+    raceName = "Custom";
+  }
+
+  const subraceDropdown = $("#select-subrace");
+  var subrace = subraceDropdown.find("option:selected").text();
+  if (subrace == "None") {
+    subrace = null;
+  }
+
+  char.race = raceName;
+  char.subrace = subrace;
+  var subraceName = subrace;
+  if (!subraceName) {
+    subraceName = "None";
+  }
+
+  console.log(`race ${raceName}, subrace ${subraceName}`);
+  $("#chosen-race").html(raceName);
+  $("#chosen-subrace").html(subraceName);
+
+  // reset specificInfo because we changed race
+  specificInfo = null;
+
   // close the popup
   closePopup();
 }

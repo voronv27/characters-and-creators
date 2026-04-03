@@ -6,6 +6,7 @@ let char = {
   class: {},
   primaryClass: null,
   race: null,
+  subrace: null,
   background: null,
   stats: {},
   proficiencies: {},
@@ -108,6 +109,30 @@ function getRaceDesc(data) {
   ${asi}
   ${vision}`
   return desc;
+}
+
+function getRaceMoreInfo(data) {
+  let converter = new showdown.Converter();
+  const desc = converter.makeHtml(data["desc"]);
+  const age = converter.makeHtml(data["age"]);
+  const alignment = converter.makeHtml(data["alignment"]);
+  const size = converter.makeHtml(data["size"]);
+  const speed = converter.makeHtml(data["speed_desc"]);
+  const vision = converter.makeHtml(data["vision"]);
+  const asi = converter.makeHtml(data["asi_desc"]);
+  const languages = converter.makeHtml(data["languages"]);
+  const traits = converter.makeHtml(data["traits"]);
+  
+  var moreInfo = `${desc}
+  ${age}
+  ${alignment}
+  ${size}
+  ${speed}
+  ${vision}
+  ${asi}
+  ${languages}
+  ${traits}`
+  return moreInfo;
 }
 
 function getBackgroundDesc(data) {

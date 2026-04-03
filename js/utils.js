@@ -239,7 +239,7 @@ classCont: {
           </div>
         </div>
         <button class="more-info">More Info</button>
-        <button class="select-race">Select Race</button>
+        <button class="select-btn">Select Race</button>
       </div>
     `,
     func: function (comp) {
@@ -254,15 +254,49 @@ classCont: {
             openPopup('race-more-info-popup-Custom', `(Custom Race) ${customRaceName}`);
           }
         });
-      comp.children(".select-race").click(function (e) {
+      comp.children(".select-btn").click(function (e) {
         e.stopPropagation();
+
         const raceName = $(this).closest(".acc-item").find(".title").first().text();
-        char.race = raceName;
-        console.log(`race ${raceName}`);
-        $("#chosen-race").html(raceName);
-        // reset specificInfo because we changed race
-        specificInfo = null;
-      })
+
+        var customRaceName;
+        if (raceName.includes("Custom")) {
+          customRaceName = raceName.split(") ")[1];
+          customRaceName = customRaceName.split(" ").slice(0, -1).join(" ");
+        }
+
+        // reset dropdown values in popup
+        var subrace = "None";
+        if (char.race) {
+          if (raceName && char.race == raceName) {
+            if (char.subrace) {
+              subrace = char.subrace;
+            }
+          } else if (customRaceName && char.race == customRaceName) {
+            if (char.subrace) {
+              subrace = char.subrace;
+            }
+          }
+        }
+        if (subrace != "None") {
+          $("#select-subrace option").filter(function() {
+            return $(this).text() == subrace;
+          }).prop('selected', true);
+        } else {
+          $('#select-subrace').val(subrace);
+        }
+
+        // reset subrace description
+        $('#subrace-desc .cont').hide();
+        $(`#${subrace.replaceAll(' ', '-')}`).show();
+
+        openPopup("race-select-popup", raceName);
+
+        // show valid dropdown options
+        $("#select-subrace option").hide();
+        $("#select-subrace option[value='None']").show();
+        $(`#select-subrace option[value='${raceName}']`).show();
+      });
     }
   },
   backgroundCont: {
@@ -329,9 +363,15 @@ classCont: {
       </div>
       `,
     func: function (comp) {
-      comp.children(".select-btn").click(function (e) {
+      comp.find(".select-btn").click(function (e) {
         e.stopPropagation();
         const className = $("#popup-title").text();
+
+        var customClassName;
+        if (className.includes("Custom")) {
+          customClassName = className.split(") ")[1];
+          customClassName = customClassName.split(" ").slice(0, -1).join(" ");
+        }
 
         // reset dropdown values in popup
         var level = 1;
@@ -365,6 +405,63 @@ classCont: {
         $("#select-subclass option").hide();
         $("#select-subclass option[value='None']").show();
         $(`#select-subclass option[value='${className}']`).show();
+      });
+    }
+  }, 
+  moreInfoRace: {
+    html: `
+      <div id="new" style="display:none;">
+        <div class="overflow-fade">
+          <div class="desc">
+          </div>
+        </div>
+        <div class="overflow-show">
+          <button class="select-btn">Select Race</button>
+        </div>
+      </div>
+      `,
+    func: function (comp) {
+      comp.find(".select-btn").click(function (e) {
+        e.stopPropagation();
+        const raceName = $("#popup-title").text();
+
+        var customRaceName;
+        if (raceName.includes("Custom")) {
+          raceClassName = raceName.split(") ")[1];
+          customRaceName = customRaceName.split(" ").slice(0, -1).join(" ");
+        }
+
+        // reset dropdown values in popup
+        var subrace = "None";
+        if (char.race) {
+          if (raceName && char.race == raceName) {
+            if (char.subrace) {
+              subrace = char.subrace;
+            }
+          } else if (customRaceName && char.race == customRaceName) {
+            if (char.subrace) {
+              subrace = char.subrace;
+            }
+          }
+        }
+        if (subrace != "None") {
+          $("#select-subrace option").filter(function() {
+            return $(this).text() == subrace;
+          }).prop('selected', true);
+        } else {
+          $('#select-subrace').val(subrace);
+        }
+
+        // reset subrace description
+        $('#subrace-desc .cont').hide();
+        $(`#${subrace.replaceAll(' ', '-')}`).show();
+
+        openPopup("race-select-popup", raceName);
+
+        // show valid dropdown options
+        $("#select-subrace option").hide();
+        $("#select-subrace option[value='None']").show();
+        $(`#select-subrace option[value='${raceName}']`).show();
       });
     }
   }
