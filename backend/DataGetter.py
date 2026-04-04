@@ -171,7 +171,7 @@ def getData(url, payload={}):
             totalData += data['results']
 
             # if there's more than one page of results, get data from next page
-            if data['next']:
+            if 'next' in data and data['next']:
                 url = data['next']
             else:
                 break
@@ -479,7 +479,7 @@ class DataGetter:
 
                 response = getApiData(url)
 
-                print(f"\n\n\n\n\n\n DEBUG: {pc}  {json.dumps(response)}")
+                #print(f"\n\n\n\n\n\n DEBUG: {pc}  {json.dumps(response)}")
 
                 newMultiClass[str(possibleClasses[pc])] = response
 
