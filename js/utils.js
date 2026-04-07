@@ -69,6 +69,8 @@ classCont: {
             $('#select-subclass').val(subclass);
           }
 
+
+
           // reset subclass description
           $('#subclass-desc .cont').hide();
           $(`#${subclass.replaceAll(' ', '-')}`).show();
@@ -79,10 +81,22 @@ classCont: {
           } else {
             openPopup('class-select-popup', `(Custom Class) ${customClassName}`);
           }
+            console.log(genInfo);
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-          $(`#select-subclass option[value='${className}']`).show();
+            addEventListener("#select-level-", function(){
+              if (level > genInfo["classes"][className]["subclassLevel"]){
+                $(`#select-subclass option[value='${className}']`).show();
+            }
+                else{
+
+                    $("#select-subclass option").hide();
+                    $("#select-subclass option[value='None']").show();
+                    // $(`#select-subclass option[value='${className}']`).hide();
+                }
+            })
+
         });
     }
   },
@@ -152,7 +166,15 @@ classCont: {
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-          $(`#select-subclass option[value='${className}']`).show();
+            addEventListener("#select-level-", function(){
+              if (level > genInfo["classes"][className]["subclassLevel"]){
+                $(`#select-subclass option[value='${className}']`).show();
+            }
+                else{
+                $(`#select-subclass option[value='${className}']`).hide();
+                }
+            })
+
         });
         comp.children(".remove-class").click(function (e) {
           e.stopPropagation();
@@ -404,7 +426,19 @@ classCont: {
         // show valid dropdown options
         $("#select-subclass option").hide();
         $("#select-subclass option[value='None']").show();
-        $(`#select-subclass option[value='${className}']`).show();
+          if (level > genInfo[className]["subclassLevel"]){
+            $(`#select-subclass option[value='${className}']`).show();
+          }
+        addEventListener("#select-level-", function(){
+            console.log("Current level is:", level);
+            if (level > genInfo["classes"][className]["subclassLevel"]){
+                $(`#select-subclass option[value='${className}']`).show();
+            }
+            else{
+                $(`#select-subclass option[value='${className}']`).hide();
+            }
+        })
+
       });
     }
   }, 
