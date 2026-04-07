@@ -423,7 +423,7 @@ class DataGetter:
                 if classname in localClassData:
                     self.classData[classname]["short_desc"] = localClassData[classname]["desc"]
                     self.classData[classname]["multiClassRec"] = localClassData[classname]["multiClassRec"]
-                    self.classData[classname]["subclasslevel"] = localClassData[classname]["subclasslevel"]
+                    self.classData[classname]["subclassLevel"] = localClassData[classname]["subclassLevel"]
                 if classname in self.spellList:
                     self.classData[classname]["spells"] = self.getSpellNames(self.spellList[classname])
                 else:
@@ -481,7 +481,7 @@ class DataGetter:
 
                 response = getApiData(url)
 
-                print(f"\n\n\n\n\n\n DEBUG: {pc}  {json.dumps(response)}")
+                # print(f"\n\n\n\n\n\n DEBUG: {pc}  {json.dumps(response)}")
 
                 newMultiClass[str(possibleClasses[pc])] = response
 
