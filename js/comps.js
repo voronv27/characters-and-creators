@@ -232,7 +232,7 @@ async function initComps() {
     dropdownItem.text(key);
     dropdownItem.click(function () {
       updateSearchBar(key, "searchbar-spell");
-      filterItems('spellcards');
+      filterItems('spell');
       $("#searchbar-spell-dropdown").hide();
     });
   });
