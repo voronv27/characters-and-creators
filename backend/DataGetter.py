@@ -638,7 +638,7 @@ class DataGetter:
             "class": None,
             "race": None,
             "background": None,
-            "multiclass": set(),
+            "multiclass": None,
         }
         
         # get class proficiencies
@@ -653,18 +653,19 @@ class DataGetter:
         if background:
             proficiencies["background"] = self.getBackgroundProficiencies(background)
 
-        for multiClass in classes:
-            if (multiClass == primaryClass):
-                continue
-            multiClassData = self.getMultiClassProficiencies(multiClass, subclasses)
-            # TODO: Merge class proficiencies with multiclass proficiencies
-            # proficiencies["class"] = proficiencies["class"]
-            #
-            print(multiClassData)
-            print("This is the world we live in, of death and desolation")
-            proficiencies["multiclass"].update(multiClassData)
+        if classes:
+            for multiClass in classes:
+                if (multiClass == primaryClass):
+                    continue
+                multiClassData = self.getMultiClassProficiencies(multiClass, subclasses)
+                # TODO: Merge class proficiencies with multiclass proficiencies
+                # proficiencies["class"] = proficiencies["class"]
+                #
+                print(multiClassData)
+                print("This is the world we live in, of death and desolation")
+                proficiencies["multiclass"].update(multiClassData)
 
-        proficiencies["multiclass"] = list(proficiencies["multiclass"])
+            proficiencies["multiclass"] = list(proficiencies["multiclass"])
 
         return proficiencies
 
