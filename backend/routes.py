@@ -60,13 +60,15 @@ def getSpecificInfo():
     primaryClass = request.args.get("primary", default = None)
 
     classes = None
+    subclasses = None
     if classname:
         classes = classname.split(",")
         if not primaryClass:
             primaryClass = classes[0]
-    subclasses = ["None"] * len(classes)
-    if subclass:
-        subclasses = subclass.split(",")
+        subclasses = ["None"] * len(classes)
+        if subclass:
+            subclasses = subclass.split(",")
+            
     # Given class name as a parameter, return the stats that should be highest
     data["preferred-stats"] = dataGetter.preferredStats(primaryClass)
 

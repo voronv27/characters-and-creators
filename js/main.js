@@ -6,6 +6,7 @@ let char = {
   class: {},
   primaryClass: null,
   race: null,
+  subrace: null,
   background: null,
   stats: {},
   proficiencies: {
@@ -104,36 +105,41 @@ function updateSpecInfo() {
   }
 }
 
-function getRaceDesc(data, subrace = "") {
+function getRaceDesc(data) {
   let converter = new showdown.Converter();
-  const size = converter.makeHtml(data["size"]);
   const speed = converter.makeHtml(data["speed_desc"]);
   const asi = converter.makeHtml(data["asi_desc"]);
-  const languages = converter.makeHtml(data["languages"]);
   const vision = converter.makeHtml(data["vision"]);
 
   var desc = `<h3><b>Key Race Features:</b></h3>
-  ${size}
   ${speed}
   ${asi}
-  ${languages}
   ${vision}`
-  if (subrace != "") {
-    var subraceDesc = "";
-    const subraceData = data[subrace];
-    const subraceAsi = converter.makeHtml(subraceData["asi_desc"]);
-    const subraceTraits = converter.makeHtml(subraceData["traits"]);
-    if (subraceAsi) {
-      subraceDesc += `${subraceAsi}`;
-    }
-    if (subraceTraits) {
-      subraceDesc += `${subraceTraits}`;
-    }
-    if (subraceDesc.length) {
-      desc += `<br><b>Selected Subrace Features:</b><br>${subraceDesc}`;
-    }
-  }
   return desc;
+}
+
+function getRaceMoreInfo(data) {
+  let converter = new showdown.Converter();
+  const desc = converter.makeHtml(data["desc"]);
+  const age = converter.makeHtml(data["age"]);
+  const alignment = converter.makeHtml(data["alignment"]);
+  const size = converter.makeHtml(data["size"]);
+  const speed = converter.makeHtml(data["speed_desc"]);
+  const vision = converter.makeHtml(data["vision"]);
+  const asi = converter.makeHtml(data["asi_desc"]);
+  const languages = converter.makeHtml(data["languages"]);
+  const traits = converter.makeHtml(data["traits"]);
+  
+  var moreInfo = `${desc}
+  ${age}
+  ${alignment}
+  ${size}
+  ${speed}
+  ${vision}
+  ${asi}
+  ${languages}
+  ${traits}`
+  return moreInfo;
 }
 
 function getBackgroundDesc(data) {
