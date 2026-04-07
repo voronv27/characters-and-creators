@@ -60,11 +60,15 @@ function specificApiData() {
   var fetchRequired = false;
   // TODO: more than primary class, subclass, subrace
   var paramUrl = `${URL}/specific-info?`;
-  if (char.primaryClass && char.primaryClass != "Custom") {
+  classList = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
+  if (char.primaryClass && char.primaryClass in classList) {
     paramUrl += `class=${char.primaryClass}`;
     if (char.class[char.primaryClass]["subclass"]) {
       paramUrl += `&subclass=${char.class[char.primaryClass]["subclass"]}`;
     }
+    fetchRequired = true;
+  } else if (char.primaryClass) {
+    console.log("Primary class not in class list: ", char.primaryClass);
     fetchRequired = true;
   }
   if (char.race) {
@@ -90,16 +94,17 @@ function specificApiData() {
 
 // Update elements after updating specInfo
 function updateSpecInfo() {
+  classList = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
   const recStats = "<b>" + specInfo["preferred-stats"].join("</b> and <b>") + "</b>";
   const primaryDisplay = "<b>" + specInfo["preferred-stats"][0] + "</b>";
   const secondaryDisplay = "<b>" + specInfo["preferred-stats"][1] + "</b>";
-  if (char["primaryClass"] == "Custom") {
-    
+  updateProficiencies();
+  if (!(char["primaryClass"] in classList)) {
+    console.log("Primary class not in class list: ", char["primaryClass"]);
   } else {
     $("#rec-stats").html(recStats);
     $("#primary-stat").html(primaryDisplay);
     $("#secondary-stat").html(secondaryDisplay);
-    updateProficiencies();
     displayRecommendedStandardStats(specInfo["preferred-stats"][0], specInfo["preferred-stats"][1]);
   }
 }
