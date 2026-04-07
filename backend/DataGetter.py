@@ -656,6 +656,7 @@ class DataGetter:
             proficiencies["background"] = self.getBackgroundProficiencies(background)
 
         if classes:
+            proficiencies["multiclass"] = set()
             for multiClass in classes:
                 if (multiClass == primaryClass):
                     continue
@@ -792,6 +793,7 @@ if __name__ == "__main__":
     dataGetter = DataGetter()
 
     dataGetter.loadData()
+
     """
     #dataGetter.refreshData()
     classData = dataGetter.getClasses()
