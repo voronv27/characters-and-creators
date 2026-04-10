@@ -69,38 +69,8 @@ async function createClassComps(key) {
   });
 }
 
-// Components creation that requires backend
-async function initComps() {
-  genInfo = await generalInfo.then((resp) => resp.json());
-  
-  // Class Accordion and searchbar
-  $("#class-acc").empty();
-  Object.keys(genInfo["classes"]).forEach(key => {
-    createClassComps(key);
-  });
-  // create an item for custom class as well
-  createClassComps("Custom");
-  
-  // Add the level select dropdown
-  const levelDropdown = $("#select-level-");
-  for (let i = 2; i < 21; i++) {
-    const selOpt = new Option(i, i);
-    levelDropdown.append(selOpt);
-  }
-
-  // set up the subclass dropdown to change the displayed subclass text
-  const subclassDropdown = $("#select-subclass");
-  const subclassDescs = $("#subclass-desc");
-  subclassDropdown.on('change', function() {
-    subclassDescs.find("span").hide();
-    const subclass = $(this).find("option:selected").text();
-    subclassDescs.find(`#${subclass.replaceAll(" ", "-")}`).show();
-  })
-  
-  
-  $("#race-acc").empty();
-  Object.keys(genInfo["races"]).forEach(key => {
-    let acc = initComp("accItem", "#race-acc");
+async function createRaceComps(key){
+  let acc = initComp("accItem", "#race-acc");
     acc.find(".title").text(key);
     acc.attr("id", "acc-item-" + key);
     let raceCont = initComp("raceCont", "#acc-item-" + key + " .cont");
@@ -152,6 +122,40 @@ async function initComps() {
 
       subraceDesc.html(htmlOutput);
     }
+}
+
+// Components creation that requires backend
+async function initComps() {
+  genInfo = await generalInfo.then((resp) => resp.json());
+  
+  // Class Accordion and searchbar
+  $("#class-acc").empty();
+  Object.keys(genInfo["classes"]).forEach(key => {
+    createClassComps(key);
+  });
+  // create an item for custom class as well
+  createClassComps("Custom");
+  
+  // Add the level select dropdown
+  const levelDropdown = $("#select-level-");
+  for (let i = 2; i < 21; i++) {
+    const selOpt = new Option(i, i);
+    levelDropdown.append(selOpt);
+  }
+
+  // set up the subclass dropdown to change the displayed subclass text
+  const subclassDropdown = $("#select-subclass");
+  const subclassDescs = $("#subclass-desc");
+  subclassDropdown.on('change', function() {
+    subclassDescs.find("span").hide();
+    const subclass = $(this).find("option:selected").text();
+    subclassDescs.find(`#${subclass.replaceAll(" ", "-")}`).show();
+  })
+  
+  
+  $("#race-acc").empty();
+  Object.keys(genInfo["races"]).forEach(key => {
+    createRaceComps(key);
   });
 
   // set up the subrace dropdown to change the displayed subclass text
