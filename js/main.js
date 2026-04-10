@@ -111,7 +111,7 @@ function updateSpecInfo() {
   const primaryDisplay = "<b>" + specInfo["preferred-stats"][0] + "</b>";
   const secondaryDisplay = "<b>" + specInfo["preferred-stats"][1] + "</b>";
   updateProficiencies();
-  if (!(char["primaryClass"] in classList)) {
+  if (!classList.includes(char.primaryClass)) {
     console.log("Primary class not in class list: ", char["primaryClass"]);
   } else {
     $("#rec-stats").html(recStats);
