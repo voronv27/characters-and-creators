@@ -61,8 +61,20 @@ function specificApiData() {
   // TODO: more than primary class, subclass, subrace
   var paramUrl = `${URL}/specific-info?`;
   classList = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
-  if (char.primaryClass && char.primaryClass in classList) {
-    paramUrl += `class=${char.primaryClass}`;
+  console.log("class comparison: ", char.primaryClass, ":", classList[0], ":", typeof(char.primaryClass), ":", typeof(classList[0]));
+  if (char.primaryClass != null) {
+    paramUrl += `&class=`;
+    for (c in char.class) { 
+      if (classList.includes(c)) {
+        console.log("Selected classes: ", char.class, "current class: ", c, "Last class: ", Object.keys(char.class)[Object.keys(char.class).length-1]);
+        if (c == Object.keys(char.class)[Object.keys(char.class).length-1] ) { //if the class is hte last in the list, don't add a comma after it
+          paramUrl += `${c}`;
+        } else {
+          paramUrl += `${c},`;
+        }
+      }
+    }
+    console.log("paramUrl after class: ", paramUrl);
     if (char.class[char.primaryClass]["subclass"]) {
       paramUrl += `&subclass=${char.class[char.primaryClass]["subclass"]}`;
     }
