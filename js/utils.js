@@ -1,5 +1,18 @@
 //JS file that stores utility functions/variables such as comp.
 
+function checkLevel(level, className){
+
+    if (level > genInfo["classes"][className]["subclassLevel"]){
+        $(`#select-subclass option[value='${className}']`).show();
+    }
+    else{
+
+        $("#select-subclass option").hide();
+        $("#select-subclass option[value='None']").show();
+        // $(`#select-subclass option[value='${className}']`).hide();
+    }
+
+}
 // comp contains html and functions for elements dynamically populated by the site
 const comp = {
   accItem: {
@@ -49,18 +62,29 @@ classCont: {
 
           // reset dropdown values in popup
           var level = 1;
+
+          var levelTarget = {
+              level = 1;
+          }
+          var levelProxy = new Proxy(levelTarget, {
+                set : function(target, key, value) {
+                    target[key] = value;
+                    checkLevel(value, className);
+                    return true;
+                }
+            });
           var subclass = "None";
           if (char.class) {
             if (className && char.class[className]) {
-              level = char.class[className]["level"];
+                levelProxy.level = char.class[className]["level"];
               if (char.class[className]["subclass"]) {
                 subclass = char.class[className]["subclass"];
               }
             } else if (customClassName && char.class[customClassName]) {
-              level = char.class[customClassName]["level"];
+                levelProxy.level = char.class[customClassName]["level"];
             }
           }
-          $("#select-level-").val(level);
+            $("#select-level-").val(levelProxy.level);
           if (subclass != "None") {
             $("#select-subclass option").filter(function() {
               return $(this).text() == subclass;
@@ -85,17 +109,8 @@ classCont: {
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-            addEventListener("#select-level-", function(){
-              if (level > genInfo["classes"][className]["subclassLevel"]){
-                $(`#select-subclass option[value='${className}']`).show();
-            }
-                else{
+            $("#select-subclass-").on("click", checkLevel(levelProxy.level, className))
 
-                    $("#select-subclass option").hide();
-                    $("#select-subclass option[value='None']").show();
-                    // $(`#select-subclass option[value='${className}']`).hide();
-                }
-            })
 
         });
     }
@@ -166,14 +181,7 @@ classCont: {
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-            addEventListener("#select-level-", function(){
-              if (level > genInfo["classes"][className]["subclassLevel"]){
-                $(`#select-subclass option[value='${className}']`).show();
-            }
-                else{
-                $(`#select-subclass option[value='${className}']`).hide();
-                }
-            })
+            $("#select-subclass-").on("click", checkLevel(level, className))
 
         });
         comp.children(".remove-class").click(function (e) {
@@ -426,19 +434,7 @@ classCont: {
         // show valid dropdown options
         $("#select-subclass option").hide();
         $("#select-subclass option[value='None']").show();
-          if (level > genInfo[className]["subclassLevel"]){
-            $(`#select-subclass option[value='${className}']`).show();
-          }
-        addEventListener("#select-level-", function(){
-            console.log("Current level is:", level);
-            if (level > genInfo["classes"][className]["subclassLevel"]){
-                $(`#select-subclass option[value='${className}']`).show();
-            }
-            else{
-                $(`#select-subclass option[value='${className}']`).hide();
-            }
-        })
-
+        $("#select-subclass-").on("click", checkLevel(level, className))
       });
     }
   }, 

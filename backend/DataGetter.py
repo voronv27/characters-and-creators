@@ -793,7 +793,6 @@ if __name__ == "__main__":
     dataGetter = DataGetter()
 
     dataGetter.loadData()
-
     """
     #dataGetter.refreshData()
     classData = dataGetter.getClasses()
