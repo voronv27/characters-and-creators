@@ -611,8 +611,11 @@ function updateProficiencies() {
   var toggleEverything = false;
   //console.log("Class Name Checking: ", className);
   const classList = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
-  if (!(char["primaryClass"] in classList)) {
+  if (className == null) {
+    console.log("No primary class selected.");
+  } else if (!(char["primaryClass"] in classList)) {
     //console.log("Primary class not in class list, so skipping proficiency update for class and toggling all proficiency boxes: ", char["primaryClass"]);
+    console.log("Custom Class Detected");
     toggleEverything = true;
     char["proficiencyOverlap"] = 2;
   } else if (className != null && (className in classList)) {
@@ -672,15 +675,30 @@ function updateProficiencies() {
   console.log("bgDict: ", bgDict);
 
   let race = char["race"];
-  if (race == "Custom") {
+  console.log("Races: ", genInfo);
+  const raceList = Object.keys(genInfo["races"]);
+  console.log(raceList);
+  if (race == null) {
+    console.log("No race selected.");
+  }else if (!(race in raceList)) {
+    console.log("Race check: :", race, ":", raceList[0], ":", typeof(race), typeof(raceList[0]), race == raceList[0]);
+    console.log("Custom Race Detected");
     toggleEverything = true;
     char["proficiencyOverlap"] += 1;
   } else if (race != null) {
     console.log("raceDict: ", raceDict);
-
+    for (k in raceDict) {
+      if (k == "tools") {
+        console.log("checking tool proficiency: ", raceDict[k]);
+      }
+    }
   }
   let background = char["background"];
-  if (background == "Custom") {
+  if (background == null) {
+    console.log("No background selected.");
+  }
+  else if (background == "Custom") {
+    console.log("Custom Background Detected");
     toggleEverything = true;
     char["proficiencyOverlap"] += 1;
   } else if (background != null) {
