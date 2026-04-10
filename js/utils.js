@@ -202,6 +202,7 @@ classCont: {
     }
   },
   subclassDesc: {
+    // TODO: rename subclassDesc to something more generic
     html: `
       <span id=new class="cont" style="display:none;">
       </span>`,

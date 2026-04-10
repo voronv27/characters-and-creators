@@ -128,7 +128,40 @@ async function initComps() {
     moreInfoPopup.find(".desc").html(getRaceMoreInfo(genInfo["races"][key]));
     var selectBtn = moreInfoPopup.find(".select-btn");
     selectBtn.text("Select Race");
+
+    // populate subraces in the select race popup
+    const subraceDropdown = $("#select-subrace");
+    for (let i of genInfo["races"][key]["subraces"]) {
+      const subraceName = i["name"];
+
+      // populate dropdown
+      const selOpt = new Option(subraceName, key);
+      selOpt.style.display = "none";
+      subraceDropdown.append(selOpt);
+
+      // populate descs
+      // yes I know it's building a subclassDesc comp item, that's correct
+      let subraceDesc = initComp("subclassDesc", "#subrace-desc");
+      subraceDesc.attr("id", subraceName.replaceAll(" ", "-").replaceAll("/", "-"));
+      converter = new showdown.Converter();
+      htmlOutput = converter.makeHtml(i["desc"].replaceAll("####", "##"));
+      // insert a title at position 3 (i.e. after the <p>)
+      htmlOutput = htmlOutput.slice(0, 3) + "<strong><em>General Description. </em></strong>" + htmlOutput.slice(3);
+      htmlOutput += converter.makeHtml(i["asi_desc"]);
+      htmlOutput += converter.makeHtml(i["traits"]);
+
+      subraceDesc.html(htmlOutput);
+    }
   });
+
+  // set up the subrace dropdown to change the displayed subclass text
+  const subraceDropdown = $("#select-subrace");
+  const subraceDescs = $("#subrace-desc");
+  subraceDropdown.on('change', function() {
+    subraceDescs.find("span").hide();
+    const subrace = $(this).find("option:selected").text();
+    subraceDescs.find(`#${subrace.replaceAll(" ", "-").replaceAll("/", "-")}`).show();
+  })
 
   $("#background-acc").empty();
   Object.keys(genInfo["backgrounds"]).forEach(key => {// http://127.0.0.1:3000/createCharacter.html#race
