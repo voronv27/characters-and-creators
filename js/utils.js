@@ -571,16 +571,19 @@ function updateProficiencies() {
   let possibleSkills = [];
   let className = char["primaryClass"];
   var toggleEverything = false;
-  if (char["primaryClass"] == "Custom") {
+  //console.log("Class Name Checking: ", className);
+  const classList = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
+  if (!(char["primaryClass"] in classList)) {
+    //console.log("Primary class not in class list, so skipping proficiency update for class and toggling all proficiency boxes: ", char["primaryClass"]);
     toggleEverything = true;
     char["proficiencyOverlap"] = 2;
-  } else if (className != null) {
+  } else if (className != null && (className in classList)) {
     let classDict = specInfo["proficiencies"]["class"];
-    console.log("classDict: ", classDict);
+    //console.log("classDict: ", classDict);
     if (classDict) {
       for (k in classDict) {
-        console.log("key: ", k);
-        console.log("variable type: ", typeof(classDict[k])); 
+        //console.log("key: ", k);
+        //console.log("variable type: ", typeof(classDict[k])); 
         for (p in classDict[k]) {
           console.log("prof: ", classDict[k][p]);
           console.log("variable type: ", typeof(classDict[k][p])); 
@@ -705,7 +708,6 @@ function updateProficiencies() {
       checkbox.disabled = false;
     }
   }
-  document.getElementById("remaingProficiencies").innerHTML = char["proficiencyOverlap"];
   for (s in char["proficiencies"]) {
     let arr = char["proficiencies"][s];
     console.log("Where am I?", s)
@@ -724,16 +726,50 @@ function updateProficiencies() {
   }
   document.getElementById("appliedProficiencies").innerHTML = profHtml;
 
-  if (background == "Custom" || race == "Custom" || char["primaryClass"] == "Custom") {
-    toggleEverything = true;
+  if (toggleEverything) {
     proficiencyOverlap = "infinite";
-  }
+    char["proficiencyOverlap"] = "infinite";
+    let skillList = ["Athletics", "Acrobatics", "Sleight of Hand", "Stealth", "Arcana", "History", "Investigation", "Nature", "Religion", "Animal Handling", "Insight", "Medicine", "Perception", "Survival", "Deception", "Intimidation", "Performance", "Persuasion"];
+    for (sk in skillList) {
+      const skillCheckbox = document.getElementById(skillList[sk]);
+      if (skillCheckbox) {
+        skillCheckbox.disabled = false;
+      }
+    }
 
+    let equipmentList = ["Light armor", "medium armor", "heavy armor", "shields", "Simple weapons", "martial weapons"];
+    for (e in equipmentList) {
+      const equipCheckbox = document.getElementById(equipmentList[e]);
+      if (equipCheckbox) {
+        equipCheckbox.disabled = false;
+        if (equipmentList[e] == "Simple weapons" || equipmentList[e] == "martial weapons") {
+          checkAllthatApply(equipmentList[e]);
+        }
+      }
+    }
+
+    let savesList = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+    for (sa in savesList) {
+      const saveCheckbox = document.getElementById(savesList[sa]);
+      if (saveCheckbox) {
+        saveCheckbox.disabled = false;
+      }
+    }
+
+    let toolsList = ["alchemistSupplies", "brewerSupplies", "calligrapherSupplies", "carpenterTools", "cartographerTools", "cobblerTools", "cookUtensils", "glassblowerTools", "jewelerTools", "leatherworkerTools", "masonTools", "painterTools", "pottersTools", "smithTools","tinkerTools", "weaverTools", "woodcarverTools", "bagpipes","drum","dulcimer","flute", "lute","lyre", "horn", "pan flute", "shawm", "viol","diceSet", "dragonChessSet", "playingCardSet","threeDragonAnteSet", "disguiseKit", "forgeryKit", "herbalismKit","navigatorTools", "thievesTools", "poisonerKit"];
+    for (t in toolsList) {
+      const toolCheckbox = document.getElementById(toolsList[t]);
+      if (toolCheckbox) {
+        toolCheckbox.disabled = false;
+      }
+    }
+  }
+  document.getElementById("remaingProficiencies").innerHTML = char["proficiencyOverlap"];
 
 }
 
 function checkAllthatApply(checkboxName) {
-  console.log("checking all that apply for: ", checkboxName);
+  //console.log("checking all that apply for: ", checkboxName);
   //console.log("s: ", char["proficiencies"][s]);
   if (checkboxName == "Simple weapons") {
     const simpleWeapons = ["club", "dagger", "greatclub", "handaxe", "javelin", "light hammer", "mace", "quarterstaff", "sickle", "spear"];
@@ -742,9 +778,7 @@ function checkAllthatApply(checkboxName) {
       //console.log("checkbox: ", checkbox);
       if (checkbox) {
         checkbox.checked = document.getElementById(checkboxName).checked;
-
         proficiencyCheckboxClicked(simpleWeapons[w], true);
-
       }
     }
 
@@ -767,7 +801,7 @@ function proficiencyOverlapCheck(charge) {
       if (char["proficiencyOverlap"] == 0) {
         console.log("removing a proficiency and can now add more proficiencies"); //previously had no proficiencies left to add, but now has some after removing one, so update the webpage to reflect this change
         for (s in possibleSkills) {
-          console.log("checking possible skill: ", possibleSkills[s]);
+          //console.log("checking possible skill: ", possibleSkills[s]);
           if (document.getElementById(possibleSkills[s]) && !document.getElementById(possibleSkills[s]).checked) {
             document.getElementById(possibleSkills[s]).disabled = false;
           }
@@ -777,9 +811,9 @@ function proficiencyOverlapCheck(charge) {
     } else if (charge == "negative") {
       char["proficiencyOverlap"] -= 1;
       if (char["proficiencyOverlap"] == 0) {
-        console.log("Adding last available proficiency."); //no longer any left to add, need to disable any non-checked proficiency checkboxes to reflect this change on the webpage
+        //console.log("Adding last available proficiency."); //no longer any left to add, need to disable any non-checked proficiency checkboxes to reflect this change on the webpage
         for (s in possibleSkills) {
-          console.log("checking possible skill: ", possibleSkills[s]);
+          //console.log("checking possible skill: ", possibleSkills[s]);
           if (document.getElementById(possibleSkills[s]) && !document.getElementById(possibleSkills[s]).checked) {
             document.getElementById(possibleSkills[s]).disabled = true;
           }
@@ -787,6 +821,7 @@ function proficiencyOverlapCheck(charge) {
       }
     }
   }
+  //console.log("Updated proficiency overlap: ", char["proficiencyOverlap"]);
   document.getElementById("remaingProficiencies").innerHTML = char["proficiencyOverlap"];
 }
 
@@ -795,29 +830,31 @@ function proficiencyCheckboxClicked(checkboxName, Special=false) { //when a prof
   let name = stringSplit[0];
   let category = stringSplit[1];
   let profHtml = document.getElementById("appliedProficiencies").innerHTML;
-  console.log("checkbox clicked: ", checkboxName);
-  if (name=="Simple weapons" || name=="Martial Weapons") {
+  //console.log("checkbox clicked: ", checkboxName);
+  if (name=="Simple weapons" || name=="martial weapons") {
     checkAllthatApply(name);
   }
 
   let listingID = name.replaceAll(" ", "-") + "-added";
   if (!Special) {//special is for batch checking of simple and martial weapons, so we don't want to add the individual weapon to the proficiency list 
-    console.log("Special is false, updating proficiency list and html...");
+    //console.log("Special is false, updating proficiency list and html...");
+    //console.log("proficiency checkbox element: ", document.getElementById(name));
     if (document.getElementById(name).checked) {  //element didn't exist before, add it to the list of proficiencies      
       char["proficiencies"][category].push(name);
+      //console.log(char["proficiencies"]);
       profHtml += `<div id = "${listingID}">${name}</div>`;
       document.getElementById("appliedProficiencies").innerHTML = profHtml;
-      porificiencyOverlapCheck("negative");
+      proficiencyOverlapCheck("negative");
     } else { //element existed before, remove it from the list of proficiencies
-      console.log("Removing proficiency: ", listingID, "object: ", document.getElementById(listingID));
+      //console.log("Removing proficiency: ", listingID, "object: ", document.getElementById(listingID));
       let profCheck = char["proficiencies"];
-      console.log("checkbox category: ", category, "proficiency category: ", profCheck[category]);
+      //console.log("checkbox category: ", category, "proficiency category: ", profCheck[category]);
       if (profCheck[category].includes(name)) {
         profCheck[category] = profCheck[category].filter(function(value, index, arr){ 
           return value != name;
         });
       }
-      console.log("Updated proficiency list: ", profCheck[category]);
+      //console.log("Updated proficiency list: ", profCheck[category]);
       document.getElementById(listingID).remove();
       //console.log("Removal Check: ", document.getElementById("appliedProficiencies").innerHTML); //the element is no longer in the document, however the webpage is not updating the html list of proficiencies to reflect this change. I have no idea why.
       proficiencyOverlapCheck("positive");

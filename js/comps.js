@@ -183,15 +183,12 @@ async function initComps() {
     });
   });
 
-  $("#language-acc").empty();
+   $("#language-acc").empty();
   Object.keys(genInfo["languages"]).forEach(key => {
     let acc = initComp("accItem", "#language-acc");
     acc.find(".title").text(key);
     const keyId = key.replaceAll(" ", "-");
     acc.attr("id", "acc-item-" + keyId);
-    /*let langCont = initComp("langCont", "#acc-item-" + keyId + " .cont");
-    let langDesc = getLanguageDesc(genInfo["languages"][key]);
-    langCont.find(".desc").html(bgDesc);
 
     // searchbar dropdown
     let dropdownItem = initComp("dropdownItem", "#searchbar-language-dropdown");
@@ -200,7 +197,7 @@ async function initComps() {
       updateSearchBar(key, "searchbar-language");
       filterItems('language');
       $("#searchbar-language-dropdown").hide();
-    });*/
+    });
 
 
   });
@@ -268,7 +265,7 @@ async function initComps() {
     dropdownItem.text(key);
     dropdownItem.click(function () {
       updateSearchBar(key, "searchbar-spell");
-      filterItems('spellcards');
+      filterItems('spell');
       $("#searchbar-spell-dropdown").hide();
     });
   });
