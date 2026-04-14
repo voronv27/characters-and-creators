@@ -72,7 +72,7 @@ async function createClassComps(key) {
 async function createRaceComps(key) {
   // accordion
   let acc = initComp("accItem", "#race-acc");
-  if (key == "Custom") {
+  if (key == "Custom-Race") {
     let nameInput = document.createElement("input");
     nameInput.type = "text";
     nameInput.placeholder = "Custom Race";
@@ -84,10 +84,10 @@ async function createRaceComps(key) {
   // populate race acc item information
   acc.attr("id", "acc-item-" + key);
   let raceCont = initComp("raceCont", "#acc-item-" + key + " .cont");
-  raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
-  if (key == "Custom") {
+  if (key == "Custom-Race") {
     raceCont.find(".short-desc").text("Your own custom race.");
   } else {
+    raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
     let shortDesc = genInfo["races"][key]["alignment"].replaceAll("*", "");
     shortDesc = shortDesc.replaceAll("_", "").replace("Alignment. ", "");
     raceCont.find(".short-desc").text(shortDesc);
@@ -106,17 +106,17 @@ async function createRaceComps(key) {
 
   // create the more info popup
   let moreInfoPopup = initComp("moreInfoRace", "#popup-inner-content");
-  if (key == "Custom") {
+  moreInfoPopup.attr("id", `race-more-info-popup-${key}`);
+  if (key == "Custom-Race") {
     moreInfoPopup.find(".desc").html("<br>No info available for custom races.<br><br>");
   } else {
-    moreInfoPopup.attr("id", `race-more-info-popup-${key}`);
     converter = new showdown.Converter();
     htmlOutput = converter.makeHtml(genInfo["races"][key]["desc"]);
     moreInfoPopup.find(".desc").html(getRaceMoreInfo(genInfo["races"][key]));
   }
 
   // populate subraces in the select race popup
-  if (key != "Custom") {
+  if (key != "Custom-Race") {
     const subraceDropdown = $("#select-subrace");
     for (let i of genInfo["races"][key]["subraces"]) {
       const subraceName = i["name"];
@@ -177,7 +177,7 @@ async function initComps() {
     createRaceComps(key);
   });
   // create an item for custom race as well
-  createRaceComps("Custom");
+  createRaceComps("Custom-Race");
 
   // set up the subrace dropdown to change the displayed subclass text
   const subraceDropdown = $("#select-subrace");

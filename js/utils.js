@@ -266,13 +266,14 @@ classCont: {
     func: function (comp) {
       comp.children(".more-info").click(function (e) {
           e.stopPropagation();
+          console.log("more info click func");
           const dropdown = $(this).closest(".acc-item");
           const raceName = dropdown.find(".title").first().text();
           if (raceName) {
             openPopup(`race-more-info-popup-${raceName}`, raceName);
           } else {
             const customRaceName = dropdown.find("input").first().val();
-            openPopup('race-more-info-popup-Custom', `(Custom Race) ${customRaceName}`);
+            openPopup('race-more-info-popup-Custom-Race', `(Custom Race) ${customRaceName}`);
           }
         });
       comp.children(".select-btn").click(function (e) {
