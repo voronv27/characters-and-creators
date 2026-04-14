@@ -465,7 +465,7 @@ classCont: {
 
         var customRaceName;
         if (raceName.includes("Custom")) {
-          raceClassName = raceName.split(") ")[1];
+          customRaceName = raceName.split(") ")[1];
           customRaceName = customRaceName.split(" ").slice(0, -1).join(" ");
         }
 
