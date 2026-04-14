@@ -69,37 +69,54 @@ async function createClassComps(key) {
   });
 }
 
-async function createRaceComps(key){
+async function createRaceComps(key) {
+  // accordion
   let acc = initComp("accItem", "#race-acc");
+  if (key == "Custom") {
+    let nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.placeholder = "Custom Race";
+    acc.find(".title").append(nameInput);
+  } else {
     acc.find(".title").text(key);
-    acc.attr("id", "acc-item-" + key);
-    let raceCont = initComp("raceCont", "#acc-item-" + key + " .cont");
-    raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
+  }
+
+  // populate race acc item information
+  acc.attr("id", "acc-item-" + key);
+  let raceCont = initComp("raceCont", "#acc-item-" + key + " .cont");
+  raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
+  if (key == "Custom") {
+    raceCont.find(".short-desc").text("Your own custom race.");
+  } else {
     let shortDesc = genInfo["races"][key]["alignment"].replaceAll("*", "");
     shortDesc = shortDesc.replaceAll("_", "").replace("Alignment. ", "");
     raceCont.find(".short-desc").text(shortDesc);
     let raceDesc = getRaceDesc(genInfo["races"][key]);
     raceCont.find(".desc").html(raceDesc);
+  }
 
-    // searchbar dropdown
-    let dropdownItem = initComp("dropdownItem", "#searchbar-race-dropdown");
-    dropdownItem.text(key);
-    dropdownItem.click(function () {
-      updateSearchBar(key, "searchbar-race");
-      filterItems('race');
-      $("#searchbar-race-dropdown").hide();
-    });
+  // searchbar dropdown
+  let dropdownItem = initComp("dropdownItem", "#searchbar-race-dropdown");
+  dropdownItem.text(key);
+  dropdownItem.click(function () {
+    updateSearchBar(key, "searchbar-race");
+    filterItems('race');
+    $("#searchbar-race-dropdown").hide();
+  });
 
-    // create the more info popup
-    let moreInfoPopup = initComp("moreInfoRace", "#popup-inner-content");
+  // create the more info popup
+  let moreInfoPopup = initComp("moreInfoRace", "#popup-inner-content");
+  if (key == "Custom") {
+    moreInfoPopup.find(".desc").html("<br>No info available for custom races.<br><br>");
+  } else {
     moreInfoPopup.attr("id", `race-more-info-popup-${key}`);
     converter = new showdown.Converter();
     htmlOutput = converter.makeHtml(genInfo["races"][key]["desc"]);
     moreInfoPopup.find(".desc").html(getRaceMoreInfo(genInfo["races"][key]));
-    var selectBtn = moreInfoPopup.find(".select-btn");
-    selectBtn.text("Select Race");
+  }
 
-    // populate subraces in the select race popup
+  // populate subraces in the select race popup
+  if (key != "Custom") {
     const subraceDropdown = $("#select-subrace");
     for (let i of genInfo["races"][key]["subraces"]) {
       const subraceName = i["name"];
@@ -115,6 +132,7 @@ async function createRaceComps(key){
       subraceDesc.attr("id", subraceName.replaceAll(" ", "-").replaceAll("/", "-"));
       converter = new showdown.Converter();
       htmlOutput = converter.makeHtml(i["desc"].replaceAll("####", "##"));
+      
       // insert a title at position 3 (i.e. after the <p>)
       htmlOutput = htmlOutput.slice(0, 3) + "<strong><em>General Description. </em></strong>" + htmlOutput.slice(3);
       htmlOutput += converter.makeHtml(i["asi_desc"]);
@@ -122,6 +140,7 @@ async function createRaceComps(key){
 
       subraceDesc.html(htmlOutput);
     }
+  }
 }
 
 // Components creation that requires backend
@@ -157,13 +176,18 @@ async function initComps() {
   Object.keys(genInfo["races"]).forEach(key => {
     createRaceComps(key);
   });
+  // create an item for custom race as well
+  createRaceComps("Custom");
 
   // set up the subrace dropdown to change the displayed subclass text
   const subraceDropdown = $("#select-subrace");
   const subraceDescs = $("#subrace-desc");
   subraceDropdown.on('change', function() {
     subraceDescs.find("span").hide();
-    const subrace = $(this).find("option:selected").text();
+    var subrace = $(this).find("option:selected").text();
+    if (subrace == "None") {
+      subrace = "None-subrace";
+    }
     subraceDescs.find(`#${subrace.replaceAll(" ", "-").replaceAll("/", "-")}`).show();
   })
 
@@ -404,7 +428,7 @@ function selectRace() {
     subraceName = "None";
   }
 
-  console.log(`race ${raceName}, subrace ${subraceName}`);
+  //console.log(`race ${raceName}, subrace ${subraceName}`);
   $("#chosen-race").html(raceName);
   $("#chosen-subrace").html(subraceName);
 

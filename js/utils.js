@@ -309,7 +309,11 @@ classCont: {
 
         // reset subrace description
         $('#subrace-desc .cont').hide();
-        $(`#${subrace.replaceAll(' ', '-')}`).show();
+        if (subrace == "None") {
+          $("#None-subrace").show();
+        } else {
+          $(`#${subrace.replaceAll(' ', '-')}`).show();
+        }
 
         openPopup("race-select-popup", raceName);
 
@@ -487,7 +491,11 @@ classCont: {
 
         // reset subrace description
         $('#subrace-desc .cont').hide();
-        $(`#${subrace.replaceAll(' ', '-')}`).show();
+        if (subrace == "None") {
+          $("#None-subrace").show();
+        } else {
+          $(`#${subrace.replaceAll(' ', '-')}`).show();
+        }
 
         openPopup("race-select-popup", raceName);
 
