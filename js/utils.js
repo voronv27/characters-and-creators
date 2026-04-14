@@ -69,8 +69,6 @@ classCont: {
             $('#select-subclass').val(subclass);
           }
 
-
-
           // reset subclass description
           $('#subclass-desc .cont').hide();
           $(`#${subclass.replaceAll(' ', '-')}`).show();
@@ -81,22 +79,10 @@ classCont: {
           } else {
             openPopup('class-select-popup', `(Custom Class) ${customClassName}`);
           }
-            console.log(genInfo);
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-            addEventListener("#select-level-", function(){
-              if (level > genInfo["classes"][className]["subclassLevel"]){
-                $(`#select-subclass option[value='${className}']`).show();
-            }
-                else{
-
-                    $("#select-subclass option").hide();
-                    $("#select-subclass option[value='None']").show();
-                    // $(`#select-subclass option[value='${className}']`).hide();
-                }
-            })
-
+          $(`#select-subclass option[value='${className}']`).show();
         });
     }
   },
@@ -166,15 +152,7 @@ classCont: {
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-            addEventListener("#select-level-", function(){
-              if (level > genInfo["classes"][className]["subclassLevel"]){
-                $(`#select-subclass option[value='${className}']`).show();
-            }
-                else{
-                $(`#select-subclass option[value='${className}']`).hide();
-                }
-            })
-
+          $(`#select-subclass option[value='${className}']`).show();
         });
         comp.children(".remove-class").click(function (e) {
           e.stopPropagation();
@@ -224,7 +202,6 @@ classCont: {
     }
   },
   subclassDesc: {
-    // TODO: rename subclassDesc to something more generic
     html: `
       <span id=new class="cont" style="display:none;">
       </span>`,
@@ -427,19 +404,7 @@ classCont: {
         // show valid dropdown options
         $("#select-subclass option").hide();
         $("#select-subclass option[value='None']").show();
-          if (level > genInfo[className]["subclassLevel"]){
-            $(`#select-subclass option[value='${className}']`).show();
-          }
-        addEventListener("#select-level-", function(){
-            console.log("Current level is:", level);
-            if (level > genInfo["classes"][className]["subclassLevel"]){
-                $(`#select-subclass option[value='${className}']`).show();
-            }
-            else{
-                $(`#select-subclass option[value='${className}']`).hide();
-            }
-        })
-
+        $(`#select-subclass option[value='${className}']`).show();
       });
     }
   }, 
@@ -540,11 +505,7 @@ for (const s of searchbars) {
   const searchbarDropdown = $(dropId);
   $(document).on("click", function (e) {
     if ($.contains(searchbarContainer, e.target)) {
-      // dropdown gets hidden if you click on a dropdown item,
-      // don't reset it to be shown
-      if ($(e.target).closest('.dropdown-item').length <= 0) {
-        searchbarDropdown.show();
-      }
+      searchbarDropdown.show();
     } else {
       searchbarDropdown.hide();
     }
@@ -604,32 +565,45 @@ function updateProficiencies() {
 
   */
 
+  char["proficiencies"] = {
+    "armors": [],
+    "weapons": [],
+    "tools": [],
+    "savingThrows": [],
+    "skills": [],
+    "possibleSkills": []
+  };
+  char["proficiencyOverlap"] = 0;
+
+
   let toolsEditable = false;
   let profHtml = "";
+  let subclassSkill = false;
   let possibleSkills = [];
   let className = char["primaryClass"];
+  let subclassName = null;
   var toggleEverything = false;
   //console.log("Class Name Checking: ", className);
   const classList = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
   if (className == null) {
     console.log("No primary class selected.");
-  } else if (!(char["primaryClass"] in classList)) {
+  } else if (!(classList.includes(className))) {
     //console.log("Primary class not in class list, so skipping proficiency update for class and toggling all proficiency boxes: ", char["primaryClass"]);
     console.log("Custom Class Detected");
     toggleEverything = true;
     char["proficiencyOverlap"] = 2;
-  } else if (className != null && (className in classList)) {
+  } else {
     let classDict = specInfo["proficiencies"]["class"];
-    //console.log("classDict: ", classDict);
+    console.log("classDict: ", classDict);
     if (classDict) {
       for (k in classDict) {
         //console.log("key: ", k);
         //console.log("variable type: ", typeof(classDict[k])); 
         for (p in classDict[k]) {
-          console.log("prof: ", classDict[k][p]);
+          console.log("prof: ", classDict[k][p], "of type ", k, "and ", p);
           console.log("variable type: ", typeof(classDict[k][p])); 
-          if (classDict[k][p] == "Tools") {
-            if (classDict[k][p][0] == 'None') {
+          if (k == "tools") {
+            if (classDict[k] == 'None') {
               continue;
             } else {
               for (t in classDict[k][p]) {  
@@ -638,10 +612,15 @@ function updateProficiencies() {
               }
             }
           }
-          if (classDict[k][p] == "subclass") {
+          else if (k == "subclass") {
+            if (classDict[k][0] != "") {
+              console.log("subclassText", classDict[k][0]);
+              //subclassSkill = true;;
+              //toggleEverything = true;
+            }
             continue;
           }
-          if (typeof(classDict[k][p]) === "number") {
+          else if (typeof(classDict[k][p]) == "number") {
             console.log("Adding proficiency overlap: ", classDict[k][p]);
             char["proficiencyOverlap"] += classDict[k][p];
             console.log("Updated proficiency overlap: ", char);
@@ -664,10 +643,7 @@ function updateProficiencies() {
       console.log("You are missing a proper class, and thus missing skill choices!");
     }
     console.log("possibleSkills: ", possibleSkills);
-    console.log("Updating proficiencies...");
-    console.log(specInfo["proficiencies"]);
-    console.log("class dict: ", classDict);
-    console.log("char dict: ", char);
+    console.log("Finished Class Update");
   }
 
   let raceDict = specInfo["proficiencies"]["race"];
@@ -680,7 +656,7 @@ function updateProficiencies() {
   console.log(raceList);
   if (race == null) {
     console.log("No race selected.");
-  }else if (!(race in raceList)) {
+  }else if (!(raceList.includes(race))) {
     console.log("Race check: :", race, ":", raceList[0], ":", typeof(race), typeof(raceList[0]), race == raceList[0]);
     console.log("Custom Race Detected");
     toggleEverything = true;
@@ -690,17 +666,28 @@ function updateProficiencies() {
     for (k in raceDict) {
       if (k == "tools") {
         console.log("checking tool proficiency: ", raceDict[k]);
+      } else if (k == "skills") {
+        for (p in raceDict[k]) {
+          if (char["proficiencies"]["skills"].includes(raceDict[k][p])) {
+            char["proficiencyOverlap"] += 1;
+          } else {
+            char["proficiencies"]["skills"].push(raceDict[k][p]);
+            document.getElementById(`${raceDict[k][p]}`).checked = true;  
+            document.getElementById(`${raceDict[k][p]}`).disabled = true;
+          }
+        }
       }
     }
   }
   let background = char["background"];
+  let bgList = Object.keys(genInfo["backgrounds"]);
   if (background == null) {
     console.log("No background selected.");
   }
-  else if (background == "Custom") {
+  else if (!bgList.includes(background) ) {
     console.log("Custom Background Detected");
     toggleEverything = true;
-    char["proficiencyOverlap"] += 1;
+    char["proficiencyOverlap"] += 2;
   } else if (background != null) {
     console.log("bgDict: ", bgDict); //keys are usually either skills or tools
     for (k in bgDict) {
@@ -732,7 +719,7 @@ function updateProficiencies() {
             char["proficiencies"]["tools"].push(bgDict[k][p]);
             if (!toolsEditable) {
               toolsEditable = true;
-              let toolsArray = ["cobblerTools", "cookUtensils", "glassblowerTools", "jewelerTools", "leatherworkerTools", "masonTools", "painterTools", "pottersTools", "smithTools","tinkerTools", "weaverTools", "woodcarverTools", "bagpipes","drum","dulcimer","flute", "lute","lyre", "horn", "pan flute", "shawm", "viol","diceSet", "dragonChessSet", "playingCardSet","threeDragonAnteSet", "disguiseKit", "forgeryKit", "herbalismKit","navigatorTools", "theivesTools", "poisonerKit"];
+              let toolsArray = ["alchemistSupplies","brewerSupplies","calligrapherSupplies","carpenterTools","cartographerTools","cobblerTools", "cookUtensils", "glassblowerTools", "jewelerTools", "leatherworkerTools", "masonTools", "painterTools", "pottersTools", "smithTools","tinkerTools", "weaverTools", "woodcarverTools", "bagpipes","drum","dulcimer","flute", "lute","lyre", "horn", "pan flute", "shawm", "viol","diceSet", "dragonChessSet", "playingCardSet","threeDragonAnteSet", "disguiseKit", "forgeryKit", "herbalismKit","navigatorTools", "theivesTools", "poisonerKit"];
               for (t in toolsArray) {
                 const toolCheckbox = document.getElementById(toolsArray[t]);
                 if (toolCheckbox) {
@@ -753,14 +740,14 @@ function updateProficiencies() {
 
   for (s in char["proficiencies"]) {    //for each proficiency within the proficiency types (armors, weapons, tools, saving throws, skills), loop through and add to the html list of proficiencies
     for (p in char["proficiencies"][s]) {
-      console.log("Adding proficiency to html: ", char["proficiencies"][s][p]);
+      console.log("Adding proficiency to html: ", char["proficiencies"][s][p], "of type ", s);
       profHtml += `<div id = "${char["proficiencies"][s][p]}">${char["proficiencies"][s][p]}</div>`;
     }
     console.log(char["proficiencies"][s]);
   }
   for (s in possibleSkills) {    //for each proficiency within the possible skills, find their corresponding checkbox and enable them for selection.
     const checkbox = document.getElementById(possibleSkills[s]);
-    if (checkbox) {
+    if (checkbox && !char["proficiencies"]["skills"].includes(possibleSkills[s])) {
       checkbox.disabled = false;
     }
   }
@@ -781,7 +768,6 @@ function updateProficiencies() {
     }
   }
   document.getElementById("appliedProficiencies").innerHTML = profHtml;
-
   if (toggleEverything) {
     proficiencyOverlap = "infinite";
     char["proficiencyOverlap"] = "infinite";
@@ -819,7 +805,16 @@ function updateProficiencies() {
         toolCheckbox.disabled = false;
       }
     }
+    if (subclassSkill) {
+      const subclassText = specInfo["proficiencies"]["class"]["subclass"][0];
+      document.getElementById("appliedProficiencies").innerHTML += `<div id = "Subclass-text">${subclassText}</div>`;
+    }
   }
+
+  for (s in possibleSkills) {
+    char["proficiencies"]["possibleSkills"].push(possibleSkills[s]);
+  }
+
   document.getElementById("remaingProficiencies").innerHTML = char["proficiencyOverlap"];
 
 }
@@ -852,7 +847,9 @@ function checkAllthatApply(checkboxName) {
 }
 
 function proficiencyOverlapCheck(charge) {
-  if (proficiencyOverlap != "infinite") {
+  //console.log("Possible skills after updating proficiencies: ", char["proficiencies"]);
+  let possibleSkills = char["proficiencies"]["possibleSkills"];
+  if (char["proficiencyOverlap"] != "infinite") {
     if (charge == "positive") {
       if (char["proficiencyOverlap"] == 0) {
         console.log("removing a proficiency and can now add more proficiencies"); //previously had no proficiencies left to add, but now has some after removing one, so update the webpage to reflect this change
