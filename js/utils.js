@@ -69,8 +69,6 @@ classCont: {
             $('#select-subclass').val(subclass);
           }
 
-
-
           // reset subclass description
           $('#subclass-desc .cont').hide();
           $(`#${subclass.replaceAll(' ', '-')}`).show();
