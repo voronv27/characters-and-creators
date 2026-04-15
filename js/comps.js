@@ -85,7 +85,9 @@ async function createRaceComps(key) {
   acc.attr("id", "acc-item-" + key);
   let raceCont = initComp("raceCont", "#acc-item-" + key + " .cont");
   if (key == "Custom-Race") {
+    raceCont.find(".race-img").attr("src", `assets/images/custom-race.png`);
     raceCont.find(".short-desc").text("Your own custom race.");
+    raceCont.find(".desc").html("<br>Type in your desired custom race name above and we'll add it to your character sheet! You will be able to select any proficiencies and languages you desire in the upcoming character creation steps.");
   } else {
     raceCont.find(".race-img").attr("src", `assets/images/${key.toLowerCase()}.png`);
     let shortDesc = genInfo["races"][key]["alignment"].replaceAll("*", "");

@@ -266,7 +266,6 @@ classCont: {
     func: function (comp) {
       comp.children(".more-info").click(function (e) {
           e.stopPropagation();
-          console.log("more info click func");
           const dropdown = $(this).closest(".acc-item");
           const raceName = dropdown.find(".title").first().text();
           if (raceName) {
@@ -282,11 +281,10 @@ classCont: {
         const raceName = $(this).closest(".acc-item").find(".title").first().text();
 
         var customRaceName;
-        if (raceName.includes("Custom")) {
-          customRaceName = raceName.split(") ")[1];
-          customRaceName = customRaceName.split(" ").slice(0, -1).join(" ");
+        if (!raceName) {
+          customRaceName = dropdown.find("input").first().val();
         }
-
+        
         // reset dropdown values in popup
         var subrace = "None";
         if (char.race) {
