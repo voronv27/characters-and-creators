@@ -14,7 +14,8 @@ let char = {
     "weapons": [],
     "tools": [],
     "savingThrows": [],
-    "skills": []
+    "skills": [],
+    "possibleSkills": []
   },
   expertise: [],
   proficiencyOverlap: 0
@@ -22,7 +23,7 @@ let char = {
 
 // Constants
 const URL = "https://voronv.pythonanywhere.com"
-// const URL = "http://127.0.0.1:5000"
+//const URL = "http://127.0.0.1:5000"
 
 // Variables
 let generalInfo;
@@ -75,7 +76,8 @@ function specificApiData() {
         }
       }
     }
-    console.log("paramUrl after class: ", paramUrl);
+    //console.log("paramUrl after class: ", paramUrl);
+    console.log("subclass check: ", char.class[char.primaryClass], "and ", char.class[char.primaryClass]["subclass"]);
     if (char.class[char.primaryClass]["subclass"]) {
       paramUrl += `&subclass=${char.class[char.primaryClass]["subclass"]}`;
     }
