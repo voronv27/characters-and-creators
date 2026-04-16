@@ -277,12 +277,12 @@ classCont: {
         });
       comp.children(".select-btn").click(function (e) {
         e.stopPropagation();
-
-        const raceName = $(this).closest(".acc-item").find(".title").first().text();
-
+        const dropdown = $(this).closest(".acc-item");
+        const raceName = dropdown.find(".title").first().text();
         var customRaceName;
         if (!raceName) {
           customRaceName = dropdown.find("input").first().val();
+          customRaceName = "(Custom Race) " + customRaceName;
         }
         
         // reset dropdown values in popup
@@ -314,7 +314,11 @@ classCont: {
           $(`#${subrace.replaceAll(' ', '-')}`).show();
         }
 
-        openPopup("race-select-popup", raceName);
+        if (raceName) {
+          openPopup("race-select-popup", raceName);
+        } else {
+          openPopup("race-select-popup", customRaceName);
+        }
 
         // show valid dropdown options
         $("#select-subrace option").hide();
