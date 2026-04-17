@@ -64,7 +64,7 @@ classCont: {
           var level = 1;
 
           var levelTarget = {
-              level = 1;
+              level : 1,
           }
           var levelProxy = new Proxy(levelTarget, {
                 set : function(target, key, value) {
@@ -77,14 +77,17 @@ classCont: {
           if (char.class) {
             if (className && char.class[className]) {
                 levelProxy.level = char.class[className]["level"];
+                checkLevel(levelProxy.level, className)
               if (char.class[className]["subclass"]) {
                 subclass = char.class[className]["subclass"];
               }
             } else if (customClassName && char.class[customClassName]) {
                 levelProxy.level = char.class[customClassName]["level"];
+                checkLevel(levelProxy.level, className)
             }
           }
             $("#select-level-").val(levelProxy.level);
+            checkLevel(levelProxy, className);
           if (subclass != "None") {
             $("#select-subclass option").filter(function() {
               return $(this).text() == subclass;
@@ -109,7 +112,7 @@ classCont: {
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-            $("#select-subclass-").on("click", checkLevel(levelProxy.level, className))
+          $("#select-subclass-").on("onclick", checkLevel(levelProxy.level, className))
 
 
         });
@@ -152,18 +155,32 @@ classCont: {
           }
           // reset dropdown values in popup
           var level = 1;
+          var levelTarget = {
+              level : 1,
+          }
+          var levelProxy = new Proxy(levelTarget, {
+                set : function(target, key, value) {
+                    target[key] = value;
+                    checkLevel(value, className);
+                    return true;
+                }
+            });
+
           var subclass = "None";
           if (char.class) {
             if (className && char.class[className]) {
-              level = char.class[className]["level"];
+              levelProxy.level = char.class[className]["level"];
+              checkLevel(levelProxy.level, className)
+
               if (char.class[className]["subclass"]) {
                 subclass = char.class[className]["subclass"];
               }
             } else if (customClassName && char.class[customClassName]) {
-              level = char.class[customClassName]["level"];
+                levelProxy.level = char.class[customClassName]["level"];
             }
           }
-          $("#select-level-").val(level);
+          $("#select-level-").val(levelProxy.level);
+            checkLevel(levelProxy, className);
           if (subclass != "None") {
             $("#select-subclass option").filter(function() {
               return $(this).text() == subclass;
@@ -181,7 +198,7 @@ classCont: {
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-            $("#select-subclass-").on("click", checkLevel(level, className))
+            $("#select-subclass-").on("click", checkLevel(levelProxy, className))
 
         });
         comp.children(".remove-class").click(function (e) {
@@ -434,7 +451,7 @@ classCont: {
         // show valid dropdown options
         $("#select-subclass option").hide();
         $("#select-subclass option[value='None']").show();
-        $("#select-subclass-").on("click", checkLevel(level, className))
+          $("#select-subclass-").on(".select-btn", checkLevel(level, className))
       });
     }
   }, 
