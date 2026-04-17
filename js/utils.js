@@ -579,13 +579,15 @@ for (const s of searchbars) {
 
 // upon searchbar input, display classes matching search value
 function filterItems(sectionName) {
-    var input, filter, classAcc, accItem, i, txtValue, id, dropdownId;
+    var input, filter, classAcc, accItem, i, txtValue, id, dropdownId, customId;
     if (sectionName == "class") {
       id = "searchbar";
       dropdownId = "searchbar-dropdown";
+      customId = "Custom";
     } else {
       id = `searchbar-${sectionName}`;
       dropdownId = `searchbar-${sectionName}-dropdown`;
+      customId = "Custom-" + sectionName[0].toUpperCase() + sectionName.slice(1);
     }
     input = document.getElementById(id);
     filter = input.value.toUpperCase();
@@ -600,7 +602,7 @@ function filterItems(sectionName) {
         txtValue = $(accItem[i]).find(".title").first().text();
         if ($(accItem[i]).has('input').length) {
           // custom has an input element in the title, set txtValue manually
-          txtValue = "Custom";
+          txtValue = customId;
         }
         if (filter == "" || txtValue.toUpperCase().indexOf(filter) == 0) {
             accItem[i].style.display = "";
