@@ -145,6 +145,61 @@ async function createRaceComps(key) {
   }
 }
 
+async function createBackgroundComps(key) {
+  let acc = initComp("accItem", "#background-acc");
+
+  if (key == "Custom-Background") {
+    let nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.placeholder = "Custom Background";
+    acc.find(".title").append(nameInput);
+  } else {
+    acc.find(".title").text(key);
+  }
+
+  const keyId = key.replaceAll(" ", "-");
+  acc.attr("id", "acc-item-" + keyId);
+  let bgCont = initComp("backgroundCont", "#acc-item-" + keyId + " .cont");
+
+  if (key != "Custom-Background") {
+    let backgroundDesc = genInfo["backgrounds"][key]["desc"];
+    if (backgroundDesc && backgroundDesc != "[No description provided]") {
+      let splitDesc = backgroundDesc.split(".")
+      let shortDesc = splitDesc[0];
+      let longDesc = splitDesc.slice(1).join(".");
+      let converter = new showdown.Converter({tables: true});
+      longDesc = converter.makeHtml(longDesc);
+      bgCont.find(".short-desc").html(shortDesc + "...");
+      bgCont.find(".desc").html(longDesc);
+    } else {
+      bgCont.find(".short-desc").html("(No special description available)");
+      bgCont.find(".desc").html('<br>Click the "More Info" Button to see benefits of this background such as ability score improvements.<br><br>');
+    }
+  } else {
+    bgCont.find(".short-desc").html("Your own custom background...");
+    bgCont.find(".desc").html('<br>Type your own custom background name above.<br><br>');
+  }
+
+  // searchbar dropdown
+  let dropdownItem = initComp("dropdownItem", "#searchbar-background-dropdown");
+  dropdownItem.text(key);
+  dropdownItem.click(function () {
+    updateSearchBar(key, "searchbar-background");
+    filterItems('background');
+    $("#searchbar-background-dropdown").hide();
+  });
+
+  // create the more info popup
+  let moreInfoPopup = initComp("moreInfoBackground", "#popup-inner-content");
+  moreInfoPopup.attr("id", `background-more-info-popup-${key}`);
+  if (key == "Custom-Background") {
+    moreInfoPopup.find(".desc").html("<br>No info available for custom backgrounds.<br><br>");
+  } else {
+    let bgDesc = getBackgroundDesc(genInfo["backgrounds"][key]);
+    moreInfoPopup.find(".desc").html(bgDesc);
+  }
+}
+
 // Components creation that requires backend
 async function initComps() {
   genInfo = await generalInfo.then((resp) => resp.json());
@@ -195,45 +250,9 @@ async function initComps() {
 
   $("#background-acc").empty();
   Object.keys(genInfo["backgrounds"]).forEach(key => {
-    let acc = initComp("accItem", "#background-acc");
-    acc.find(".title").text(key);
-    const keyId = key.replaceAll(" ", "-");
-    acc.attr("id", "acc-item-" + keyId);
-    let bgCont = initComp("backgroundCont", "#acc-item-" + keyId + " .cont");
-    let backgroundDesc = genInfo["backgrounds"][key]["desc"];
-    if (backgroundDesc && backgroundDesc != "[No description provided]") {
-      let splitDesc = backgroundDesc.split(".")
-      let shortDesc = splitDesc[0];
-      let longDesc = splitDesc.slice(1).join(".");
-      let converter = new showdown.Converter();
-      longDesc = converter.makeHtml(longDesc);
-
-      bgCont.find(".short-desc").html(shortDesc + "...");
-      bgCont.find(".desc").html(longDesc);
-    } else {
-      bgCont.find(".short-desc").html("(No special description available)");
-      bgCont.find(".desc").html('<br>Click the "More Info" Button to see benefits of this background such as ability score improvements.<br><br>');
-    }
-
-    // searchbar dropdown
-    let dropdownItem = initComp("dropdownItem", "#searchbar-background-dropdown");
-    dropdownItem.text(key);
-    dropdownItem.click(function () {
-      updateSearchBar(key, "searchbar-background");
-      filterItems('background');
-      $("#searchbar-background-dropdown").hide();
-    });
-
-    // create the more info popup
-    let moreInfoPopup = initComp("moreInfoBackground", "#popup-inner-content");
-    moreInfoPopup.attr("id", `background-more-info-popup-${key}`);
-    if (key == "Custom-Background") {
-      moreInfoPopup.find(".desc").html("<br>No info available for custom backgrounds.<br><br>");
-    } else {
-      let bgDesc = getBackgroundDesc(genInfo["backgrounds"][key]);
-      moreInfoPopup.find(".desc").html(bgDesc);
-    }
+    createBackgroundComps(key);
   });
+  createBackgroundComps("Custom-Background");
 
    $("#language-acc").empty();
   Object.keys(genInfo["languages"]).forEach(key => {

@@ -869,3 +869,12 @@ id and not class */
   padding: 8px;
   flex-grow: 1;
 }
+
+/* add borders to tables created from markdown */
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+}

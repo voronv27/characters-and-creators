@@ -333,6 +333,9 @@ classCont: {
         var bgName = dropdown.find(".title").first().text();
         if (!bgName) {
           bgName = dropdown.find("input").first().val();
+          if (!bgName) {
+            bgName = "Custom";
+          }
         }
         char.background = bgName;
         $("#chosen-background").html(bgName);
@@ -507,12 +510,13 @@ classCont: {
     func: function (comp) {
       comp.find(".select-btn").click(function (e) {
         e.stopPropagation();
-        const bgName = $("#popup-title").text();
-
-        var customBgName;
+        var bgName = $("#popup-title").text();
         if (bgName.includes("Custom")) {
-          customBgName = bgName.split(") ")[1];
-          customBgName = customBgName.split(" ").slice(0, -1).join(" ");
+          bgName = bgName.split(") ")[1];
+          bgName = bgName.split(" ").slice(0, -1).join(" ");
+          if (!bgName) {
+            bgName = "Custom";
+          }
         }
         char.background = bgName;
         $("#chosen-background").html(bgName);
@@ -562,7 +566,11 @@ for (const s of searchbars) {
   const searchbarDropdown = $(dropId);
   $(document).on("click", function (e) {
     if ($.contains(searchbarContainer, e.target)) {
-      searchbarDropdown.show();
+      // dropdown gets hidden if you click on a dropdown item,
+      // don't reset it to be shown
+      if ($(e.target).closest('.dropdown-item').length <= 0) {
+        searchbarDropdown.show();
+      }
     } else {
       searchbarDropdown.hide();
     }
