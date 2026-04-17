@@ -309,20 +309,36 @@ classCont: {
   backgroundCont: {
     html: `
       <div id="new">
-        <button class="select-background">Select Background</button><br>
+        <div class="short-desc"></div>
         <div class="desc background-desc"></div>
+        <button class="more-info">More Info</button>
+        <button class="select-background">Select Background</button>
       </div>
     `,
     func: function (comp) {
+      comp.children(".more-info").click(function (e) {
+        e.stopPropagation();
+        const dropdown = $(this).closest(".acc-item");
+        const backgroundName = dropdown.find(".title").first().text();
+        if (backgroundName) {
+          openPopup(`background-more-info-popup-${backgroundName}`, backgroundName);
+        } else {
+          const customBackgroundName = dropdown.find("input").first().val();
+          openPopup('background-more-info-popup-Custom-Background', `(Custom Background) ${customBackgroundName}`);
+        }
+      });
       comp.children(".select-background").click(function (e) {
         e.stopPropagation();
-        const bgName = $(this).closest(".acc-item").find(".title").first().text();
+        const dropdown = $(this).closest(".acc-item");
+        var bgName = dropdown.find(".title").first().text();
+        if (!bgName) {
+          bgName = dropdown.find("input").first().val();
+        }
         char.background = bgName;
-        console.log(`background ${bgName}`);
         $("#chosen-background").html(bgName);
         // reset specificInfo because we changed background
         specificInfo = null;
-      })
+      });
     }
   },
   spellcard: {
@@ -473,6 +489,36 @@ classCont: {
         $("#select-subrace option").hide();
         $("#select-subrace option[value='None']").show();
         $(`#select-subrace option[value='${raceName}']`).show();
+      });
+    }
+  },
+  moreInfoBackground: {
+    html: `
+      <div id="new" style="display:none;">
+        <div class="overflow-fade">
+          <div class="desc">
+          </div>
+        </div>
+        <div class="overflow-show">
+          <button class="select-btn">Select Background</button>
+        </div>
+      </div>
+      `,
+    func: function (comp) {
+      comp.find(".select-btn").click(function (e) {
+        e.stopPropagation();
+        const bgName = $("#popup-title").text();
+
+        var customBgName;
+        if (bgName.includes("Custom")) {
+          customBgName = bgName.split(") ")[1];
+          customBgName = customBgName.split(" ").slice(0, -1).join(" ");
+        }
+        char.background = bgName;
+        $("#chosen-background").html(bgName);
+        // reset specificInfo because we changed background
+        specificInfo = null;
+        closePopup();
       });
     }
   }

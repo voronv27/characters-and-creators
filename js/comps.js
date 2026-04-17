@@ -194,14 +194,26 @@ async function initComps() {
   })
 
   $("#background-acc").empty();
-  Object.keys(genInfo["backgrounds"]).forEach(key => {// http://127.0.0.1:3000/createCharacter.html#race
+  Object.keys(genInfo["backgrounds"]).forEach(key => {
     let acc = initComp("accItem", "#background-acc");
     acc.find(".title").text(key);
     const keyId = key.replaceAll(" ", "-");
     acc.attr("id", "acc-item-" + keyId);
     let bgCont = initComp("backgroundCont", "#acc-item-" + keyId + " .cont");
-    let bgDesc = getBackgroundDesc(genInfo["backgrounds"][key]);
-    bgCont.find(".desc").html(bgDesc);
+    let backgroundDesc = genInfo["backgrounds"][key]["desc"];
+    if (backgroundDesc && backgroundDesc != "[No description provided]") {
+      let splitDesc = backgroundDesc.split(".")
+      let shortDesc = splitDesc[0];
+      let longDesc = splitDesc.slice(1).join(".");
+      let converter = new showdown.Converter();
+      longDesc = converter.makeHtml(longDesc);
+
+      bgCont.find(".short-desc").html(shortDesc + "...");
+      bgCont.find(".desc").html(longDesc);
+    } else {
+      bgCont.find(".short-desc").html("(No special description available)");
+      bgCont.find(".desc").html('<br>Click the "More Info" Button to see benefits of this background such as ability score improvements.<br><br>');
+    }
 
     // searchbar dropdown
     let dropdownItem = initComp("dropdownItem", "#searchbar-background-dropdown");
@@ -211,6 +223,16 @@ async function initComps() {
       filterItems('background');
       $("#searchbar-background-dropdown").hide();
     });
+
+    // create the more info popup
+    let moreInfoPopup = initComp("moreInfoBackground", "#popup-inner-content");
+    moreInfoPopup.attr("id", `background-more-info-popup-${key}`);
+    if (key == "Custom-Background") {
+      moreInfoPopup.find(".desc").html("<br>No info available for custom backgrounds.<br><br>");
+    } else {
+      let bgDesc = getBackgroundDesc(genInfo["backgrounds"][key]);
+      moreInfoPopup.find(".desc").html(bgDesc);
+    }
   });
 
    $("#language-acc").empty();
