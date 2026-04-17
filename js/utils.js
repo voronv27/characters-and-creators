@@ -564,7 +564,28 @@ function updateProficiencies() {
     if it does, loop through keys. If key is skills, add to proficiencies with format "class:skill name". If not, add to proficiencies with format "class:proficiency name".
 
   */
-
+  console.log("Class multiclass learning,",char, char["class"]);
+  if (char["class"] && Object.keys(char["class"]).length > 1) {
+    console.log("multiclass detected");
+    let i = 0;
+    while (i < Object.keys(char["class"]).length) {
+      let info = genInfo["multiclass"][Object.keys(char["class"])[i]];
+      console.log("multiclassing info: ", info);
+      console.log("info keys: ", Object.keys(info));
+      if (info["proficiency_choices"]) {
+        console.log("checking proficiency choices: ", info["proficiency_choices"]);
+        for (k in info["proficiency_choices"]) {
+          console.log("name: ", info["proficiency_choices"][k]["name"]);
+        }
+      }
+      if (info["proficiencies"]) {
+        for (k in info["proficiencies"]) {
+          console.log("name: ", info["proficiencies"][k]["name"]);
+        }
+      }
+      i++;
+    }
+  }
   char["proficiencies"] = {
     "armors": [],
     "weapons": [],
@@ -575,6 +596,7 @@ function updateProficiencies() {
   };
   char["proficiencyOverlap"] = 0;
 
+  console.log("Specific Info: ", specInfo, "General Info: ", genInfo);
 
   let toolsEditable = false;
   let profHtml = "";
@@ -596,6 +618,7 @@ function updateProficiencies() {
     let classDict = specInfo["proficiencies"]["class"];
     console.log("classDict: ", classDict);
     if (classDict) {
+      console.log("checking subclass", classDict, classDict["subclass"], classDict["subclass"][0]);
       for (k in classDict) {
         //console.log("key: ", k);
         //console.log("variable type: ", typeof(classDict[k])); 
@@ -612,6 +635,7 @@ function updateProficiencies() {
               }
             }
           }
+
           else if (k == "subclass") {
             if (classDict[k][0] != "") {
               console.log("subclassText", classDict[k][0]);
@@ -632,9 +656,12 @@ function updateProficiencies() {
             }
           }
           else {
+            if (classDict[k][p]!="None") {
+            
             console.log("dictionary test: ", char["proficiencies"][k]);
             console.log("Adding proficiency: ", `${k}: ${classDict[k][p]}`);
             char["proficiencies"][`${k}`].push(classDict[k][p]);
+            }
           }
         }
         
@@ -661,7 +688,7 @@ function updateProficiencies() {
     console.log("Custom Race Detected");
     toggleEverything = true;
     char["proficiencyOverlap"] += 1;
-  } else if (race != null) {
+  } else {
     console.log("raceDict: ", raceDict);
     for (k in raceDict) {
       if (k == "tools") {
@@ -676,6 +703,21 @@ function updateProficiencies() {
             document.getElementById(`${raceDict[k][p]}`).disabled = true;
           }
         }
+      } else if (k == "other") {
+
+        if (!toolsEditable) {          
+          toolsEditable = true;
+          let toolsArray = ["alchemistSupplies","brewerSupplies","calligrapherSupplies","carpenterTools","cartographerTools","cobblerTools", "cookUtensils", "glassblowerTools", "jewelerTools", "leatherworkerTools", "masonTools", "painterTools", "pottersTools", "smithTools","tinkerTools", "weaverTools", "woodcarverTools", "bagpipes","drum","dulcimer","flute", "lute","lyre", "horn", "pan flute", "shawm", "viol","diceSet", "dragonChessSet", "playingCardSet","threeDragonAnteSet", "disguiseKit", "forgeryKit", "herbalismKit","navigatorTools", "theivesTools", "poisonerKit"];
+          for (t in toolsArray) {
+            const toolCheckbox = document.getElementById(toolsArray[t]);
+            if (toolCheckbox) {
+              toolCheckbox.disabled = false;
+            }
+          }
+        }
+
+
+        
       }
     }
   }

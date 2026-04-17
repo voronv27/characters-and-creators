@@ -104,6 +104,7 @@ function specificApiData() {
       },
     });
   }
+  console.log("url: ", paramUrl);
   return fetchRequired;
 }
 
