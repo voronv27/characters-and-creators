@@ -230,3 +230,36 @@ function updateCharacterSheet() {
     }
   })
 }
+
+// when there is a change to selected level in the class popup, 
+// display/hide subclasses if they're available
+$("#select-level-").on("change", () => {
+  const className = $("#popup-title").text();
+  var customClassName;
+  if (className.includes("Custom")) {
+    customClassName = className.split(") ")[1];
+    customClassName = customClassName.split(" ").slice(0, -1).join(" ");
+  }
+
+  // get subclass level for this class
+  var subclassLevel = 1;
+  if (!customClassName) {
+    subclassLevel = genInfo["classes"][className]["subclassLevel"];
+  }
+
+  // show valid dropdown options for current level
+  const level = $("#select-level-").val();
+  $("#select-subclass option").hide();
+  $("#select-subclass option[value='None']").show();
+  if (!customClassName && level >= subclassLevel) {
+    $(`#select-subclass option[value='${className}']`).show();
+  }
+
+  // if we're not allowed to have a subclass selected
+  // anymore (level too low), set subclass to None
+  if (level < subclassLevel) {
+    $('#subclass-desc .cont').hide();
+    $('#select-subclass').val("None");
+    $("#None").show();
+  }
+});

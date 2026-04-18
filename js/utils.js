@@ -47,6 +47,13 @@ classCont: {
             customClassName = dropdown.find("input").first().val();
           }
 
+          // set up subclass availability in popup
+          var subclassLevel = 1;
+          if (!customClassName) {
+            subclassLevel = genInfo["classes"][className]["subclassLevel"];
+          }
+          $("#subclass-level").text(subclassLevel);
+
           // reset dropdown values in popup
           var level = 1;
           var subclass = "None";
@@ -82,7 +89,9 @@ classCont: {
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-          $(`#select-subclass option[value='${className}']`).show();
+          if (!customClassName && level >= subclassLevel) {
+            $(`#select-subclass option[value='${className}']`).show();
+          }
         });
     }
   },
@@ -121,6 +130,14 @@ classCont: {
           } else {
             className = className.split(" ")[0];
           }
+
+          // set up subclass availability in popup
+          var subclassLevel = 1;
+          if (!customClassName) {
+            subclassLevel = genInfo["classes"][className]["subclassLevel"];
+          }
+          $("#subclass-level").text(subclassLevel);
+
           // reset dropdown values in popup
           var level = 1;
           var subclass = "None";
@@ -152,7 +169,9 @@ classCont: {
           // show valid dropdown options
           $("#select-subclass option").hide();
           $("#select-subclass option[value='None']").show();
-          $(`#select-subclass option[value='${className}']`).show();
+          if (!customClassName && level >= subclassLevel) {
+            $(`#select-subclass option[value='${className}']`).show();
+          }
         });
         comp.children(".remove-class").click(function (e) {
           e.stopPropagation();
@@ -399,6 +418,13 @@ classCont: {
           customClassName = customClassName.split(" ").slice(0, -1).join(" ");
         }
 
+        // set up subclass availability in popup
+        var subclassLevel = 1;
+        if (className in genInfo["classes"]) {
+          subclassLevel = genInfo["classes"][className]["subclassLevel"];
+        }
+        $("#subclass-level").text(subclassLevel);
+
         // reset dropdown values in popup
         var level = 1;
         var subclass = "None";
@@ -430,7 +456,9 @@ classCont: {
         // show valid dropdown options
         $("#select-subclass option").hide();
         $("#select-subclass option[value='None']").show();
-        $(`#select-subclass option[value='${className}']`).show();
+        if (!customClassName && level >= subclassLevel) {
+          $(`#select-subclass option[value='${className}']`).show();
+        }
       });
     }
   }, 
