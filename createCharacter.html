@@ -11,11 +11,13 @@
     <script src="https://kit.fontawesome.com/476f3336e3.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@panzoom/panzoom@4.6.0/dist/panzoom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
     <script src="js/main.js" defer></script>
     <script src="js/stats.js" defer></script>
     <script src="js/section.js" defer></script>
     <script src="js/utils.js" defer></script>
     <script src="js/comps.js" defer></script>
+    <script src="js/sheet.js" defer></script>
   </head>
 <body>
   <a href="index.html" class="header-link"><h1 class="header-text">Characters & Creators</h1></a>
@@ -468,401 +470,407 @@
 </div>
 <div id="sheet-section" class="section" data-title="Sheet">
   <button id="export-pdf">Export</button>
+  <div id="fixed-sheet">
+    <iframe id="page1"></iframe>
+  </div>
   <div id="character-sheet-parent">
     <div id="character-sheet">
-      <div class="comp">
-        <div class="fl">   
-          <div class="fl-g">Basic Info</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
+      <div id="moveable-sheet" style="display:none;">
+        <div class="comp">
+          <div class="fl">
+            <iframe id="basic-info"></iframe>
+            <!--<div class="fl-g">Basic Info</div>
+              <div class="handle x">
+                <i class="fa-solid fa-up-down-left-right"></i>
+              </div>
             </div>
-          </div>
-          <div class="content x">
-            <div class="fl-g">
-              <label>
-                <input type="text" class="sheet-autofill" id="name">
-                Name
-              </label>
-            </div>
-            <div class="fl">
-              <label>
-                <input type="text">
-  XP
-              </label>
-              <label>
-                <input type="text" class="sheet-autofill" id="background">
-  Background
-              </label>
-              
-            </div>
-            <div class="fl">
-              <label>
-                <input type="text" class="sheet-autofill" id="class">
-                    Class
-              </label>
-              <label>
-                <input type="text" class="sheet-autofill" id="subclass">
-                  Subclass 
-              </label>
-            </div>
+            <div class="content x">
+              <div class="fl-g">
+                <label>
+                  <input type="text" class="sheet-autofill" id="name">
+                  Name
+                </label>
+              </div>
+              <div class="fl">
+                <label>
+                  <input type="text">
+          XP
+                      </label>
+                      <label>
+                        <input type="text" class="sheet-autofill" id="background">
+          Background
+                      </label>
+                      
+                    </div>
+                    <div class="fl">
+                      <label>
+                        <input type="text" class="sheet-autofill" id="class">
+                            Class
+                      </label>
+                      <label>
+                        <input type="text" class="sheet-autofill" id="subclass">
+                          Subclass 
+                      </label>
+                    </div>
 
-            <div class="fl">
-              <label>
-                <input type="text" class="sheet-autofill" id="race">
-  Race
-              </label>
-              <label>
-                <input type="text" class="sheet-autofill" id="subrace">
-  Subrace
-              </label>
-              
-            </div>
-          </div>
+                    <div class="fl">
+                      <label>
+                        <input type="text" class="sheet-autofill" id="race">
+          Race
+                      </label>
+                      <label>
+                        <input type="text" class="sheet-autofill" id="subrace">
+          Subrace
+                      </label>
+                      
+                    </div>
+                  </div>
+                </div>-->
+        <div class="comp">
+                <div class="fl">   
+                  <div class="fl-g"></div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+              <div class="sub-comp">
+                <div class="fl">   
+                  <div class="fl-g">Strength</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x sheet-autofill" id="stats-Strength">
+                    <div>
+                      <input class="fl-g" type="text">
+                      Modifier
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Score 
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Saving Throw 
+                    </div>
+                  </div>
+              </div>
+              <div class="sub-comp">
+                <div class="fl">   
+                  <div class="fl-g">Dexterity</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x sheet-autofill" id="stats-Dexterity">
+                    <div>
+                      <input class="fl-g" type="text">
+                      Modifier
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Score 
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Saving Throw 
+                    </div>
+                  </div>
+              </div>
+              <div class="sub-comp">
+                <div class="fl">   
+                  <div class="fl-g">Constitution</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x sheet-autofill" id="stats-Constitution">
+                    <div>
+                      <input class="fl-g" type="text">
+                      Modifier
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Score 
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Saving Throw 
+                    </div>
+                  </div>
+              </div>
+              <div class="sub-comp">
+                <div class="fl">   
+                  <div class="fl-g">Intelligence</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x sheet-autofill" id="stats-Intelligence">
+                    <div>
+                      <input class="fl-g" type="text">
+                      Modifier
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Score 
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Saving Throw 
+                    </div>
+                  </div>
+              </div>
+              <div class="sub-comp">
+                <div class="fl">   
+                  <div class="fl-g">Wisdom</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x sheet-autofill" id="stats-Wisdom">
+                    <div>
+                      <input class="fl-g" type="text">
+                      Modifier
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Score 
+                    </div>
+                    <div>
+                      <input class="fl-g" type="text">
+                      Saving Throw 
+                    </div>
+                  </div>
+              </div>
+              <div class="sub-comp">
+                <div class="fl">   
+                  <div class="fl-g">Charisma</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x sheet-autofill" id="stats-Charisma">
+                    <label>
+                      <input class="fl-g" type="text">
+                      Modifier
+                    </label>
+                    <label>
+                      <input class="fl-g" type="text">
+                      Score 
+                    </label>
+                    <label>
+                      <input class="fl-g" type="text">
+                      Saving Throw 
+                    </label>
+                  </div>
+              </div>
+                      </div>
+
+              <div class="comp">
+                <div class="fl">   
+                  <div class="fl-g">Other Proficencies and Languages</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x">
+                    <textarea></textarea>
+                  </div>
+              </div>
+              <div class="comp">
+                <div class="fl">   
+                  <div class="fl-g">HP & Defense</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x">
+                    <div class="fl">
+                      <div></div>
+                      <label>
+                        <input type="number">
+                          Armor Class
+                      </label>
+                      <label>
+                        <input type="number">
+                          Initiative
+                      </label>
+                      <label>
+                        <input type="number">
+                          Speed
+                      </label>
+                    </div>
+
+                      <label>
+                        <input type="number">
+                        HP 
+                      </label>
+                      <label>
+                        <input type="number">
+                         Max HP
+                      </label>
+                      <label>
+                        <input type="number">
+                        Temporary HP 
+                      </label>
+                      <div class="flex">
+                      <label>
+                        <input type="number">
+                          Total Hit Dice
+                      </label>
+                      <label>
+                        <input type="text">
+                         Dice Type 
+                      </label>
+                      <label>
+                        <input type="number">
+                          Hit Dice Left
+                      </label>
         </div>
-<div class="comp">
-        <div class="fl">   
-          <div class="fl-g"></div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-      <div class="sub-comp">
-        <div class="fl">   
-          <div class="fl-g">Strength</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x sheet-autofill" id="stats-Strength">
-            <div>
-              <input class="fl-g" type="text">
-              Modifier
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Score 
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Saving Throw 
-            </div>
-          </div>
-      </div>
-      <div class="sub-comp">
-        <div class="fl">   
-          <div class="fl-g">Dexterity</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x sheet-autofill" id="stats-Dexterity">
-            <div>
-              <input class="fl-g" type="text">
-              Modifier
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Score 
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Saving Throw 
-            </div>
-          </div>
-      </div>
-      <div class="sub-comp">
-        <div class="fl">   
-          <div class="fl-g">Constitution</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x sheet-autofill" id="stats-Constitution">
-            <div>
-              <input class="fl-g" type="text">
-              Modifier
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Score 
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Saving Throw 
-            </div>
-          </div>
-      </div>
-      <div class="sub-comp">
-        <div class="fl">   
-          <div class="fl-g">Intelligence</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x sheet-autofill" id="stats-Intelligence">
-            <div>
-              <input class="fl-g" type="text">
-              Modifier
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Score 
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Saving Throw 
-            </div>
-          </div>
-      </div>
-      <div class="sub-comp">
-        <div class="fl">   
-          <div class="fl-g">Wisdom</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x sheet-autofill" id="stats-Wisdom">
-            <div>
-              <input class="fl-g" type="text">
-              Modifier
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Score 
-            </div>
-            <div>
-              <input class="fl-g" type="text">
-              Saving Throw 
-            </div>
-          </div>
-      </div>
-      <div class="sub-comp">
-        <div class="fl">   
-          <div class="fl-g">Charisma</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x sheet-autofill" id="stats-Charisma">
-            <label>
-              <input class="fl-g" type="text">
-              Modifier
-            </label>
-            <label>
-              <input class="fl-g" type="text">
-              Score 
-            </label>
-            <label>
-              <input class="fl-g" type="text">
-              Saving Throw 
-            </label>
-          </div>
-      </div>
+                        <div>
+                          Death Saves
+                      <label>
+                        <input type="number">
+                          Successes
+                      </label>
+                      <label>
+                        <input type="number">
+                          Failures
+                      </label>
+        </div>
+                    <label>
+                      <textarea></textarea>
+                      Ideals 
+                    </label>
+                    <label>
+                      <textarea></textarea>
+                      Bonds
+                    </label>
+                    <label>
+                      <textarea></textarea>
+                      Flaws
+                    </label>
+                  </div>
               </div>
-
-      <div class="comp">
-        <div class="fl">   
-          <div class="fl-g">Other Proficencies and Languages</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x">
-            <textarea></textarea>
-          </div>
-      </div>
-      <div class="comp">
-        <div class="fl">   
-          <div class="fl-g">HP & Defense</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x">
-            <div class="fl">
-              <div></div>
-              <label>
-                <input type="number">
-                  Armor Class
-              </label>
-              <label>
-                <input type="number">
-                  Initiative
-              </label>
-              <label>
-                <input type="number">
-                  Speed
-              </label>
-            </div>
-
-              <label>
-                <input type="number">
-                HP 
-              </label>
-              <label>
-                <input type="number">
-                 Max HP
-              </label>
-              <label>
-                <input type="number">
-                Temporary HP 
-              </label>
-              <div class="flex">
-              <label>
-                <input type="number">
-                  Total Hit Dice
-              </label>
-              <label>
-                <input type="text">
-                 Dice Type 
-              </label>
-              <label>
-                <input type="number">
-                  Hit Dice Left
-              </label>
-</div>
-                <div>
-                  Death Saves
-              <label>
-                <input type="number">
-                  Successes
-              </label>
-              <label>
-                <input type="number">
-                  Failures
-              </label>
-</div>
-            <label>
-              <textarea></textarea>
-              Ideals 
-            </label>
-            <label>
-              <textarea></textarea>
-              Bonds
-            </label>
-            <label>
-              <textarea></textarea>
-              Flaws
-            </label>
-          </div>
-      </div>
-      <div class="comp">
-        <div class="fl">   
-          <div class="fl-g">Equipment</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x">
-            
-            <label>
-              <input class="fl-g" type="number">
-              CP 
-            </label>
-            <label>
-              <input class="fl-g" type="number">
-              SP 
-            </label>
-            <label>
-              <input class="fl-g" type="number">
-              EP
-            </label>
-            <label>
-              <input class="fl-g" type="number">
-             GP 
-            </label>
-            <label>
-              <input class="fl-g" type="number">
-             PP
-            </label>
-            <label>
-              <textarea></textarea>
-             TO-DO: make a list
-            </label>
-          </div>
-      </div>
-      <div class="comp">
-        <div class="fl">   
-          <div class="fl-g">Attacks & Spellcasting</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x">
-            <div class="gr fr-3">
-                <span>Name</span>
-                <span>Atk Bonus</span>
-                <span>Damage/Type</span>
-              <div>
-                <input class="fl-g" type="text">
-                <input class="fl" type="text">
-                <input class="fl" type="text">
+              <div class="comp">
+                <div class="fl">   
+                  <div class="fl-g">Equipment</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x">
+                    
+                    <label>
+                      <input class="fl-g" type="number">
+                      CP 
+                    </label>
+                    <label>
+                      <input class="fl-g" type="number">
+                      SP 
+                    </label>
+                    <label>
+                      <input class="fl-g" type="number">
+                      EP
+                    </label>
+                    <label>
+                      <input class="fl-g" type="number">
+                     GP 
+                    </label>
+                    <label>
+                      <input class="fl-g" type="number">
+                     PP
+                    </label>
+                    <label>
+                      <textarea></textarea>
+                     TO-DO: make a list
+                    </label>
+                  </div>
               </div>
-              <div >
-                <input class="fl-g" type="text">
-                <input class="fl" type="text">
-                <input class="fl" type="text">
+              <div class="comp">
+                <div class="fl">   
+                  <div class="fl-g">Attacks & Spellcasting</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x">
+                    <div class="gr fr-3">
+                        <span>Name</span>
+                        <span>Atk Bonus</span>
+                        <span>Damage/Type</span>
+                      <div>
+                        <input class="fl-g" type="text">
+                        <input class="fl" type="text">
+                        <input class="fl" type="text">
+                      </div>
+                      <div >
+                        <input class="fl-g" type="text">
+                        <input class="fl" type="text">
+                        <input class="fl" type="text">
+                      </div>
+                      <div >
+                        <input class="fl-g" type="text">
+                        <input class="fl" type="text">
+                        <input class="fl" type="text">
+                      </div>
+                      <div >
+                        <input class="fl-g" type="text">
+                        <input class="fl" type="text">
+                        <input class="fl" type="text">
+                      </div>
+                      <div >
+                        <input class="fl-g" type="text">
+                        <input class="fl" type="text">
+                        <input class="fl" type="text">
+                      </div>
+                      <div >
+                        <input class="fl-g" type="text">
+                        <input class="fl" type="text">
+                        <input class="fl" type="text">
+                      </div>
+                    </div>
+                  </div>
               </div>
-              <div >
-                <input class="fl-g" type="text">
-                <input class="fl" type="text">
-                <input class="fl" type="text">
+              <div class="comp">
+                <div class="fl">   
+                  <div class="fl-g">Personality</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x">
+                    <label>
+                      <textarea></textarea>
+                      Personality Traits 
+                    </label>
+                    <label>
+                      <textarea></textarea>
+                      Ideals 
+                    </label>
+                    <label>
+                      <textarea></textarea>
+                      Bonds
+                    </label>
+                    <label>
+                      <textarea></textarea>
+                      Flaws
+                    </label>
+                  </div>
               </div>
-              <div >
-                <input class="fl-g" type="text">
-                <input class="fl" type="text">
-                <input class="fl" type="text">
-              </div>
-              <div >
-                <input class="fl-g" type="text">
-                <input class="fl" type="text">
-                <input class="fl" type="text">
-              </div>
-              <div >
-                <input class="fl-g" type="text">
-                <input class="fl" type="text">
-                <input class="fl" type="text">
+              <div class="comp">
+                <div class="fl">   
+                  <div class="fl-g">Features & Traits</div>
+                    <div class="handle x">
+                      <i class="fa-solid fa-up-down-left-right"></i>
+                    </div>
+                  </div>
+                  <div class="content x">
+                    <textarea></textarea>
+                  </div>
               </div>
             </div>
-          </div>
-      </div>
-      <div class="comp">
-        <div class="fl">   
-          <div class="fl-g">Personality</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x">
-            <label>
-              <textarea></textarea>
-              Personality Traits 
-            </label>
-            <label>
-              <textarea></textarea>
-              Ideals 
-            </label>
-            <label>
-              <textarea></textarea>
-              Bonds
-            </label>
-            <label>
-              <textarea></textarea>
-              Flaws
-            </label>
-          </div>
-      </div>
-      <div class="comp">
-        <div class="fl">   
-          <div class="fl-g">Features & Traits</div>
-            <div class="handle x">
-              <i class="fa-solid fa-up-down-left-right"></i>
-            </div>
-          </div>
-          <div class="content x">
-            <textarea></textarea>
-          </div>
-      </div>
     </div>
 </div>
 </div>

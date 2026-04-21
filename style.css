@@ -878,3 +878,16 @@ table, th, td {
 th, td {
   padding: 5px;
 }
+
+#fixed-sheet {
+  width: 100%;
+  height: 100%;
+}
+#fixed-sheet iframe {
+  width: 100%;
+  height: 100%;
+}
+/* character sheet pdf styling */
+#basic-info {
+  width: 50%;
+}
