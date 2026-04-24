@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/@panzoom/panzoom@4.6.0/dist/panzoom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <!-- pdf-lib for editing and displaying char sheet -->
+    <!-- pdf-lib for editing char sheet -->
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
 
     <!-- local files -->
@@ -473,7 +473,23 @@
     <textarea id="extra-info" name="extrainfotext" rows="15" cols="50">Allies/Organizations/whatever…</textarea>
 </div>
 <div id="sheet-section" class="section" data-title="Sheet">
-  <button id="export-pdf">Export</button>
+  <div class="fl padded vertical-center-items gap-items-large">
+    <div class="fl gap-items-small">
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider"></span>
+      </label>
+      <div>
+        Customize<br>
+        Layout?
+      </div>
+    </div>
+    <button id="export-pdf">Export</button>
+  </div>
+
+  <!-- when customize layout is toggled off, this is visible -->
+  <!-- currently moved outside of character-sheet because panzoom isn't the nicest with it rn -->
+  <!-- todo: fix that -->
   <div id="full-pages" class="fl">
     <div id="full-page1" class="sheet-page">
       <iframe id="page1"></iframe>
@@ -482,8 +498,10 @@
       <iframe id="page2"></iframe>
     </div>
   </div>
+
   <div id="character-sheet-parent">
     <div id="character-sheet">
+      <!-- when customize layout is toggled on, this is visible -->
       <div id="moveable-sheet" style="display:none;">
         <div class="comp">
           <div class="fl">

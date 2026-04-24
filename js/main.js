@@ -22,8 +22,8 @@ let char = {
 };
 
 // Constants
-const URL = "https://voronv.pythonanywhere.com"
-//const URL = "http://127.0.0.1:5000"
+const backendURL = "https://voronv.pythonanywhere.com"
+//const backendURL = "http://127.0.0.1:5000"
 
 // Variables
 let generalInfo;
@@ -47,7 +47,7 @@ $(async function () {
 });
 
 function initApiData() {
-  generalInfo = fetch(`${URL}/general-info`, {
+  generalInfo = fetch(`${backendURL}/general-info`, {
     method: "GET",
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -61,7 +61,7 @@ function specificApiData() {
   console.log("Fetching API data");
   var fetchRequired = false;
   // TODO: more than primary class, subclass, subrace
-  var paramUrl = `${URL}/specific-info?`;
+  var paramUrl = `${backendURL}/specific-info?`;
   classList = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
   console.log("class comparison: ", char.primaryClass, ":", classList[0], ":", typeof(char.primaryClass), ":", typeof(classList[0]));
   if (char.primaryClass != null) {
