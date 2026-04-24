@@ -17,32 +17,30 @@ async function loadPdf(name, id, parentId, fields=null) {
 		console.log("type", f.constructor.name);
 	})*/
 
-	var pdfDataUri = null;
+	// set parent aspect ratio
+	const page = pdfDoc.getPages()[0];
+	const {width, height} = page.getSize();
+	page.setMediaBox(0, 0, width, height);
+	page.setCropBox(0, 0, width, height);
+	const parentCont = document.getElementById(parentId);
+	parentCont.style.aspectRatio = `${width} / ${height}`;
+
 	if (fields) {
 		for (const fieldName in fields) {
 			const type = fields[fieldName]["type"];
 			const value = fields[fieldName]["value"];
 			if (type == "text") {
-				const pdfField = form.getTextField(fieldName);
-				pdfField.setText(value);
-			} else if (type = "checkbox") {
-				console.log("todo: checkbox");
+				form.getTextField(fieldName).setText(value);
+			} else if (type == "checkbox") {
+				form.getCheckBox(fieldName).check();
 			}
 		}
 		const updatedBytes = await pdfDoc.save();
-		pdfDataUri = await pdfDoc.saveAsBase64({dataUri: true});
-	} else {
-		pdfDataUri = await pdfDoc.saveAsBase64({dataUri: true});
 	}
-
-	// set parent aspect ratio
-	const page = pdfDoc.getPages()[0];
-	const {width, height} = page.getSize();
-	const parentCont = document.getElementById(parentId);
-	parentCont.style.aspectRatio = `${width} / ${height}`;
-
+	const pdfDataUri = await pdfDoc.saveAsBase64({dataUri: true});
+	
 	// removes any toolbars or margins or scroll, make zoom to fit
-	const adjustments = "#toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit&view=Fit";
+	const adjustments = "#view=FitV&toolbar=0&navpanes=0&scrollbar=0";
 	const pdfElement = document.getElementById(id)
 	pdfElement.src = pdfDataUri + adjustments;
 }

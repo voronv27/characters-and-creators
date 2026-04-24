@@ -935,13 +935,21 @@ th, td {
 
 /* character sheet pdf styling */
 .sheet-page {
-  width: 50%;
-  min-width: 300px;
+  width: 100%;
+}
+@media (min-width: 800px) {
+  #full-pages {
+    display: flex;
+  }
+  .sheet-page {
+    width: 50%;
+  }
 }
 .sheet-page iframe {
   width: 100%;
   height: 100%;
   border: none;
+  display: block;
 }
 
 #basic-info {
