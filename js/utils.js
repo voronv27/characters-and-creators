@@ -659,6 +659,17 @@ function updateProficiencies() {
     if it does, loop through keys. If key is skills, add to proficiencies with format "class:skill name". If not, add to proficiencies with format "class:proficiency name".
 
   */
+  char["proficiencies"] = {
+    "armors": [],
+    "weapons": [],
+    "tools": [],
+    "savingThrows": [],
+    "skills": [],
+    "possibleSkills": []
+  };
+  char["proficiencyOverlap"] = 0;
+  let possibleSkills = [];
+  let toolsEditable = false;
   console.log("Class multiclass learning,",char, char["class"]);
   if (char["class"] && Object.keys(char["class"]).length > 1) {
     console.log("multiclass detected");
@@ -670,33 +681,52 @@ function updateProficiencies() {
       if (info["proficiency_choices"]) {
         console.log("checking proficiency choices: ", info["proficiency_choices"]);
         for (k in info["proficiency_choices"]) {
-          console.log("name: ", info["proficiency_choices"][k]["name"]);
+          console.log("name: ", info["proficiency_choices"][k]);
+          console.log("List, ", Object.keys(info["proficiency_choices"][k]).includes("name"));
+          if (Object.keys(info["proficiency_choices"][k]).includes("name")) {
+            console.log("Has name choices, add skill directly");
+          } else {
+            console.log("Choose from array");
+            console.log("Choice 1: ", info["proficiency_choices"][k]["from"]["options"]["0"]["item"]["name"]);
+            let category = info["proficiency_choices"][k]["desc"];
+            char["proficiencyOverlap"] += info["proficiency_choices"][k]["choose"];
+            console.log(category)
+            for (skill in info["proficiency_choices"][k]["from"]["options"]) {
+              let sk = info["proficiency_choices"][k]["from"]["options"][skill]["item"]["name"].split(": ");
+              console.log("Adding possible skill:", sk);
+              if (category=="skill") {
+                (possibleSkills).push(sk[1]);
+              } else if (category=="musical instrument") {
+                console.log("Musical Instrument Multiclass");
+                toolsEditable = true;
+                let toolsArray = ["alchemistSupplies","brewerSupplies","calligrapherSupplies","carpenterTools","cartographerTools","cobblerTools", "cookUtensils", "glassblowerTools", "jewelerTools", "leatherworkerTools", "masonTools", "painterTools", "pottersTools", "smithTools","tinkerTools", "weaverTools", "woodcarverTools", "bagpipes","drum","dulcimer","flute", "lute","lyre", "horn", "pan flute", "shawm", "viol","diceSet", "dragonChessSet", "playingCardSet","threeDragonAnteSet", "disguiseKit", "forgeryKit", "herbalismKit","navigatorTools", "theivesTools", "poisonerKit"];
+                for (t in toolsArray) {
+                  const toolCheckbox = document.getElementById(toolsArray[t]);
+                  if (toolCheckbox) {
+                    toolCheckbox.disabled = false;
+                  }
+                }
+              } else {
+                console.log("CompletelyUnsure!!!");
+              }
+            }
+          }
         }
       }
       if (info["proficiencies"]) {
         for (k in info["proficiencies"]) {
-          console.log("name: ", info["proficiencies"][k]["name"]);
+          console.log("Adding raw skill: name: ", info["proficiencies"][k]["name"]);
         }
       }
       i++;
     }
   }
-  char["proficiencies"] = {
-    "armors": [],
-    "weapons": [],
-    "tools": [],
-    "savingThrows": [],
-    "skills": [],
-    "possibleSkills": []
-  };
-  char["proficiencyOverlap"] = 0;
+
 
   console.log("Specific Info: ", specInfo, "General Info: ", genInfo);
 
-  let toolsEditable = false;
   let profHtml = "";
   let subclassSkill = false;
-  let possibleSkills = [];
   let className = char["primaryClass"];
   let subclassName = null;
   var toggleEverything = false;
@@ -724,9 +754,19 @@ function updateProficiencies() {
             if (classDict[k] == 'None') {
               continue;
             } else {
-              for (t in classDict[k][p]) {  
-                char["proficiencies"]["tools"].push(classDict[k][p][t]);
-                console.log("Adding tool proficiency: ", `Tool: ${classDict[k][p][t]}`);
+              //for (t in classDict[k][p]) {  
+                char["proficiencies"]["tools"].push(classDict[k][p]);
+                console.log("Adding tool proficiency: ", `Tool: ${classDict[k][p]}`);
+              //}
+              if (!toolsEditable) {
+                toolsEditable = true;
+                let toolsArray = ["alchemistSupplies","brewerSupplies","calligrapherSupplies","carpenterTools","cartographerTools","cobblerTools", "cookUtensils", "glassblowerTools", "jewelerTools", "leatherworkerTools", "masonTools", "painterTools", "pottersTools", "smithTools","tinkerTools", "weaverTools", "woodcarverTools", "bagpipes","drum","dulcimer","flute", "lute","lyre", "horn", "pan flute", "shawm", "viol","diceSet", "dragonChessSet", "playingCardSet","threeDragonAnteSet", "disguiseKit", "forgeryKit", "herbalismKit","navigatorTools", "theivesTools", "poisonerKit"];
+                for (t in toolsArray) {
+                  const toolCheckbox = document.getElementById(toolsArray[t]);
+                  if (toolCheckbox) {
+                    toolCheckbox.disabled = false;
+                  }
+                }
               }
             }
           }
@@ -809,10 +849,7 @@ function updateProficiencies() {
               toolCheckbox.disabled = false;
             }
           }
-        }
-
-
-        
+        }      
       }
     }
   }
@@ -985,6 +1022,7 @@ function checkAllthatApply(checkboxName) {
 
 function proficiencyOverlapCheck(charge) {
   //console.log("Possible skills after updating proficiencies: ", char["proficiencies"]);
+  let toolsArray = ["alchemistSupplies","brewerSupplies","calligrapherSupplies","carpenterTools","cartographerTools","cobblerTools", "cookUtensils", "glassblowerTools", "jewelerTools", "leatherworkerTools", "masonTools", "painterTools", "pottersTools", "smithTools","tinkerTools", "weaverTools", "woodcarverTools", "bagpipes","drum","dulcimer","flute", "lute","lyre", "horn", "pan flute", "shawm", "viol","diceSet", "dragonChessSet", "playingCardSet","threeDragonAnteSet", "disguiseKit", "forgeryKit", "herbalismKit","navigatorTools", "theivesTools", "poisonerKit"];
   let possibleSkills = char["proficiencies"]["possibleSkills"];
   if (char["proficiencyOverlap"] != "infinite") {
     if (charge == "positive") {
@@ -994,6 +1032,12 @@ function proficiencyOverlapCheck(charge) {
           //console.log("checking possible skill: ", possibleSkills[s]);
           if (document.getElementById(possibleSkills[s]) && !document.getElementById(possibleSkills[s]).checked) {
             document.getElementById(possibleSkills[s]).disabled = false;
+          }
+        }
+        for (t in toolsArray) {
+          const toolCheckbox = document.getElementById(toolsArray[t]);
+          if (toolCheckbox && !toolCheckbox.checked) {
+            toolCheckbox.disabled = false;
           }
         }
       }
@@ -1006,6 +1050,13 @@ function proficiencyOverlapCheck(charge) {
           //console.log("checking possible skill: ", possibleSkills[s]);
           if (document.getElementById(possibleSkills[s]) && !document.getElementById(possibleSkills[s]).checked) {
             document.getElementById(possibleSkills[s]).disabled = true;
+          }
+        }
+        for (t in toolsArray) {
+          const toolCheckbox = document.getElementById(toolsArray[t]);
+          if (toolCheckbox && !toolCheckbox.checked) {
+            console.log("Is box checked?",toolCheckbox,toolCheckbox.checked);
+            toolCheckbox.disabled = true;
           }
         }
       }
