@@ -11,7 +11,11 @@
     <script src="https://kit.fontawesome.com/476f3336e3.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@panzoom/panzoom@4.6.0/dist/panzoom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- pdf-lib for editing and displaying char sheet -->
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+
+    <!-- local files -->
     <script src="js/main.js" defer></script>
     <script src="js/stats.js" defer></script>
     <script src="js/section.js" defer></script>
@@ -470,15 +474,22 @@
 </div>
 <div id="sheet-section" class="section" data-title="Sheet">
   <button id="export-pdf">Export</button>
-  <div id="fixed-sheet">
-    <iframe id="page1"></iframe>
+  <div id="full-pages" class="fl">
+    <div id="full-page1" class="sheet-page">
+      <iframe id="page1"></iframe>
+    </div>
+    <div id="full-page2" class="sheet-page">
+      <iframe id="page2"></iframe>
+    </div>
   </div>
   <div id="character-sheet-parent">
     <div id="character-sheet">
       <div id="moveable-sheet" style="display:none;">
         <div class="comp">
           <div class="fl">
-            <iframe id="basic-info"></iframe>
+            <div id="basic-info-block">
+              <iframe id="basic-info"></iframe>
+            </div>
             <!--<div class="fl-g">Basic Info</div>
               <div class="handle x">
                 <i class="fa-solid fa-up-down-left-right"></i>
